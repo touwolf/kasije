@@ -21,5 +21,9 @@ package com.kasije.core;
  */
 public interface WebPage
 {
-    
+    WebSite getSite();
+
+    String getRelativeFileName();
+
+    String getAbsoluteFileName();
 }
