@@ -18,9 +18,10 @@ package com.kasije.core.impl;
 
 import com.kasije.core.RequestContext;
 import com.kasije.core.RequestHandler;
+import com.kasije.core.TemplateEngine;
 import java.io.IOException;
-import javax.servlet.http.HttpServletResponse;
 import org.bridje.ioc.Component;
+import org.bridje.ioc.Inject;
 import org.bridje.ioc.InjectNext;
 import org.bridje.ioc.Priority;
 /**
@@ -33,11 +34,21 @@ class WebPageRender implements RequestHandler
     @InjectNext
     private RequestHandler handler;
 
+    @Inject
+    private TemplateEngine[] tplEngines;
+
     @Override
     public boolean handle(RequestContext reqCtx) throws IOException
     {
-        reqCtx.get(HttpServletResponse.class).getWriter().print("<h1>Hola</h1>");
-        return true;
+        for (TemplateEngine engine : tplEngines)
+        {
+            if (engine.render(reqCtx))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
 
