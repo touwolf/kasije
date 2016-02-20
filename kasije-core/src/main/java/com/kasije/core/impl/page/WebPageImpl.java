@@ -17,11 +17,40 @@
 package com.kasije.core.impl.page;
 
 import com.kasije.core.WebPage;
+import com.kasije.core.WebSite;
 
 /**
  * 
  */
-class WebPageImpl implements WebPage
+public class WebPageImpl implements WebPage
 {
+    private final WebSite site;
+    
+    private final String relativePath;
+
+    public WebPageImpl(WebSite site, String relativePath)
+    {
+        this.site = site;
+        this.relativePath = relativePath;
+    }
+
+    @Override
+    public WebSite getSite()
+    {
+        return site;
+    }
+
+    @Override
+    public String getRelativeFileName()
+    {
+        return relativePath;
+    }
+
+    @Override
+    public String getAbsoluteFileName()
+    {
+        return site.getFile().getAbsolutePath() + "/" + relativePath;
+    }
+
     
 }
