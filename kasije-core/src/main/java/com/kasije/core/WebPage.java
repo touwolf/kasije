@@ -24,4 +24,6 @@ public interface WebPage
     WebSite getSite();
 
     String getName();
+
+    String getRelativePath();
 }
