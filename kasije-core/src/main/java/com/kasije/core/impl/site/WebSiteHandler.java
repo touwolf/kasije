@@ -39,6 +39,9 @@ class WebSiteHandler implements RequestHandler
     @Inject
     private WebSiteRouter siteRouter;
 
+    @Inject
+    private WebSiteRepository siteRepo;
+
     @Override
     public boolean handle(RequestContext reqCtx) throws IOException
     {
@@ -54,7 +57,23 @@ class WebSiteHandler implements RequestHandler
             return handler.handle(reqCtx);
         }
 
-        reqCtx.put(WebSite.class, siteRouter.findWebSite(findSiteName(reqCtx)));
+        /* it's cache */
+        String siteName = findSiteName(reqCtx);
+        webSite = siteRepo.findWebSite(siteName);
+        if(null != webSite)
+        {
+            reqCtx.put(WebSite.class, webSite);
+            return handler.handle(reqCtx);
+        }
+
+        webSite = siteRouter.findWebSite(siteName);
+        if(null == webSite)
+        {
+            return false;
+        }
+
+        siteRepo.put(siteName, webSite);
+        reqCtx.put(WebSite.class, webSite);
         return handler.handle(reqCtx);
     }
 
