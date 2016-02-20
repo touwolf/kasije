@@ -1,7 +1,7 @@
 package com.kasije.freemarker;
 
 import com.kasije.core.RequestContext;
-import com.kasije.core.TemplateEngine;
+import com.kasije.core.tpl.TemplateEngine;
 import com.kasije.core.WebSite;
 import com.kasije.freemarker.data.DataTemplateModel;
 import freemarker.template.*;
@@ -24,6 +24,7 @@ public class FreemarkerTemplateEngine implements TemplateEngine
         config.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
     }
 
+    @Override
     public boolean render(RequestContext reqCtx) throws IOException
     {
         WebSite webSite = reqCtx.get(WebSite.class);
