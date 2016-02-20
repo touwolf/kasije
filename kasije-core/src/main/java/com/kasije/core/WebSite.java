@@ -30,4 +30,6 @@ public interface WebSite
     WebPage findPage(String pagePath);
     
     <T> T findConfig(Class<T> cls);
+    
+    String getTheme();
 }
