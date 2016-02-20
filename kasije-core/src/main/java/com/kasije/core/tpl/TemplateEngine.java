@@ -14,28 +14,14 @@
  * limitations under the License.
  */
 
-package com.kasije.freemarker;
+package com.kasije.core.tpl;
 
-import com.kasije.core.tpl.TemplateContext;
-import com.kasije.core.tpl.TemplateEngine;
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
-import org.bridje.ioc.Component;
 
-@Component
-public class FreemarkerTemplateEngine implements TemplateEngine
+/**
+ *
+ */
+public interface TemplateEngine
 {
-    private Map<File, TemplateContext> contextMap = new HashMap();
-
-    @Override
-    public TemplateContext createContext(File path)
-    {
-        if (!contextMap.containsKey(path))
-        {
-            contextMap.put(path, new FreemarkerTemplateContext(path));
-        }
-
-        return contextMap.get(path);
-    }
+    TemplateContext createContext(File path);
 }

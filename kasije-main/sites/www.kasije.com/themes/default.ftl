@@ -13,9 +13,11 @@
 </head>
 <body>
     <#list page.section as s>
-    <div>
-        <h1>${s.title}</h1>
-        <p>${s.content}</p>
-    </div>
+        <div>
+            <h1>${s.title}</h1>
+            <p>
+                ${s.content}
+            </p>
+        </div>
     </#list>
 </body>

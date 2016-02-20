@@ -18,7 +18,7 @@ package com.kasije.core.impl.site;
 
 import com.kasije.core.WebPage;
 import com.kasije.core.WebSite;
-
+import com.kasije.core.impl.page.WebPageImpl;
 import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -65,7 +65,7 @@ class WebSiteImpl implements WebSite
         File pageFile = new File(siteFolder.getAbsoluteFile() + "/" + pagePath + ".xml");
         if(pageFile.exists() && pageFile.isFile())
         {
-            //return new WebPageImpl();
+            return new WebPageImpl(this, pagePath);
         }
         return null;
     }

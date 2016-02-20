@@ -18,7 +18,9 @@ package com.kasije.core.impl.render;
 
 import com.kasije.core.RequestContext;
 import com.kasije.core.RequestHandler;
-import com.kasije.core.TemplateEngine;
+import com.kasije.core.WebSite;
+import com.kasije.core.tpl.TemplateContext;
+import com.kasije.core.tpl.TemplateEngine;
 import java.io.IOException;
 import org.bridje.ioc.Component;
 import org.bridje.ioc.Inject;
@@ -40,9 +42,16 @@ class WebPageRender implements RequestHandler
     @Override
     public boolean handle(RequestContext reqCtx) throws IOException
     {
+        WebSite webSite = reqCtx.get(WebSite.class);
+        if (webSite == null)
+        {
+            return false;
+        }
+
         for (TemplateEngine engine : tplEngines)
         {
-            if (engine.render(reqCtx))
+            TemplateContext context = engine.createContext(webSite.getFile());
+            if (context.render(reqCtx))
             {
                 return true;
             }
