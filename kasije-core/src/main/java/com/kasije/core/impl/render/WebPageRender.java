@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.kasije.core.impl;
+package com.kasije.core.impl.render;
 
 import com.kasije.core.RequestContext;
 import com.kasije.core.RequestHandler;

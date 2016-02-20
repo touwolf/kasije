@@ -14,14 +14,22 @@
  * limitations under the License.
  */
 
-package com.kasije.core.impl;
-
-import com.kasije.core.WebPage;
+package com.kasije.core;
 
 /**
- * 
+ *
  */
-class WebPageImpl implements WebPage
+public class WebPageRef
 {
-    
+    private String page;
+
+    public String getPage()
+    {
+        return page;
+    }
+
+    public void setPage(String page)
+    {
+        this.page = page;
+    }
 }

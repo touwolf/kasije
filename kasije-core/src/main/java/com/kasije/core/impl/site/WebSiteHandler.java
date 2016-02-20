@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-package com.kasije.core.impl;
+package com.kasije.core.impl.site;
 
-import com.kasije.core.RequestContext;
-import com.kasije.core.RequestHandler;
-import com.kasije.core.WebPage;
-import com.kasije.core.WebSite;
+import com.kasije.core.*;
+
 import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
+
 import org.bridje.ioc.Component;
+import org.bridje.ioc.Inject;
 import org.bridje.ioc.InjectNext;
 import org.bridje.ioc.Priority;
 
@@ -30,11 +30,14 @@ import org.bridje.ioc.Priority;
  *
  */
 @Component
-@Priority(Integer.MIN_VALUE + 200)
-class WebPageHandler implements RequestHandler
+@Priority(Integer.MIN_VALUE + 100)
+class WebSiteHandler implements RequestHandler
 {
     @InjectNext
     private RequestHandler handler;
+
+    @Inject
+    private WebSiteRouter siteRouter;
 
     @Override
     public boolean handle(RequestContext reqCtx) throws IOException
@@ -43,20 +46,29 @@ class WebPageHandler implements RequestHandler
         {
             return false;
         }
-        WebSite site = reqCtx.get(WebSite.class);
-        if(site == null)
+
+        /* was it handled? */
+        WebSite webSite = reqCtx.get(WebSite.class);
+        if(null != webSite)
         {
-            return false;
-        }
-        HttpServletRequest req = reqCtx.get(HttpServletRequest.class);
-        String pathInfo = req.getPathInfo();
-        WebPage page = site.findPage(pathInfo);
-        if(page != null)
-        {
-            reqCtx.put(WebPage.class, page);
             return handler.handle(reqCtx);
         }
-        return false;
+
+        reqCtx.put(WebSite.class, siteRouter.findWebSite(findSiteName(reqCtx)));
+        return handler.handle(reqCtx);
     }
-    
+
+    private String findSiteName(RequestContext reqCtx)
+    {
+        WebSiteRef ref = reqCtx.get(WebSiteRef.class);
+        if(ref != null)
+        {
+            return ref.getSite();
+        }
+        else
+        {
+            HttpServletRequest req = reqCtx.get(HttpServletRequest.class);
+            return req.getServerName();
+        }
+    }
 }

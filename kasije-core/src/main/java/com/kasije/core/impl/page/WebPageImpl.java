@@ -14,20 +14,14 @@
  * limitations under the License.
  */
 
-package com.kasije.core;
+package com.kasije.core.impl.page;
 
-import java.io.File;
+import com.kasije.core.WebPage;
 
 /**
- *
+ * 
  */
-public interface WebSite
+class WebPageImpl implements WebPage
 {
-    String getName();
-
-    File getFile();
-
-    WebPage findPage(String pagePath);
     
-    <T> T findConfig(Class<T> cls);
 }
