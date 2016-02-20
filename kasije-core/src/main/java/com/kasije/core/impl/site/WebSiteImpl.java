@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-package com.kasije.core.impl;
+package com.kasije.core.impl.site;
 
 import com.kasije.core.WebPage;
 import com.kasije.core.WebSite;
+
 import java.io.File;
 
 /**
@@ -57,7 +58,7 @@ class WebSiteImpl implements WebSite
         File pageFile = new File(siteFolder.getAbsoluteFile() + "/" + pagePath + ".xml");
         if(pageFile.exists() && pageFile.isFile())
         {
-            return new WebPageImpl();
+            //return new WebPageImpl();
         }
         return null;
     }

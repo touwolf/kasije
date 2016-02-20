@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-package com.kasije.core.impl;
+package com.kasije.core.impl.page;
 
 import com.kasije.core.RequestContext;
 import com.kasije.core.RequestHandler;
+import com.kasije.core.WebPage;
 import com.kasije.core.WebSite;
 import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
@@ -29,8 +30,8 @@ import org.bridje.ioc.Priority;
  *
  */
 @Component
-@Priority(Integer.MIN_VALUE + 100)
-class WebSiteHandler implements RequestHandler
+@Priority(Integer.MIN_VALUE + 200)
+class WebPageHandler implements RequestHandler
 {
     @InjectNext
     private RequestHandler handler;
@@ -42,10 +43,20 @@ class WebSiteHandler implements RequestHandler
         {
             return false;
         }
+        WebSite site = reqCtx.get(WebSite.class);
+        if(site == null)
+        {
+            return false;
+        }
         HttpServletRequest req = reqCtx.get(HttpServletRequest.class);
-        String siteName = req.getServerName();
-        reqCtx.put(WebSite.class, new WebSiteImpl(siteName));
-        return handler.handle(reqCtx);
+        String pathInfo = req.getPathInfo();
+        WebPage page = site.findPage(pathInfo);
+        if(page != null)
+        {
+            reqCtx.put(WebPage.class, page);
+            return handler.handle(reqCtx);
+        }
+        return false;
     }
     
 }

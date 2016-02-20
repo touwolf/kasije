@@ -21,3 +21,7 @@ Distribucion
  - Implementar mecanismo de detener el servidor
  - Escribir scripts de iniciar y detener el servidor (start.sh/stop.sh).
  - Generar rpm y/o deb, o (.tar.gz).
+Implementar CLI
+$ kasije create 'my_site'
+$ kasije create 'my_site' engine=freemarker comp=xml
+$ kasing generate 'new_page'
