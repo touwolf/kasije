@@ -9,11 +9,13 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Touwolf</title>
+    <title>${page.@title}</title>
 </head>
 <body>
-    <h1>Hi ${xmlData.name}</h1>
-    <#list xmlData.place as place>
-        ${place}<br/>
+    <#list page.section as s>
+    <div>
+        <h1>${s.title}</h1>
+        <p>${s.content}</p>
+    </div>
     </#list>
 </body>
