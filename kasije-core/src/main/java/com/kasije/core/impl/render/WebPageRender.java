@@ -14,24 +14,21 @@
  * limitations under the License.
  */
 
-package com.kasije.core.impl;
+package com.kasije.core.impl.render;
 
 import com.kasije.core.RequestContext;
 import com.kasije.core.RequestHandler;
-import com.kasije.core.WebPage;
-import com.kasije.core.WebSite;
 import java.io.IOException;
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.bridje.ioc.Component;
 import org.bridje.ioc.InjectNext;
 import org.bridje.ioc.Priority;
-
 /**
  *
  */
 @Component
-@Priority(Integer.MIN_VALUE + 200)
-class WebPageHandler implements RequestHandler
+@Priority(Integer.MIN_VALUE + 300)
+class WebPageRender implements RequestHandler
 {
     @InjectNext
     private RequestHandler handler;
@@ -39,24 +36,8 @@ class WebPageHandler implements RequestHandler
     @Override
     public boolean handle(RequestContext reqCtx) throws IOException
     {
-        if(handler == null)
-        {
-            return false;
-        }
-        WebSite site = reqCtx.get(WebSite.class);
-        if(site == null)
-        {
-            return false;
-        }
-        HttpServletRequest req = reqCtx.get(HttpServletRequest.class);
-        String pathInfo = req.getPathInfo();
-        WebPage page = site.findPage(pathInfo);
-        if(page != null)
-        {
-            reqCtx.put(WebPage.class, page);
-            return handler.handle(reqCtx);
-        }
-        return false;
+        reqCtx.get(HttpServletResponse.class).getWriter().print("<h1>Hola</h1>");
+        return true;
     }
-    
 }
+
