@@ -5,7 +5,7 @@ import java.io.IOException;
 /**
  * This interfaz find the webSite using the server name
  */
-public interface WebSiteRoute
+public interface WebSiteRouter
 {
     WebSite findWebSite(String serverName) throws IOException;
 }

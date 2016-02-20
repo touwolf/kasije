@@ -16,14 +16,12 @@
 
 package com.kasije.core.impl.page;
 
-import com.kasije.core.RequestContext;
-import com.kasije.core.RequestHandler;
-import com.kasije.core.WebPage;
-import com.kasije.core.WebPageRef;
-import com.kasije.core.WebSite;
+import com.kasije.core.*;
+
 import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import org.bridje.ioc.Component;
+import org.bridje.ioc.Inject;
 import org.bridje.ioc.InjectNext;
 import org.bridje.ioc.Priority;
 
@@ -37,21 +35,36 @@ class WebPageHandler implements RequestHandler
     @InjectNext
     private RequestHandler handler;
 
+    @Inject
+    private WebPageRouter pageRouter;
+
     @Override
     public boolean handle(RequestContext reqCtx) throws IOException
     {
-        if(handler == null)
+        if(null == handler)
         {
             return false;
         }
+
         WebSite site = reqCtx.get(WebSite.class);
-        if(site == null)
+        if(null == site)
         {
             return false;
         }
-        String pathInfo = findPage(reqCtx);
-        WebPage page = site.findPage(pathInfo);
-        if(page != null)
+
+         /* was it handler */
+        WebPage page = reqCtx.get(WebPage.class);
+        if(null == page)
+        {
+            return handler.handle(reqCtx);
+        }
+
+        HttpServletRequest req = reqCtx.get(HttpServletRequest.class);
+        String pathInfo = req.getPathInfo();
+
+        /* find the page using the router */
+        page = pageRouter.findWebPage(site, pathInfo);
+        if(null != page)
         {
             reqCtx.put(WebPage.class, page);
             return handler.handle(reqCtx);
