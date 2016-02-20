@@ -14,16 +14,15 @@
  * limitations under the License.
  */
 
-package com.kasije.core;
+package com.kasije.core.tpl;
+
+import com.kasije.core.RequestContext;
+import java.io.IOException;
 
 /**
- * 
+ *
  */
-public interface WebPage
+public interface TemplateContext
 {
-    WebSite getSite();
-
-    String getRelativeFileName();
-
-    String getAbsoluteFileName();
+    public boolean render(RequestContext reqCtx) throws IOException;
 }

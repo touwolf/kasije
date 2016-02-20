@@ -18,7 +18,7 @@ package com.kasije.core.impl.render;
 
 import com.kasije.core.RequestContext;
 import com.kasije.core.RequestHandler;
-import com.kasije.core.TemplateEngine;
+import com.kasije.core.tpl.TemplateEngine;
 import java.io.IOException;
 import org.bridje.ioc.Component;
 import org.bridje.ioc.Inject;
@@ -42,10 +42,10 @@ class WebPageRender implements RequestHandler
     {
         for (TemplateEngine engine : tplEngines)
         {
-            if (engine.render(reqCtx))
+            /*if (engine.render(reqCtx))
             {
                 return true;
-            }
+            }*/
         }
 
         return false;
