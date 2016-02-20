@@ -17,6 +17,7 @@
 package com.kasije.freemarker;
 
 import com.kasije.core.RequestContext;
+import com.kasije.core.WebPage;
 import com.kasije.core.WebSite;
 import com.kasije.core.tpl.TemplateContext;
 import com.kasije.freemarker.data.DataTemplateModel;
@@ -54,18 +55,24 @@ public class FreemarkerTemplateContext implements TemplateContext
     @Override
     public boolean render(RequestContext reqCtx) throws IOException
     {
+        WebPage webPage = reqCtx.get(WebPage.class);
+        if (webPage == null)
+        {
+            return false;
+        }
+
         WebSite webSite = reqCtx.get(WebSite.class);
         if (webSite == null)
         {
             return false;
         }
 
-        String page = "index";//FIXME: from WebPage
+        String theme = webSite.getTheme();
 
-        Template template = config.getTemplate(page + ".ftl");
+        Template template = config.getTemplate("themes/" + theme + "/page.ftl");
         PrintWriter writer = reqCtx.get(HttpServletResponse.class).getWriter();
 
-        DataTemplateModel dataModel = DataTemplateModel.getDataModel(webSite.getFile(), page);//FIXME: from WebPage
+        DataTemplateModel dataModel = DataTemplateModel.getDataModel(webSite.getFile(), webPage.getName());
 
         try
         {
