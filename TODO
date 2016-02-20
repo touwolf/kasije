@@ -25,6 +25,6 @@ Implementar CLI
 $ kasije create 'my_site'
 $ kasije create 'my_site' engine=freemarker comp=xml
 $ cd 'my_site'
-$ kasing generate 'new_page'
-$ kasing start
-$ kasing start port 1337
+$ kasije generate 'new_page'
+$ kasije start
+$ kasije start port 1337
