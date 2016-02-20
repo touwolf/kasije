@@ -20,6 +20,7 @@ import org.bridje.ioc.Ioc;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+
 /**
  *
  */
@@ -39,5 +40,4 @@ public class Main
         server.start();
         server.join();
     }
-    
 }

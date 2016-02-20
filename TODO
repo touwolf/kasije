@@ -1,20 +1,20 @@
 Crear WebSiteRef y WebPageRef (otra opcion seria una sola clase que tenga los dos Ej: WebRequestInfo)
-	- El WebSiteHandler y el WebPageHandler deberian obtener el sitio y la pagina respectivamente 
-	mediante estas clases, deforma tal que un handler anterior pueda modificar la referencia al sitio y a la pagina.
-	- Crear WebSiteRefHandler y WebPageRefhandler que creen las instancias por defecto en el contexto.
+    - El WebSiteHandler y el WebPageHandler deberian obtener el sitio y la pagina respectivamente
+    mediante estas clases, deforma tal que un handler anterior pueda modificar la referencia al sitio y a la pagina.
+    - Crear WebSiteRefHandler y WebPageRefhandler que creen las instancias por defecto en el contexto.
 Renderear pagina
-	- Definir como freemarker (o cualquier otro motor de plantilla) obtendra los datos de la pagina.
-	- Definir interfas TemplateEngine y crear projecto para freemaker que implemente esta.
-Cache de sitios y paginas 
-	- Algun componente debe tener todos los sitios y paginas en memoria (opcionalmente) para mas rapidez al cargar.
-	- Este servicio podria verificar si los ficheros cambiaron en disco para actualizarlos o eliminarlos segun corresponda.
-	- Poder habilitar y deshabilitar el cache
+    - Definir como freemarker (o cualquier otro motor de plantilla) obtendra los datos de la pagina.
+    - Definir interfas TemplateEngine y crear projecto para freemaker que implemente esta.
+Cache de sitios y paginas
+    - Algun componente debe tener todos los sitios y paginas en memoria (opcionalmente) para mas rapidez al cargar.
+    - Este servicio podria verificar si los ficheros cambiaron en disco para actualizarlos o eliminarlos segun corresponda.
+    - Poder habilitar y deshabilitar el cache
 Configuracion del servidor
-	- Implementar configuracion del servidor con bridje-cfg
-	- Parametrizar opciones de jetty, ejemplo puerto, ip, etc...
-	- Parametrizar opciones de la aplicacion, ejemplo carpeta donde estan los sitios web, etc...
+    - Implementar configuracion del servidor con bridje-cfg
+    - Parametrizar opciones de jetty, ejemplo puerto, ip, etc...
+    - Parametrizar opciones de la aplicacion, ejemplo carpeta donde estan los sitios web, etc...
 Configuracion de los sitios
-	- Cada sitio tendra su carpeta de configuracion (por defecto sitio1/etc) dar posibilidad de cargas las configuraciones del sitio desde la interfaz WebSite.
+    - Cada sitio tendra su carpeta de configuracion (por defecto sitio1/etc) dar posibilidad de cargas las configuraciones del sitio desde la interfaz WebSite.
 Pasar variables estandares a las paginas como informacion del servidor
 Crear sitio de kasije en el propio kasije a modo de ejemplo.
 Distribucion
@@ -25,6 +25,6 @@ Implementar CLI
 $ kasije create 'my_site'
 $ kasije create 'my_site' engine=freemarker comp=xml
 $ cd 'my_site'
-$ kasing generate 'new_page'
-$ kasing start
-$ kasing start port 1337
+$ kasije generate 'new_page'
+$ kasije start
+$ kasije start port 1337
