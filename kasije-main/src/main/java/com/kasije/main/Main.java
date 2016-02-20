@@ -16,6 +16,10 @@
 
 package com.kasije.main;
 
+import org.bridje.ioc.Ioc;
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.servlet.ServletHandler;
+import org.eclipse.jetty.servlet.ServletHolder;
 /**
  *
  */
@@ -24,9 +28,16 @@ public class Main
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args)
+    public static void main(String[] args) throws Exception
     {
-        // TODO code application logic here
+        Server server = new Server(8080);
+        ServletHandler servletHandler = new ServletHandler();
+        KasijeServlet servlet = Ioc.context().find(KasijeServlet.class);
+        ServletHolder servletHolder = new ServletHolder("kasije", servlet);
+        servletHandler.addServletWithMapping(servletHolder, "/*");
+        server.setHandler(servletHandler);
+        server.start();
+        server.join();
     }
     
 }

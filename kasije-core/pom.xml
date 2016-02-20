@@ -10,7 +10,7 @@
 
     <artifactId>kasije-core</artifactId>
 
-    <name>kasije Core</name>
+    <name>Kasije Core</name>
     <description>kasije Core API</description>
     <url>http://www.kasije.org</url>
 
@@ -24,6 +24,11 @@
             <groupId>org.bridje</groupId>
             <artifactId>bridje-ioc</artifactId>
             <version>0.1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.1.0</version>
         </dependency>
     </dependencies>
 </project>
