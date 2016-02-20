@@ -27,4 +27,4 @@ $ kasije create 'my_site' engine=freemarker comp=xml
 $ cd 'my_site'
 $ kasije generate 'new_page'
 $ kasije start
-$ kasije start port 1337
+$ kasije start port=1337
