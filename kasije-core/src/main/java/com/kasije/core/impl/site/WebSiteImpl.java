@@ -91,4 +91,10 @@ class WebSiteImpl implements WebSite
         }
         return null;
     }
+
+    @Override
+    public String getTheme()
+    {
+        return "default";
+    }
 }

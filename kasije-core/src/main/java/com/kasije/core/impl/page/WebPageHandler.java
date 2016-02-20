@@ -54,7 +54,7 @@ class WebPageHandler implements RequestHandler
 
          /* was it handler */
         WebPage page = reqCtx.get(WebPage.class);
-        if(null == page)
+        if(null != page)
         {
             return handler.handle(reqCtx);
         }
