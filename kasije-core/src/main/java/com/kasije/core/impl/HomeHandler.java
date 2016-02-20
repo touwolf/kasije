@@ -14,15 +14,14 @@
  * limitations under the License.
  */
 
-package com.kasije.core.impl.page;
+package com.kasije.core.impl;
 
 import com.kasije.core.RequestContext;
 import com.kasije.core.RequestHandler;
-import com.kasije.core.WebPage;
 import com.kasije.core.WebPageRef;
-import com.kasije.core.WebSite;
 import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.bridje.ioc.Component;
 import org.bridje.ioc.InjectNext;
 import org.bridje.ioc.Priority;
@@ -31,46 +30,33 @@ import org.bridje.ioc.Priority;
  *
  */
 @Component
-@Priority(Integer.MIN_VALUE + 200)
-class WebPageHandler implements RequestHandler
+@Priority(Integer.MIN_VALUE + 150)
+class HomeHandler implements RequestHandler
 {
     @InjectNext
     private RequestHandler handler;
-
+    
     @Override
     public boolean handle(RequestContext reqCtx) throws IOException
     {
-        if(handler == null)
-        {
-            return false;
-        }
-        WebSite site = reqCtx.get(WebSite.class);
-        if(site == null)
-        {
-            return false;
-        }
-        String pathInfo = findPage(reqCtx);
-        WebPage page = site.findPage(pathInfo);
-        if(page != null)
-        {
-            reqCtx.put(WebPage.class, page);
-            return handler.handle(reqCtx);
-        }
-        return false;
-    }
-
-    private String findPage(RequestContext reqCtx)
-    {
         WebPageRef ref = reqCtx.get(WebPageRef.class);
-        if(ref != null)
+        if(ref == null)
         {
-            return ref.getPage();
+            String pathInfo = reqCtx.get(HttpServletRequest.class).getPathInfo();
+            if(pathInfo.equalsIgnoreCase("/"))
+            {
+                ref = new WebPageRef();
+                ref.setPage("/index");
+                reqCtx.put(WebPageRef.class, ref);
+            }
         }
-        else
+        if(!handler.handle(reqCtx))
         {
-            HttpServletRequest req = reqCtx.get(HttpServletRequest.class);
-            return req.getPathInfo();
+            HttpServletResponse resp = reqCtx.get(HttpServletResponse.class);
+            resp.setStatus(404);
+            reqCtx.get(HttpServletResponse.class).getWriter().print("<h1>404 - Not Found</h1>");
         }
+        return true;
     }
     
 }
