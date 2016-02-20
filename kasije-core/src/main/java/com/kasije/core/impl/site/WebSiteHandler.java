@@ -22,7 +22,7 @@ import com.kasije.core.WebSite;
 import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 
-import com.kasije.core.WebSiteRoute;
+import com.kasije.core.WebSiteRouter;
 import org.bridje.ioc.Component;
 import org.bridje.ioc.Inject;
 import org.bridje.ioc.InjectNext;
@@ -39,7 +39,7 @@ class WebSiteHandler implements RequestHandler
     private RequestHandler handler;
 
     @Inject
-    private WebSiteRoute siteRoute;
+    private WebSiteRouter siteRouter;
 
     @Override
     public boolean handle(RequestContext reqCtx) throws IOException
@@ -61,9 +61,8 @@ class WebSiteHandler implements RequestHandler
         //the server name to find (domain, ip, etc)
         String siteName = req.getServerName();
 
-        reqCtx.put(WebSite.class, siteRoute.findWebSite(siteName));
+        reqCtx.put(WebSite.class, siteRouter.findWebSite(siteName));
 
         return handler.handle(reqCtx);
     }
-    
 }
