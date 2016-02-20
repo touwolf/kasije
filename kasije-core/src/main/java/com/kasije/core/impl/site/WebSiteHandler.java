@@ -59,7 +59,7 @@ class WebSiteHandler implements RequestHandler
 
         /* it's cache */
         String siteName = findSiteName(reqCtx);
-        webSite = siteRepo.findWebSite(siteName);
+        webSite = siteRepo.get(siteName);
         if(null != webSite)
         {
             reqCtx.put(WebSite.class, webSite);

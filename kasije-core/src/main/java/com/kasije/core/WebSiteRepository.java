@@ -10,7 +10,7 @@ public class WebSiteRepository
 {
     Map<String, WebSite> mapWebSite = new HashMap<>();
 
-    public WebSite findWebSite(String siteName)
+    public WebSite get(String siteName)
     {
         return mapWebSite.get(siteName);
     }
