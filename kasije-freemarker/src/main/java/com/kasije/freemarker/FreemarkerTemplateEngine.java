@@ -1,55 +1,41 @@
+/*
+ * Copyright 2016 Kasije Framework.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.kasije.freemarker;
 
-import com.kasije.core.RequestContext;
+import com.kasije.core.tpl.TemplateContext;
 import com.kasije.core.tpl.TemplateEngine;
-import com.kasije.core.WebSite;
-import com.kasije.freemarker.data.DataTemplateModel;
-import freemarker.template.*;
-import java.io.IOException;
-import java.io.PrintWriter;
-import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 import org.bridje.ioc.Component;
 
 @Component
 public class FreemarkerTemplateEngine implements TemplateEngine
 {
-    public final static Version VERSION = Configuration.VERSION_2_3_23;
-
-    private final Configuration config;
-
-    public FreemarkerTemplateEngine()
-    {
-        config = new Configuration(VERSION);
-        config.setDefaultEncoding("UTF-8");
-        config.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
-    }
+    private Map<File, TemplateContext> contextMap = new HashMap();
 
     @Override
-    public boolean render(RequestContext reqCtx) throws IOException
+    public TemplateContext createContext(File path)
     {
-        WebSite webSite = reqCtx.get(WebSite.class);
-        if (webSite == null)
+        if (!contextMap.containsKey(path))
         {
-            return false;
+            contextMap.put(path, new FreemarkerTemplateContext(path));
         }
 
-        config.setDirectoryForTemplateLoading(webSite.getFile());
-
-        String page = "index";
-
-        Template template = config.getTemplate(page + ".ftl");
-        PrintWriter writer = reqCtx.get(HttpServletResponse.class).getWriter();
-
-        DataTemplateModel dataModel = DataTemplateModel.getDataModel(webSite.getFile(), page);
-
-        try
-        {
-            template.process(dataModel, writer, new DefaultObjectWrapper(VERSION));
-            return true;
-        }
-        catch (TemplateException e)
-        {
-            throw new IOException(e);
-        }
+        return contextMap.get(path);
     }
 }
