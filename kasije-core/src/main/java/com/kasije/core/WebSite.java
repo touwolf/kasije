@@ -28,4 +28,6 @@ public interface WebSite
     File getFile();
 
     WebPage findPage(String pagePath);
+    
+    <T> T findConfig(Class<T> cls);
 }
