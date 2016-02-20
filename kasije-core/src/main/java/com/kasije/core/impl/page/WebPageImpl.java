@@ -45,4 +45,10 @@ public class WebPageImpl implements WebPage
     {
         return name;
     }
+
+    @Override
+    public String getRelativePath()
+    {
+        return "pages/" + name;
+    }    
 }
