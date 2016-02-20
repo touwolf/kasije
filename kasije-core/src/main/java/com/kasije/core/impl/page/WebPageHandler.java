@@ -59,9 +59,6 @@ class WebPageHandler implements RequestHandler
             return handler.handle(reqCtx);
         }
 
-        HttpServletRequest req = reqCtx.get(HttpServletRequest.class);
-        String pathInfo = req.getPathInfo();
-
         /* find the page using the router */
         page = pageRouter.findWebPage(site, findPageName(reqCtx));
         if(null != page)
