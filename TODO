@@ -17,3 +17,7 @@ Configuracion de los sitios
 	- Cada sitio tendra su carpeta de configuracion (por defecto sitio1/etc) dar posibilidad de cargas las configuraciones del sitio desde la interfaz WebSite.
 Pasar variables estandares a las paginas como informacion del servidor
 Crear sitio de kasije en el propio kasije a modo de ejemplo.
+Distribucion
+ - Implementar mecanismo de detener el servidor
+ - Escribir scripts de iniciar y detener el servidor (start.sh/stop.sh).
+ - Generar rpm y/o deb, o (.tar.gz).
