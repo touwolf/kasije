@@ -63,7 +63,7 @@ class WebPageHandler implements RequestHandler
         String pathInfo = req.getPathInfo();
 
         /* find the page using the router */
-        page = pageRouter.findWebPage(site, pathInfo);
+        page = pageRouter.findWebPage(site, findPageName(reqCtx));
         if(null != page)
         {
             reqCtx.put(WebPage.class, page);
@@ -72,7 +72,7 @@ class WebPageHandler implements RequestHandler
         return false;
     }
 
-    private String findPage(RequestContext reqCtx)
+    private String findPageName(RequestContext reqCtx)
     {
         WebPageRef ref = reqCtx.get(WebPageRef.class);
         if(ref != null)
