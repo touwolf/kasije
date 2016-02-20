@@ -1,2 +1,2 @@
 # kasije
-Kasije cms
+Kasije lightweight cms
