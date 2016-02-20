@@ -30,14 +30,14 @@ class WebSiteImpl implements WebSite
     
     private final File siteFolder;
 
-    public WebSiteImpl(String absolutePath, String name)
+    public WebSiteImpl(String absolutePath)
     {
-        this.name = name;
-        siteFolder = new File(absolutePath + File.separator + name);
+        siteFolder = new File(absolutePath);
         if(!siteFolder.exists() || !siteFolder.isDirectory())
         {
-            throw new IllegalArgumentException("Web Site " + this.name + " does not exists.");
+            throw new IllegalArgumentException("Web Site " + siteFolder.getName() + " does not exists.");
         }
+        this.name = siteFolder.getName();
     }
     
     @Override
