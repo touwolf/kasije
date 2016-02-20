@@ -16,13 +16,11 @@
 
 package com.kasije.core.impl.site;
 
-import com.kasije.core.RequestContext;
-import com.kasije.core.RequestHandler;
-import com.kasije.core.WebSite;
+import com.kasije.core.*;
+
 import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 
-import com.kasije.core.WebSiteRouter;
 import org.bridje.ioc.Component;
 import org.bridje.ioc.Inject;
 import org.bridje.ioc.InjectNext;
@@ -49,20 +47,28 @@ class WebSiteHandler implements RequestHandler
             return false;
         }
 
-        //was it handler?
+        /* was it handled? */
         WebSite webSite = reqCtx.get(WebSite.class);
         if(null != webSite)
         {
             return handler.handle(reqCtx);
         }
 
-        HttpServletRequest req = reqCtx.get(HttpServletRequest.class);
-
-        //the server name to find (domain, ip, etc)
-        String siteName = req.getServerName();
-
-        reqCtx.put(WebSite.class, siteRouter.findWebSite(siteName));
-
+        reqCtx.put(WebSite.class, siteRouter.findWebSite(findSiteName(reqCtx)));
         return handler.handle(reqCtx);
+    }
+
+    private String findSiteName(RequestContext reqCtx)
+    {
+        WebSiteRef ref = reqCtx.get(WebSiteRef.class);
+        if(ref != null)
+        {
+            return ref.getSite();
+        }
+        else
+        {
+            HttpServletRequest req = reqCtx.get(HttpServletRequest.class);
+            return req.getServerName();
+        }
     }
 }
