@@ -23,7 +23,5 @@ public interface WebPage
 {
     WebSite getSite();
 
-    String getRelativeFileName();
-
-    String getAbsoluteFileName();
+    String getName();
 }
