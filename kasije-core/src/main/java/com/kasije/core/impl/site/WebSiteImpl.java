@@ -62,7 +62,7 @@ class WebSiteImpl implements WebSite
     @Override
     public WebPage findPage(String pagePath)
     {
-        File pageFile = new File(siteFolder.getAbsoluteFile() + "/" + pagePath + ".xml");
+        File pageFile = new File(siteFolder.getAbsoluteFile() + "/pages/" + pagePath + ".xml");
         if(pageFile.exists() && pageFile.isFile())
         {
             return new WebPageImpl(this, pagePath);
