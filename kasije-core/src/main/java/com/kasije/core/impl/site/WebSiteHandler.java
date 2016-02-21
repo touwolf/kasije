@@ -37,9 +37,6 @@ class WebSiteHandler implements RequestHandler
     private RequestHandler handler;
 
     @Inject
-    private WebSiteRouter siteRouter;
-
-    @Inject
     private WebSiteRepository siteRepo;
 
     @Override
@@ -52,28 +49,15 @@ class WebSiteHandler implements RequestHandler
 
         /* was it handled? */
         WebSite webSite = reqCtx.get(WebSite.class);
-        if(null != webSite)
-        {
-            return handler.handle(reqCtx);
-        }
-
-        /* it's cache */
-        String siteName = findSiteName(reqCtx);
-        webSite = siteRepo.get(siteName);
-        if(null != webSite)
-        {
-            reqCtx.put(WebSite.class, webSite);
-            return handler.handle(reqCtx);
-        }
-
-        webSite = siteRouter.findWebSite(siteName);
         if(null == webSite)
         {
-            return false;
+            String siteName = findSiteName(reqCtx);
+            webSite = siteRepo.find(siteName);
+            if(webSite != null)
+            {
+                reqCtx.put(WebSite.class, webSite);
+            }
         }
-
-        siteRepo.put(siteName, webSite);
-        reqCtx.put(WebSite.class, webSite);
         return handler.handle(reqCtx);
     }
 
