@@ -10,6 +10,7 @@
         </div>
     </section>
 
+    <#if data.@banner?boolean>
     <section id="cta2">
         <div class="container">
             <div class="text-center">
@@ -21,8 +22,15 @@
                     ${line}
                 </p>
                 </#list>
-                <p></p>
+                <p class="wow fadeInUp animated" data-wow-duration="${data.tip.link.@duration}ms"
+                   data-wow-delay="${data.tip.link.@delay}ms"
+                   style="visibility: visible; animation-duration: ${data.tip.link.@duration}ms; animation-delay: ${data.tip.link.@delay}ms; animation-name: fadeInUp;">
+                    <a class="btn btn-primary btn-lg" href="${data.tip.link}">
+                        ${data.tip.link.@text}
+                    </a>
+                </p>
             </div>
         </div>
     </section>
+    </#if>
 </#macro>

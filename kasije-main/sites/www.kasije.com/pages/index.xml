@@ -4,12 +4,13 @@
         <author>Touwolf Technologies</author>
         <description>Kasije lightweight cms</description>
     </meta>
-    <section id="home" title="Home">
+    <section id="home" title="Home" banner="true">
         <header>Kasije lightweight cms (This page is loading on Kasije, of course ;)</header>
         <tip title="It is a lightweight CMS, ultra productive and extendible">
             <line duration="300" delay="100">
                 Mauris pretium auctor quam. Vestibulum et nunc id nisi fringilla iaculis. Mauris pretium auctor quam.
             </line>
+            <link duration="300" delay="200" text="Get Started">/tutorial</link>
         </tip>
     </section>
     <section id="features" title="Features">

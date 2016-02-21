@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page title="Kasije CMS" description="Kasije lightweight cms">
+    <meta>
+        <author>Touwolf Technologies</author>
+        <description>Kasije lightweight cms</description>
+    </meta>
+    <section id="home" title="Home" banner="false">
+        <header>Kasije lightweight cms (This page is loading on Kasije, of course ;)</header>
+        <tip title="It is a lightweight CMS, ultra productive and extendible">
+            <line duration="300" delay="100">
+                Mauris pretium auctor quam. Vestibulum et nunc id nisi fringilla iaculis. Mauris pretium auctor quam.
+            </line>
+            <link duration="300" delay="200" text="Get Started">/tutorial</link>
+        </tip>
+    </section>
+    <section id="tutorial" title="Get Started">
+        <intro>The following steps will show how to get started using the Kasije CMS</intro>
+        <step title="Download and install" faIcon="fa-cloud-download">
+            <content>
+                Download the ZIP of the latest release (available at
+                &lt;a href="https://github.com/touwolf/kasije/releases" target="_blank"&gt; Github&lt;/a&gt;)
+                , extract it in the designed server, and you will a have the following structure:
+            </content>
+            <code lang="sh">
+                - kasije-root
+                  - lib
+                  - bin
+                  - log
+                  - sites
+                    - localhost
+                      - etc
+                      - pages
+                        - index.xml
+                      - themes
+                        - default
+                          - page.ftl
+            </code>
+            <content>
+                Inside the "sites" folder you will place your websites, by domain name, with a predefined structure.
+                The ZIP contains an example for a simple starting web site, using Freemarker as template engine and XML
+                to define the content. As the example site domain is localhost, you can see locally without any extra configuration.
+            </content>
+        </step>
+        <step title="Start and explore" faIcon="fa-play">
+            <content>
+                Inside the "bin" folder are several scripts to control the server:
+            </content>
+            <code lang="sh">
+                - kasije-root
+                  ...
+                  - bin
+                    - start.sh
+                    - stop.sh
+                    - restart.sh
+                  ...
+            </code>
+            <content>
+                Invoke the start command via terminal:
+            </content>
+            <code lang="sh">
+                sh bin/start.sh
+                  > :INFO::main: Logging initialized @168ms
+                  > :INFO:oejs.Server:main: jetty-9.3.7.v20160115
+                  > :INFO:oejs.ServerConnector:main: Started ServerConnector@5c30a9b0{HTTP/1.1,[http/1.1]}{0.0.0.0:8080}
+                  > :INFO:oejs.Server:main: Started @481ms
+
+            </code>
+            <content>
+                Now navigate to "localhost:8080" on the browser. Voila! We got a web site (dummy of course).
+            </content>
+        </step>
+    </section>
+</page>
