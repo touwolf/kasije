@@ -14,41 +14,44 @@
  * limitations under the License.
  */
 
-package com.kasije.core.impl;
+package com.kasije.core.impl.themes;
 
+import com.kasije.core.RequestContext;
+import com.kasije.core.RequestHandler;
 import com.kasije.core.ThemesManager;
 import com.kasije.core.WebSiteTheme;
-import com.kasije.core.tpl.TemplateEngine;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.io.IOException;
 import org.bridje.ioc.Component;
 import org.bridje.ioc.Inject;
+import org.bridje.ioc.InjectNext;
+import org.bridje.ioc.Priority;
 
 /**
  *
  */
 @Component
-public class ThemesManagerImpl implements ThemesManager
+@Priority(Integer.MIN_VALUE + 120)
+class ThemesHandler implements RequestHandler
 {
+    @InjectNext
+    private RequestHandler handler;
+    
     @Inject
-    private TemplateEngine[] tplEngines;
-
-    private final Map<String,WebSiteTheme> themesMap;
-
-    public ThemesManagerImpl()
-    {
-        themesMap = new ConcurrentHashMap<>();
-    }
+    private ThemesManager themesManag;
     
     @Override
-    public WebSiteTheme findTheme(String themeName)
+    public boolean handle(RequestContext reqCtx) throws IOException
     {
-        WebSiteTheme theme = themesMap.get(themeName);
-        if(theme == null)
+        WebSiteTheme webSiteTheme = reqCtx.get(WebSiteTheme.class);
+        if (webSiteTheme == null)
         {
-            theme = new WebSiteThemeImpl(themeName, tplEngines);
-            themesMap.put(themeName, theme);
+            WebSiteTheme theme = themesManag.findTheme("default");
+            if(theme != null)
+            {
+                reqCtx.put(WebSiteTheme.class, theme);
+            }
         }
-        return theme;
+        return handler.handle(reqCtx);
     }
 }
+
