@@ -30,6 +30,6 @@ Implementar CLI
     $ kasije start
     $ kasije start port=1337
 PreProcesamiento de recursos
-    - Compilar SASS
+    - Sass (permitir opciones: http://jsass.readthedocs.org/en/latest/options.html)
     - Compilar JS (TypeScript, CoffeScript)
     - Compresion JS y CSS
