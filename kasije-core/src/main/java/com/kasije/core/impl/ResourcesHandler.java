@@ -16,18 +16,14 @@
 
 package com.kasije.core.impl;
 
-import com.kasije.core.RequestContext;
-import com.kasije.core.RequestHandler;
-import com.kasije.core.WebSite;
-import com.kasije.core.WebSiteTheme;
+import com.kasije.core.*;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Arrays;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.commons.io.IOUtils;
 import org.bridje.ioc.Component;
+import org.bridje.ioc.Inject;
 import org.bridje.ioc.InjectNext;
 import org.bridje.ioc.Priority;
 
@@ -38,6 +34,9 @@ import org.bridje.ioc.Priority;
 @Priority(Integer.MIN_VALUE + 175)
 public class ResourcesHandler implements RequestHandler
 {
+    @Inject
+    private ResourcesManager resMgr;
+
     @InjectNext
     private RequestHandler handler;
 
@@ -62,10 +61,11 @@ public class ResourcesHandler implements RequestHandler
             if(site != null)
             {
                 File resFile = new File(reqCtx.get(WebSiteTheme.class).getFile().getAbsolutePath() + "/resources/" + realPath);
-                if(resFile.exists() && resFile.isFile())
+                if (resFile.exists() && resFile.isFile())
                 {
-                    IOUtils.copy(new FileInputStream(resFile), resp.getOutputStream());
-                    resp.setContentType(getMime(realPath));
+                    resMgr.processResource(resFile, resp.getOutputStream());
+                    resp.setContentType(resMgr.getMime(realPath));
+
                     return true;
                 }
             }
@@ -74,45 +74,5 @@ public class ResourcesHandler implements RequestHandler
         }
 
         return handler.handle(reqCtx);
-    }
-
-    private String getMime(String path)
-    {
-        int dotIndex = path.lastIndexOf(".");
-        if (dotIndex < 0)
-        {
-            return "text/plain";
-        }
-
-        String ext = path.substring(dotIndex + 1);
-        switch (ext)
-        {
-            case "js":
-            {
-                return "text/javascript";
-            }
-            case "css":
-            {
-                return "text/css";
-            }
-            case "html":
-            {
-                return "text/html";
-            }
-            case "png":
-            {
-                return "image/png";
-            }
-            case "jpg":
-            {
-                return "image/jpg";
-            }
-            case "ico":
-            {
-                return "image/ico";
-            }
-        }
-
-        return "text/plain";
     }
 }
