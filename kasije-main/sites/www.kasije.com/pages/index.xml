@@ -1,5 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <page title="Kasije CMS">
+    <panel>
+        Hola
+    </panel>
+    <section>
+        <title>What is kasije</title>
+        <content>
+            Kasije is lightweigh content management system. designed to create small web sites that needs commons features.
+        </content>
+    </section>
+    <section>
+        <title>What is kasije</title>
+        <content>
+            Kasije is lightweigh content management system. designed to create small web sites that needs commons features.
+        </content>
+    </section>
     <section>
         <title>What is kasije</title>
         <content>
