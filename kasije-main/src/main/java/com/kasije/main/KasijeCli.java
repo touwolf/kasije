@@ -98,67 +98,70 @@ public class KasijeCli
         /* Help processing */
         if (getHelpCommand() != null)
         {
-            if (args[0].equals(getHelpCommand()))
-            {
-                if (args.length > 1)
-                {
-                    for (KasijeCliUtility utility : utilities)
-                    {
-                        if (utility.getName().equals(args[1]))
-                        {
-                            System.out.println("NAME");
-                            System.out.println(utility.getName() + " - " + utility.getOutline());
-                            System.out.println(" ");
-
-                            System.out.println("SYNOPSIS");
-                            StringBuilder synopsisBuilder = new StringBuilder(utility.getName());
-                            synopsisBuilder.append(" ");
-                            if (utility.getFirstMandatoryOptionName() != null)
-                            {
-                                synopsisBuilder.append(String.format("<%s>", utility.getFirstMandatoryOptionName()));
-                                synopsisBuilder.append(" ");
-                            }
-
-                            for (KasijeCliOption kasijeCliOption : utility.getKasijeCliOptions())
-                            {
-                                synopsisBuilder.append(String.format("[%s=<%s>] ", kasijeCliOption.getName(), kasijeCliOption.getName()));
-                            }
-                            System.out.println(synopsisBuilder.toString());
-
-                            System.out.println(" ");
-                            System.out.println("DESCRIPTION");
-                            System.out.println(utility.getDescription());
-                            return;
-                        }
-                    }
-
-                    if (args[1].equals("help"))
-                    {
-                        System.out.println(":/");
-                        return;
-                    }
-
-                    System.out.println("  No help for non-existent utility: " + args[1]);
-                    System.out.println("  Type in help for more help");
-                    return;
-                }
-                else
-                {
-                    System.out.println("Available utilities are:");
-                    for (KasijeCliUtility kasijeCliUtility : utilities)
-                    {
-                        System.out.println("  " + kasijeCliUtility.getName());
-                    }
-                    System.out.println("  Enter help followed by one of the above for further assistance.");
-
-                    return;
-                }
-            }
+            processHelp(args);
+            return;
         }
 
         System.out.println("  Ignoring unknown utility: " + args[0]);
         System.out.println("  Type in help for help");
 
+    }
+
+    private void processHelp(String[] args)
+    {
+        if (args[0].equals(getHelpCommand()))
+        {
+            if (args.length > 1)
+            {
+                for (KasijeCliUtility utility : utilities)
+                {
+                    if (utility.getName().equals(args[1]))
+                    {
+                        System.out.println("NAME");
+                        System.out.println(utility.getName() + " - " + utility.getOutline());
+                        System.out.println(" ");
+
+                        System.out.println("SYNOPSIS");
+                        StringBuilder synopsisBuilder = new StringBuilder(utility.getName());
+                        synopsisBuilder.append(" ");
+                        if (utility.getFirstMandatoryOptionName() != null)
+                        {
+                            synopsisBuilder.append(String.format("<%s>", utility.getFirstMandatoryOptionName()));
+                            synopsisBuilder.append(" ");
+                        }
+
+                        for (KasijeCliOption kasijeCliOption : utility.getKasijeCliOptions())
+                        {
+                            synopsisBuilder.append(String.format("[%s=<%s>] ", kasijeCliOption.getName(), kasijeCliOption.getName()));
+                        }
+                        System.out.println(synopsisBuilder.toString());
+
+                        System.out.println(" ");
+                        System.out.println("DESCRIPTION");
+                        System.out.println(utility.getDescription());
+                        return;
+                    }
+                }
+
+                if (args[1].equals("help"))
+                {
+                    System.out.println(":/");
+                    return;
+                }
+
+                System.out.println("  No help for non-existent utility: " + args[1]);
+                System.out.println("  Type in help for more help");
+            }
+            else
+            {
+                System.out.println("Available utilities are:");
+                for (KasijeCliUtility kasijeCliUtility : utilities)
+                {
+                    System.out.println("  " + kasijeCliUtility.getName());
+                }
+                System.out.println("  Enter help followed by one of the above for further assistance.");
+            }
+        }
     }
 
     public String getHelpCommand()
