@@ -50,13 +50,7 @@ class HomeHandler implements RequestHandler
                 reqCtx.put(WebPageRef.class, ref);
             }
         }
-        if(!handler.handle(reqCtx))
-        {
-            HttpServletResponse resp = reqCtx.get(HttpServletResponse.class);
-            resp.setStatus(404);
-            reqCtx.get(HttpServletResponse.class).getWriter().print("<h1>404 - Not Found</h1>");
-        }
-        return true;
+        return handler.handle(reqCtx);
     }
     
 }

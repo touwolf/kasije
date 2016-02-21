@@ -20,11 +20,7 @@ import com.kasije.core.WebPage;
 import com.kasije.core.WebSite;
 import com.kasije.core.impl.page.WebPageImpl;
 import java.io.File;
-import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Unmarshaller;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *

@@ -35,12 +35,6 @@ class WebPageHandler implements RequestHandler
     @InjectNext
     private RequestHandler handler;
 
-    @Inject
-    private WebPageRouter pageRouter;
-
-    @Inject
-    private WebPageRepository pageRepo;
-
     @Override
     public boolean handle(RequestContext reqCtx) throws IOException
     {
@@ -49,37 +43,23 @@ class WebPageHandler implements RequestHandler
             return false;
         }
 
-        WebSite site = reqCtx.get(WebSite.class);
-        if(null == site)
-        {
-            return false;
-        }
-
-         /* was it handled */
+        /* was it handled */
         WebPage webPage = reqCtx.get(WebPage.class);
-        if(null != webPage)
+        if(null == webPage)
         {
-            return handler.handle(reqCtx);
+            WebSite site = reqCtx.get(WebSite.class);
+            if(null != site)
+            {
+                String pageName = findPageName(reqCtx);
+                /* find the page using the router */
+                webPage = site.findPage(pageName);
+                if(null != webPage)
+                {
+                    reqCtx.put(WebPage.class, webPage);
+                }
+            }
         }
-
-        String pageName = findPageName(reqCtx);
-
-        /* it's cache */
-        webPage = pageRepo.get(pageName);
-        if(null != webPage)
-        {
-            reqCtx.put(WebPage.class, webPage);
-            return handler.handle(reqCtx);
-        }
-
-        /* find the page using the router */
-        webPage = pageRouter.findWebPage(site, pageName);
-        if(null != webPage)
-        {
-            reqCtx.put(WebPage.class, webPage);
-            return handler.handle(reqCtx);
-        }
-        return false;
+        return handler.handle(reqCtx);
     }
 
     private String findPageName(RequestContext reqCtx)
