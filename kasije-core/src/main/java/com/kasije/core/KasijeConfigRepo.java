@@ -12,9 +12,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @Component
-public class KasijeConfig
+public class KasijeConfigRepo
 {
-    private static final Logger LOG = Logger.getLogger(KasijeConfig.class.getName());
+    private static final Logger LOG = Logger.getLogger(KasijeConfigRepo.class.getName());
 
     private Map<String, Object> mapConfig = new HashMap<>();
 

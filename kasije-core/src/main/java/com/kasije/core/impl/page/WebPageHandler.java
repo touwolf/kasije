@@ -38,6 +38,9 @@ class WebPageHandler implements RequestHandler
     @Inject
     private WebPageRouter pageRouter;
 
+    @Inject
+    private WebPageRepository pageRepo;
+
     @Override
     public boolean handle(RequestContext reqCtx) throws IOException
     {
@@ -52,18 +55,28 @@ class WebPageHandler implements RequestHandler
             return false;
         }
 
-         /* was it handler */
-        WebPage page = reqCtx.get(WebPage.class);
-        if(null != page)
+         /* was it handled */
+        WebPage webPage = reqCtx.get(WebPage.class);
+        if(null != webPage)
         {
             return handler.handle(reqCtx);
         }
 
-        /* find the page using the router */
-        page = pageRouter.findWebPage(site, findPageName(reqCtx));
-        if(null != page)
+        String pageName = findPageName(reqCtx);
+
+        /* it's cache */
+        webPage = pageRepo.get(pageName);
+        if(null != webPage)
         {
-            reqCtx.put(WebPage.class, page);
+            reqCtx.put(WebPage.class, webPage);
+            return handler.handle(reqCtx);
+        }
+
+        /* find the page using the router */
+        webPage = pageRouter.findWebPage(site, pageName);
+        if(null != webPage)
+        {
+            reqCtx.put(WebPage.class, webPage);
             return handler.handle(reqCtx);
         }
         return false;
@@ -82,5 +95,4 @@ class WebPageHandler implements RequestHandler
             return req.getPathInfo();
         }
     }
-    
 }
