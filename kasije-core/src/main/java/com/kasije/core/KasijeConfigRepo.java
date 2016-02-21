@@ -6,8 +6,8 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.File;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -16,7 +16,7 @@ public class KasijeConfigRepo
 {
     private static final Logger LOG = Logger.getLogger(KasijeConfigRepo.class.getName());
 
-    private Map<String, Object> mapConfig = new HashMap<>();
+    private final Map<String, Object> mapConfig = new ConcurrentHashMap<>();
 
     public <T> T findConfig(String relativePath, Class<T> cls)
     {

@@ -14,32 +14,19 @@
  * limitations under the License.
  */
 
-package com.kasije.core.impl.render;
+package com.kasije.core;
 
-import com.kasije.core.RequestContext;
-import com.kasije.core.RequestHandler;
-import com.kasije.core.WebSiteTheme;
+import java.io.File;
 import java.io.IOException;
-import org.bridje.ioc.Component;
-import org.bridje.ioc.Priority;
 
 /**
  *
  */
-@Component
-@Priority(Integer.MIN_VALUE + 1000)
-class WebPageRender implements RequestHandler
+public interface WebSiteTheme
 {
-    @Override
-    public boolean handle(RequestContext reqCtx) throws IOException
-    {
-        WebSiteTheme webSiteTheme = reqCtx.get(WebSiteTheme.class);
-        if (webSiteTheme != null)
-        {
-            return webSiteTheme.render(reqCtx);
-        }
+    File getFile();
 
-        return false;
-    }
+    String getName();
+
+    boolean render(RequestContext reqCtx) throws IOException;
 }
-

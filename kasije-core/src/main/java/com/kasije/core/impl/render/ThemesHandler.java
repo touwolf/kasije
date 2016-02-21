@@ -18,28 +18,40 @@ package com.kasije.core.impl.render;
 
 import com.kasije.core.RequestContext;
 import com.kasije.core.RequestHandler;
+import com.kasije.core.ThemesManager;
 import com.kasije.core.WebSiteTheme;
 import java.io.IOException;
 import org.bridje.ioc.Component;
+import org.bridje.ioc.Inject;
+import org.bridje.ioc.InjectNext;
 import org.bridje.ioc.Priority;
 
 /**
  *
  */
 @Component
-@Priority(Integer.MIN_VALUE + 1000)
-class WebPageRender implements RequestHandler
+@Priority(Integer.MIN_VALUE + 120)
+class ThemesHandler implements RequestHandler
 {
+    @InjectNext
+    private RequestHandler handler;
+    
+    @Inject
+    private ThemesManager themesManag;
+    
     @Override
     public boolean handle(RequestContext reqCtx) throws IOException
     {
         WebSiteTheme webSiteTheme = reqCtx.get(WebSiteTheme.class);
-        if (webSiteTheme != null)
+        if (webSiteTheme == null)
         {
-            return webSiteTheme.render(reqCtx);
+            WebSiteTheme theme = themesManag.findTheme("default");
+            if(theme != null)
+            {
+                reqCtx.put(WebSiteTheme.class, theme);
+            }
         }
-
-        return false;
+        return handler.handle(reqCtx);
     }
 }
 

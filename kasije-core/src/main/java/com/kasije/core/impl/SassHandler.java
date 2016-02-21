@@ -19,6 +19,7 @@ package com.kasije.core.impl;
 import com.kasije.core.RequestContext;
 import com.kasije.core.RequestHandler;
 import com.kasije.core.WebSite;
+import com.kasije.core.WebSiteTheme;
 import io.bit3.jsass.Compiler;
 import io.bit3.jsass.Options;
 import io.bit3.jsass.Output;
@@ -66,12 +67,12 @@ public class SassHandler implements RequestHandler
             WebSite site = reqCtx.get(WebSite.class);
             if(site != null)
             {
-                File resFile = new File("./sites/themes/" + site.getTheme() + "/resources/" + realPath);
+                File resFile = new File(reqCtx.get(WebSiteTheme.class).getFile().getAbsolutePath() + "/resources/" + realPath);
                 if(resFile.exists() && resFile.isFile())
                 {
                     int lastDotIndex = realPath.lastIndexOf(".scss");
                     String cssPath = realPath.substring(0, lastDotIndex) + ".css";
-                    File cssFile = new File("./sites/themes/" + site.getTheme() + "/resources/" + cssPath);
+                    File cssFile = new File(reqCtx.get(WebSiteTheme.class).getFile().getAbsolutePath() + "/resources/" + cssPath);
                     if (!cssFile.exists())
                     {
                         if (!cssFile.createNewFile())

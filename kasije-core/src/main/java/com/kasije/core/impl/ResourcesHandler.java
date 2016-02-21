@@ -19,6 +19,7 @@ package com.kasije.core.impl;
 import com.kasije.core.RequestContext;
 import com.kasije.core.RequestHandler;
 import com.kasije.core.WebSite;
+import com.kasije.core.WebSiteTheme;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -60,12 +61,11 @@ public class ResourcesHandler implements RequestHandler
             WebSite site = reqCtx.get(WebSite.class);
             if(site != null)
             {
-                File resFile = new File("./sites/themes/" + site.getTheme() + "/resources/" + realPath);
+                File resFile = new File(reqCtx.get(WebSiteTheme.class).getFile().getAbsolutePath() + "/resources/" + realPath);
                 if(resFile.exists() && resFile.isFile())
                 {
                     IOUtils.copy(new FileInputStream(resFile), resp.getOutputStream());
                     resp.setContentType(getMime(realPath));
-
                     return true;
                 }
             }

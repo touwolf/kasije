@@ -27,13 +27,13 @@
                   - bin
                   - log
                   - sites
+                    - themes
+                      - default
+                        - page.ftl
                     - localhost
                       - etc
                       - pages
                         - index.xml
-                      - themes
-                        - default
-                          - page.ftl
             </code>
             <content>
                 Inside the "sites" folder you will place your websites, grouped by domain name, with a predefined structure.
