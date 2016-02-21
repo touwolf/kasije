@@ -40,7 +40,7 @@ public class KasijeConfigRepo
             File configFile = new File(path + ".xml");
 
             /* verify if it is a file */
-            if(!configFile.exists() || configFile.isDirectory())
+            if(!configFile.exists() || !configFile.isFile())
             {
                 return null;
             }
