@@ -16,13 +16,12 @@
 
 package com.kasije.main;
 
-import com.kasije.core.KasijeConfig;
+import com.kasije.core.KasijeConfigRepo;
+import com.kasije.core.config.ServerConfig;
 import org.bridje.ioc.Ioc;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
-
-import java.io.File;
 
 /**
  *
@@ -41,8 +40,8 @@ public class Main
         servletHandler.addServletWithMapping(servletHolder, "/*");
         server.setHandler(servletHandler);
 
-        KasijeConfig kasijeConfig = Ioc.context().find(KasijeConfig.class);
-        //kasijeConfig.findConfig(new File(".").getAbsolutePath(), null);
+        KasijeConfigRepo kasijeConfig = Ioc.context().find(KasijeConfigRepo.class);
+        ServerConfig config = kasijeConfig.findConfig(".", ServerConfig.class);
 
         server.start();
         server.join();
