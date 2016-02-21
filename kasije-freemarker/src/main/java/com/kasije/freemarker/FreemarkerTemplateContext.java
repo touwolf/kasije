@@ -41,7 +41,7 @@ public class FreemarkerTemplateContext implements TemplateContext
     {
         config = new Configuration(VERSION);
         config.setDefaultEncoding("UTF-8");
-        config.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
+        config.setTemplateExceptionHandler(TemplateExceptionHandler.IGNORE_HANDLER);
         try
         {
             config.setDirectoryForTemplateLoading(path);
