@@ -12,3 +12,5 @@ buildNumber.properties
 /kasije-main/nbactions.xml
 kasije-main/sites/www.kasije.com/themes/default/resources/sass/sasstyles.css
 kasije-main/sites/themes/default/resources/sass/sasstyles.css
+kasije-main/sites/themes/default/resources/js/script.min.js
+kasije-main/sites/themes/default/resources/sass/sasstyles.min.css

@@ -5,49 +5,66 @@
         <description>Kasije lightweight cms</description>
     </meta>
     <section id="home" title="Home" banner="true">
-        <header>Kasije lightweight cms, evolve the productivity (This page is loading on Kasije, of course ;)</header>
+        <header>
+            Kasije lightweight cms, evolve the productivity.
+            Our product is not this website, but the framework that enables you to access this content.
+            (This page is loading on Kasije, of course ;)
+        </header>
         <tip title="It is a lightweight CMS, ultra productive and extendible">
             <line duration="300" delay="100">
-                Mauris pretium auctor quam. Vestibulum et nunc id nisi fringilla iaculis. Mauris pretium auctor quam.
+                Develop and host multiple websites has never been easier.
             </line>
             <link duration="300" delay="200" text="Get Started">/tutorial</link>
         </tip>
     </section>
     <section id="features" title="Features">
-        <feature title="Aplicaciones WEB" faIcon="fa-rocket">
+        <header title="What we offer">
+            If you want to propose new features, please contact us.
+        </header>
+        <feature title="Web sites" faIcon="fa-rocket">
             <description>
-                Aplicaciones WEB a la medida, con alto grado de rendimiento y escalabilidad.
-                Aplicaciones WEB a la medida, con alto grado de rendimiento y escalabilidad.
-                Aplicaciones WEB a la medida, con alto grado de rendimiento y escalabilidad.
-                Aplicaciones WEB a la medida, con alto grado de rendimiento y escalabilidad.
-                Aplicaciones WEB a la medida, con alto grado de rendimiento y escalabilidad.
+                Efficiently develop multiple web sites from a single location with shared resources and resources.
+                Define the content of text files in various formats (XML, JSON, YAML, etc.) and update it at any time.
+                Themes can be edited in multiple templating engines (freemarker, velocity, etc.).
             </description>
         </feature>
-        <feature title="Contenido ultra dinamico" faIcon="fa-refresh">
-            <description>Bla bla</description>
-        </feature>
-        <feature title="Preprocessing and compression of resources" faIcon="fa-html5">
+        <feature title="Preprocessing and compression of static resources" faIcon="fa-html5">
             <description>
-                Static resources like Sass, Less; scripts to compile (typescript, coffescript) are
-                handled on the fly and compiled to you in the background, so you can use it as is
-                (look in the styles of this page and you will see a stylesheet link with scss extension).
-                The same behavior is used to compress Js and Css files, it is done on background.
+                Static resources that require preprocessing (Sass, typescript, CoffeeScript, etc) are processed without
+                you needing to intervene, all you need is to include as it and Kasije processes it appropriately by its extension.
+                Also the resources that support compression (JS and CSS) are compressed by the system and cached until they
+                return to be modified. (All this features are used on this site you are reading ;)
             </description>
         </feature>
-        <feature title="Separacion de contenido y presentacion" faIcon="fa-gears">
-            <description>En english please...</description>
+        <feature title="Separation of content and presentation" faIcon="fa-gears">
+            <description>
+                It is a good design philosophy that we made concrete. You will preserve the semantics of the content,
+                your content will be a piece of structured information. And also you will keep all aesthetic details away
+                from this structured information. Good structured information remains readable always. Your site content will
+                also look more adequate to all members in your team. Everybody benefit from the separation: the content
+                supplier does not have to be a good designer and vice versa.
+            </description>
         </feature>
-        <feature title="Virtual hosting" faIcon="fa-desktop">
-            <description>Multiples sitios en un solo servidor</description>
+        <feature title="Easy virtual hosting" faIcon="fa-desktop">
+            <description>
+                Virtual Host refers to running multiples web sites on a single physical server, wich is not apparent to the end
+                user. With Kasije there is no need of complicated configurations or server restarts, simply add content in the
+                folder with the name of the virtual domain and the virtual host is ready (as we have done this website).
+            </description>
         </feature>
-        <feature title="Extendible por plugins" faIcon="fa-puzzle-piece">
-            <description>You know dude</description>
+        <feature title="Extendable by plugins" faIcon="fa-puzzle-piece">
+            <description>
+                The CMS supports the implementation of plugins to extend its core, also to provide more options for working
+                with templates (engines alternatives to freemarker or velocity), formats for content editing (alternatives to
+                XML or Json); preprocessing resources, among others.
+            </description>
         </feature>
-        <feature title="Herramientas CLI" faIcon="fa-terminal">
-            <description>create module</description>
-        </feature>
-        <feature title="Multiples opciones" faIcon="fa-th-list">
-            <description>Multiples opciones para lenguajes de plantillas (Freemarker, Velocity, etc) y tipo de contenido (XML, Json, Yaml, etc)</description>
+        <feature title="Command line interface" faIcon="fa-terminal">
+            <description>
+                Kasije has multiple command line tools integrated to facilitate the work on the server, as is a Java based system
+                this works in all platforms and allow you to create new sites, configure, monitor their execution; among other useful
+                options of operation and control systems.
+            </description>
         </feature>
     </section>
 </page>

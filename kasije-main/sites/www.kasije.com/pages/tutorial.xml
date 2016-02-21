@@ -5,7 +5,11 @@
         <description>Kasije lightweight cms</description>
     </meta>
     <section id="home" title="Home" banner="false">
-        <header>Kasije lightweight cms, evolve the productivity (This page is loading on Kasije, of course ;)</header>
+        <header>
+            Kasije lightweight cms, evolve the productivity.
+            Our product is not this website, but the framework that enables you to access this content.
+            (This page is loading on Kasije, of course ;)
+        </header>
         <tip title="It is a lightweight CMS, ultra productive and extendible">
             <line duration="300" delay="100">
                 Mauris pretium auctor quam. Vestibulum et nunc id nisi fringilla iaculis. Mauris pretium auctor quam.

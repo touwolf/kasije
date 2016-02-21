@@ -4,10 +4,8 @@
     <section id="features" >
         <div class="container">
             <div class="section-header">
-                <h2 class="section-title text-center wow fadeInDown">Que brindamos</h2>
-                <#--p class="text-center wow fadeInDown">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut <br> et dolore magna aliqua. Ut enim ad minim veniam
-                </p-->
+                <h2 class="section-title text-center wow fadeInDown">${data.header.@title}</h2>
+                <p class="text-center wow fadeInDown">${data.header}</p>
             </div>
 
             <#list data.feature?chunk(2) as row>

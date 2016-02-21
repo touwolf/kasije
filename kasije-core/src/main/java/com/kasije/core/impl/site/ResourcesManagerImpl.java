@@ -231,7 +231,7 @@ public class ResourcesManagerImpl implements ResourcesManager
         OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(target));
 
         CssCompressor compressor = new CssCompressor(reader);
-        compressor.compress(writer, -1);
+        compressor.compress(writer, 1000);
     }
 
     private void compressJs(File source, File target) throws IOException
@@ -272,6 +272,6 @@ public class ResourcesManagerImpl implements ResourcesManager
         };
 
         JavaScriptCompressor compressor = new JavaScriptCompressor(reader, errorReporter);
-        compressor.compress(writer, -1, false, false, true, true);
+        compressor.compress(writer, 1000, false, false, true, true);
     }
 }
