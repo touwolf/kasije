@@ -26,6 +26,13 @@
         <feature title="Contenido ultra dinamico" faIcon="fa-refresh">
             <description>Bla bla</description>
         </feature>
+        <feature title="Preprocessing of resources" faIcon="fa-css3">
+            <description>
+                Static resources like Sass, Less; scripts to compile (typescript, coffescript) are
+                handled on the fly and compiled to you in the background, so you can use it as is
+                (look in the styles of this page and you will see a stylesheet link with scss extension).
+            </description>
+        </feature>
         <feature title="Separacion de contenido y presentacion" faIcon="fa-gears">
             <description>En english please...</description>
         </feature>

@@ -40,5 +40,10 @@
             <artifactId>commons-lang</artifactId>
             <version>2.6</version>
         </dependency>
+        <dependency>
+            <groupId>io.bit3</groupId>
+            <artifactId>jsass</artifactId>
+            <version>4.1.0</version>
+        </dependency>
     </dependencies>
 </project>
