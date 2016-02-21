@@ -22,6 +22,7 @@ public class WebSiteRouterImpl implements WebSiteRouter
     @Override
     public WebSite findWebSite(String serverName) throws IOException
     {
+        /* the routerConfig.xml is into ./sites/etc/ */
         RouterConfig config = configRepo.findConfig("./sites/", RouterConfig.class);
 
         Router router = config.getRouters().stream()
@@ -29,14 +30,15 @@ public class WebSiteRouterImpl implements WebSiteRouter
                 .findAny()
                 .orElse(null);
 
-        /* i try to resolved the location where it is hosting by configuration */
+         /* by default in the site is into de ./sites/ */
+        String relativePath = "./sites/";
 
+        /* i try to resolved the location where it is hosting by configuration */
         if(null != router && StringUtils.isNotBlank(router.getPath()))
         {
-            return new WebSiteImpl(router.getPath() + serverName);
+            relativePath = router.getPath();
         }
 
-        /* by default in the current folder, into de sites */
-        return new WebSiteImpl("./sites/" + serverName);
+        return new WebSiteImpl(relativePath + serverName);
     }
 }
