@@ -46,8 +46,8 @@ public class KasijeCli
                 break;
 
             default:
-                System.out.println("Unknown action.");
-                System.out.println("Run with -h for help");
+                System.out.println("Unknown utility.");
+                System.out.println("    Run with 'help' for help");
                 break;
 
         }
@@ -56,7 +56,7 @@ public class KasijeCli
     private static void processStart(String[] args)
     {
         /* Using default port */
-        String port = "8081";
+        String port = "8080";
 
         if (args.length >= 1)
         {
@@ -70,7 +70,31 @@ public class KasijeCli
             }
             else
             {
-                port = split[1];
+                if (split[0].equals("port"))
+                {
+                    try
+                    {
+                        int i = Integer.parseInt(split[1]);
+                        if (i > 0 && i < 65536)
+                        {
+                            port = split[1];
+                        }
+                        else
+                        {
+                            throw new NumberFormatException();
+                        }
+
+                    } catch (NumberFormatException ex)
+                    {
+                        System.out.println("Invalid port. Using default 8080.");
+                    }
+                }
+                else
+                {
+                    System.out.println("Unrecognized option: " + split[0]);
+                    /* Bad option, return */
+                    return;
+                }
             }
         }
 
@@ -81,7 +105,6 @@ public class KasijeCli
 
     private static void processGenerate(String[] args)
     {
-
         String pageName;
 
         if (args.length == 0)
@@ -90,16 +113,15 @@ public class KasijeCli
             /* No arguments, nothing to process, return */
             return;
         }
-
-        /* Site name forced to be the first argument */
-        if (args.length >= 1)
+        else
         {
-            // Page Name without ''
-            pageName = args[0].substring(1, args[0].length());
+            pageName = args[0];
+
         }
 
         // TODO: La candela es aquí
         /* GENERATE */
+        System.out.println("Generating page: " + pageName);
     }
 
     private static void processCreate(String[] args)
@@ -118,8 +140,7 @@ public class KasijeCli
         /* Site name forced to be the first argument */
         if (args.length >= 1)
         {
-            /* Site Name without '' */
-            siteName = args[0].substring(1, args[0].length());
+            siteName = args[0];
         }
 
         /* Obtain further options, order is not important */
@@ -149,7 +170,7 @@ public class KasijeCli
                             break;
 
                         default:
-                            System.out.println("Unrecognized option " + split[0]);
+                            System.out.println("Unrecognized option: " + split[0]);
                             break;
                     }
                 }
@@ -167,13 +188,30 @@ public class KasijeCli
         if (args.length == 0)
         {
             System.out.println("KasijeCli Utilities: ");
-            System.out.println("    create - Creates a new site..");
+            System.out.println("    create - Creates a new site.");
             System.out.println("    generate - Generates page components.");
             System.out.println("    start - Start service.");
+            System.out.println(" ");
         }
         else
         {
-
+            switch (args[0])
+            {
+                case "create":
+                    System.out.println("Uses of create:");
+                    break;
+                case "generate":
+                    System.out.println("Uses of generate:");
+                    break;
+                case "start":
+                    System.out.println("Uses of start");
+                    break;
+                case "help":
+                    System.out.println("Uses of start");
+                    System.out.println("    Call 'help utility' to see the utility related help.");
+                    System.out.println(" ");
+                    break;
+            }
         }
     }
 }
