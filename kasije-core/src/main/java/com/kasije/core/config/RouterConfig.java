@@ -1,8 +1,6 @@
 package com.kasije.core.config;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.*;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -10,6 +8,11 @@ import java.util.List;
 @XmlRootElement(name = "routerConfig")
 public class RouterConfig
 {
+    @XmlElementWrapper(name = "routers")
+    @XmlElements(
+    {
+            @XmlElement(name = "router", type = Router.class)
+    })
     private List<Router> routers;
 
     public List<Router> getRouters()
