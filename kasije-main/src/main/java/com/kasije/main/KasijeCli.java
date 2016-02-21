@@ -1,5 +1,8 @@
 package com.kasije.main;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.*;
 
 /**
@@ -9,6 +12,12 @@ public class KasijeCli
 {
 
     private List<KasijeCliUtility> utilities = new LinkedList<>();
+    private String helpCommand;
+
+    public List<KasijeCliUtility> getUtilities()
+    {
+        return utilities;
+    }
 
     private void addUtility(KasijeCliUtility utility)
     {
@@ -20,8 +29,8 @@ public class KasijeCli
         String[] split = input.split(" ");
         if (split.length == 0)
         {
-            System.out.println("Utility name missing.");
-            System.out.println("Type help for help.");
+            System.out.println("  Utility name missing.");
+            System.out.println("  Type help for help.");
         }
         else
         {
@@ -33,71 +42,136 @@ public class KasijeCli
     {
         KasijeCli kasijeCli = new KasijeCli();
 
-        KasijeCliUtility kuCreate = new KasijeCliUtility("create", "creates...");
+                /* create */
+        KasijeCliUtility kuCreate = new KasijeCliUtility("create", "creates a site...");
         kuCreate.addOption(new KasijeCliOption("engine", KasijeCliOptionStyle.WITH_ARGUMENT));
         kuCreate.addOption(new KasijeCliOption("comp", KasijeCliOptionStyle.WITH_ARGUMENT));
         kuCreate.setFirstMandatoryOptionName("siteName");
         kuCreate.setKasijeCliExecutor(argumentValueMap ->
         {
-
+            /* Do what needs to be done with create*/
             System.out.println("Creating site " + argumentValueMap.get("siteName"));
-            System.out.println("    Using engine " + argumentValueMap.get("engine"));
-            System.out.println("    Component type " + argumentValueMap.get("comp"));
+            System.out.println("  Using engine " + argumentValueMap.get("engine"));
+            System.out.println("  Component type " + argumentValueMap.get("comp"));
         });
 
-        kasijeCli.addUtility(kuCreate);
-        kasijeCli.processUtility(args);
+        /* start */
+        KasijeCliUtility kuStart = new KasijeCliUtility("start", "start a site...");
+        kuStart.setKasijeCliExecutor(argumentValueMap ->
+        {
+            /* Do what needs to be done with start */
+            System.out.println("  Starting kasije server...");
+        });
 
+        /* Adding utilities*/
+        kasijeCli.addUtility(kuCreate);
+        kasijeCli.addUtility(kuStart);
+        kasijeCli.setHelpCommand("help");
+
+        BufferedReader console = new BufferedReader(new InputStreamReader(System.in));
+        while (true)
+        {
+            try
+            {
+                String input = console.readLine();
+                kasijeCli.parseInput(input);
+
+            } catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+        }
     }
 
     private void processUtility(String[] args)
     {
+        /* Utility processing */
         for (KasijeCliUtility utility : utilities)
         {
             if (utility.getName().equals(args[0]))
             {
                 utility.process(Arrays.copyOfRange(args, 1, args.length));
-                break;
+                return;
+            }
+        }
+
+        /* Help processing */
+        if (getHelpCommand() != null)
+        {
+            processHelp(args);
+            return;
+        }
+
+        System.out.println("  Ignoring unknown utility: " + args[0]);
+        System.out.println("  Type in help for help");
+
+    }
+
+    private void processHelp(String[] args)
+    {
+        if (args[0].equals(getHelpCommand()))
+        {
+            if (args.length > 1)
+            {
+                for (KasijeCliUtility utility : utilities)
+                {
+                    if (utility.getName().equals(args[1]))
+                    {
+                        System.out.println("NAME");
+                        System.out.println(utility.getName() + " - " + utility.getOutline());
+                        System.out.println(" ");
+
+                        System.out.println("SYNOPSIS");
+                        StringBuilder synopsisBuilder = new StringBuilder(utility.getName());
+                        synopsisBuilder.append(" ");
+                        if (utility.getFirstMandatoryOptionName() != null)
+                        {
+                            synopsisBuilder.append(String.format("<%s>", utility.getFirstMandatoryOptionName()));
+                            synopsisBuilder.append(" ");
+                        }
+
+                        for (KasijeCliOption kasijeCliOption : utility.getKasijeCliOptions())
+                        {
+                            synopsisBuilder.append(String.format("[%s=<%s>] ", kasijeCliOption.getName(), kasijeCliOption.getName()));
+                        }
+                        System.out.println(synopsisBuilder.toString());
+
+                        System.out.println(" ");
+                        System.out.println("DESCRIPTION");
+                        System.out.println(utility.getDescription());
+                        return;
+                    }
+                }
+
+                if (args[1].equals("help"))
+                {
+                    System.out.println(":/");
+                    return;
+                }
+
+                System.out.println("  No help for non-existent utility: " + args[1]);
+                System.out.println("  Type in help for more help");
             }
             else
             {
-                System.out.println("Ignoring unknown utility: " + args[0]);
-                System.out.println("    Type in help for help");
+                System.out.println("Available utilities are:");
+                for (KasijeCliUtility kasijeCliUtility : utilities)
+                {
+                    System.out.println("  " + kasijeCliUtility.getName());
+                }
+                System.out.println("  Enter help followed by one of the above for further assistance.");
             }
         }
     }
 
-
-    private static void processHelp(String[] args)
+    public String getHelpCommand()
     {
-        if (args.length == 0)
-        {
-            System.out.println("KasijeCli Utilities: ");
-            System.out.println("    create - Creates a new site.");
-            System.out.println("    generate - Generates page components.");
-            System.out.println("    start - Start service.");
-            System.out.println(" ");
-        }
-        else
-        {
-            switch (args[0])
-            {
-                case "create":
-                    System.out.println("Uses of create:");
-                    break;
-                case "generate":
-                    System.out.println("Uses of generate:");
-                    break;
-                case "start":
-                    System.out.println("Uses of start");
-                    break;
-                case "help":
-                    System.out.println("Uses of start");
-                    System.out.println("    Call 'help utility' to see the utility related help.");
-                    System.out.println(" ");
-                    break;
-            }
-        }
+        return helpCommand;
+    }
+
+    public void setHelpCommand(String helpCommand)
+    {
+        this.helpCommand = helpCommand;
     }
 
     public static class KasijeCliUtility
@@ -108,16 +182,38 @@ public class KasijeCli
 
         private List<KasijeCliOption> kasijeCliOptions;
 
-        private String help;
+        private String outline;
 
         private KasijeCliExecutor kasijeCliExecutor;
 
-        public KasijeCliUtility(String name, String help)
+        private String description;
+
+        public KasijeCliUtility(String name, String outline)
         {
             this.name = name;
-            this.help = help;
+            this.outline = outline;
 
             kasijeCliOptions = new LinkedList<>();
+        }
+
+        public List<KasijeCliOption> getKasijeCliOptions()
+        {
+            return kasijeCliOptions;
+        }
+
+        public void setKasijeCliOptions(List<KasijeCliOption> kasijeCliOptions)
+        {
+            this.kasijeCliOptions = kasijeCliOptions;
+        }
+
+        public String getDescription()
+        {
+            return description;
+        }
+
+        public void setDescription(String description)
+        {
+            this.description = description;
         }
 
         public String getFirstMandatoryOptionName()
@@ -150,38 +246,56 @@ public class KasijeCli
             this.name = name;
         }
 
-        public String getHelp()
+        public String getOutline()
         {
-            return help;
+            return outline;
         }
 
-        public void setHelp(String help)
+        public void setOutline(String outline)
         {
-            this.help = help;
+            this.outline = outline;
         }
 
+        /* Receives options array */
         public void process(String[] args)
         {
             Map<String, String> map = new HashMap<>();
-            String[] arguments = Arrays.copyOfRange(args, 1, args.length);
 
-            if (args.length == 0)
+            /* Check if this utility have no options */
+            if (kasijeCliOptions.size() == 0)
             {
-                System.out.format("Missing options for the %s utility", getName());
+                if (kasijeCliExecutor != null)
+                {
+                    kasijeCliExecutor.execute(map);
+                }
                 return;
             }
 
-            /* Obtaining mandatory option */
+            /* Check if arguments does not suffice options */
+            if (args.length == 0)
+            {
+                System.out.format("Missing options for the %s utility", getName());
+                System.out.println(getOutline());
+                return;
+            }
+
+            /* Proceed to process options */
+            String[] arguments = args;
+
+            /* Obtaining mandatory option if required */
             if (firstMandatoryOptionName != null)
             {
+                /* Mandatory option always the first */
                 map.put(firstMandatoryOptionName, args[0]);
 
+                /* If other options, accommodate and proceed  */
                 if (args.length > 1)
                 {
                     arguments = Arrays.copyOfRange(args, 1, args.length);
                 }
                 else
                 {
+                    /* return */
                     if (kasijeCliExecutor != null)
                     {
                         kasijeCliExecutor.execute(map);
