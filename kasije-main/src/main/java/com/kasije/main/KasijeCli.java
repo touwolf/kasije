@@ -1,187 +1,70 @@
 package com.kasije.main;
 
-import java.util.Arrays;
+import java.util.*;
 
 /**
  * CLI.
  */
 public class KasijeCli
 {
-    public static void main(String[] args)
+
+    private List<KasijeCliUtility> utilities = new LinkedList<>();
+
+    private void addUtility(KasijeCliUtility utility)
     {
-        if (args.length == 0)
+        utilities.add(utility);
+    }
+
+    public void parseInput(String input)
+    {
+        String[] split = input.split(" ");
+        if (split.length == 0)
         {
-            System.out.println("Argument missing.");
-            System.out.println("Run with 'help' for help.");
+            System.out.println("Utility name missing.");
+            System.out.println("Type help for help.");
         }
         else
         {
-            processUtility(args);
-        }
-
-    }
-
-    /* Here we define de main utilities and call custom methods to do the processing */
-    private static void processUtility(String[] args)
-    {
-        String utility = args[0];
-        String[] uArgs = Arrays.copyOfRange(args, 1, args.length);
-
-        switch (utility)
-        {
-            case "create":
-                processCreate(uArgs);
-                break;
-
-            case "generate":
-                processGenerate(uArgs);
-                break;
-
-            case "start":
-                processStart(uArgs);
-                break;
-
-            case "help":
-                processHelp(uArgs);
-                break;
-
-            default:
-                System.out.println("Unknown utility.");
-                System.out.println("    Run with 'help' for help");
-                break;
-
+            processUtility(split);
         }
     }
 
-    private static void processStart(String[] args)
+    public static void main(String[] args)
     {
-        /* Using default port */
-        String port = "8080";
+        KasijeCli kasijeCli = new KasijeCli();
 
-        if (args.length >= 1)
+        KasijeCliUtility kuCreate = new KasijeCliUtility("create", "creates...");
+        kuCreate.addOption(new KasijeCliOption("engine"));
+        kuCreate.addOption(new KasijeCliOption("comp"));
+        kuCreate.setKasijeCliExecutor(argumentValueMap ->
         {
-            // Site Name without ''
-            String[] split = args[0].split("=");
+            System.out.println("Creating site " + argumentValueMap.get("siteName"));
+            System.out.println("    Using engine " + argumentValueMap.get("engine"));
+            System.out.println("    Component type " + argumentValueMap.get("comp"));
+        });
 
-            if (split.length != 2)
+        kasijeCli.addUtility(kuCreate);
+        kasijeCli.processUtility(args);
+
+    }
+
+    private void processUtility(String[] args)
+    {
+        for (KasijeCliUtility utility : utilities)
+        {
+            if (utility.getName().equals(args[0]))
             {
-                System.out.println("Bad syntax at argument 1, assignment expression required.");
-                return;
+                utility.process(args);
+                break;
             }
             else
             {
-                if (split[0].equals("port"))
-                {
-                    try
-                    {
-                        int i = Integer.parseInt(split[1]);
-                        if (i > 0 && i < 65536)
-                        {
-                            port = split[1];
-                        }
-                        else
-                        {
-                            throw new NumberFormatException();
-                        }
-
-                    } catch (NumberFormatException ex)
-                    {
-                        System.out.println("Invalid port. Using default 8080.");
-                    }
-                }
-                else
-                {
-                    System.out.println("Unrecognized option: " + split[0]);
-                    /* Bad option, return */
-                    return;
-                }
+                System.out.println("Ignoring unknown utility: " + args[0]);
+                System.out.println("    Type in help for help");
             }
         }
-
-        // TODO: start
-        /* START service */
-        System.out.println("Starting service in port " + port);
     }
 
-    private static void processGenerate(String[] args)
-    {
-        String pageName;
-
-        if (args.length == 0)
-        {
-            System.out.println("Missing options for the 'generate' utility.");
-            /* No arguments, nothing to process, return */
-            return;
-        }
-        else
-        {
-            pageName = args[0];
-
-        }
-
-        // TODO: La candela es aquí
-        /* GENERATE */
-        System.out.println("Generating page: " + pageName);
-    }
-
-    private static void processCreate(String[] args)
-    {
-        String siteName;
-        String engine;
-        String comp;
-
-        if (args.length == 0)
-        {
-            System.out.println("Missing options for the 'create' utility.");
-            /* Nothing to create, return */
-            return;
-        }
-
-        /* Site name forced to be the first argument */
-        if (args.length >= 1)
-        {
-            siteName = args[0];
-        }
-
-        /* Obtain further options, order is not important */
-        if (args.length >= 2)
-        {
-            int i = 1;
-            for (String arg : Arrays.copyOfRange(args, 1, args.length))
-            {
-                String[] split = arg.split("=");
-
-                if (split.length != 2)
-                {
-                    System.out.println(String.format("Bad option at argument %d, assignment expression required.", i));
-                    continue;
-                }
-                else
-                {
-                    /* Switching among 'create' possible options */
-                    switch (split[0])
-                    {
-                        case "engine":
-                            engine = split[1];
-                            break;
-
-                        case "comp":
-                            comp = split[1];
-                            break;
-
-                        default:
-                            System.out.println("Unrecognized option: " + split[0]);
-                            break;
-                    }
-                }
-                i++;
-            }
-        }
-
-        // TODO: Hacer algo con siteName, engine & comp
-        // TODO: Aquí
-        /* CREATE */
-    }
 
     private static void processHelp(String[] args)
     {
@@ -213,5 +96,125 @@ public class KasijeCli
                     break;
             }
         }
+    }
+
+    public static class KasijeCliUtility
+    {
+        private String name;
+
+        private List<KasijeCliOption> kasijeCliOptions;
+
+        private String help;
+
+        private KasijeCliExecutor kasijeCliExecutor;
+
+        public KasijeCliUtility(String name, String help)
+        {
+            this.name = name;
+            this.help = help;
+
+            kasijeCliOptions = new LinkedList<>();
+        }
+
+        public void addOption(KasijeCliOption kasijeCliOption)
+        {
+            kasijeCliOptions.add(kasijeCliOption);
+        }
+
+        public void setKasijeCliExecutor(KasijeCliExecutor kasijeCliExecutor)
+        {
+            this.kasijeCliExecutor = kasijeCliExecutor;
+        }
+
+        public String getName()
+        {
+            return name;
+        }
+
+        public void setName(String name)
+        {
+            this.name = name;
+        }
+
+        public String getHelp()
+        {
+            return help;
+        }
+
+        public void setHelp(String help)
+        {
+            this.help = help;
+        }
+
+        public void process(String[] args)
+        {
+
+            System.out.println("-- Processing " + getName());
+            Map<String, String> map = new HashMap<>();
+
+            int i = 1;
+            ARGS:
+            for (String arg : Arrays.copyOfRange(args, 1, args.length))
+            {
+                String[] split = arg.split("=");
+
+                if (split.length != 2)
+                {
+                    System.out.println(String.format("  Bad option at argument %d, assignment expression required.", i));
+                }
+                else
+                {
+                    for (KasijeCliOption option : kasijeCliOptions)
+                    {
+                        if (split[0].equals(option.getName()))
+                        {
+                            map.put(option.getName(), split[1]);
+                            continue ARGS;
+                        }
+                    }
+                    System.out.println("Ignoring unrecognized option: " + split[0]);
+                }
+            }
+
+            if (kasijeCliExecutor != null)
+            {
+                kasijeCliExecutor.execute(map);
+            }
+        }
+
+    }
+
+    public static class KasijeCliOption
+    {
+        private String name;
+
+        private KasijeCliOptionStyle kasijeCliOptionStyle;
+
+        public KasijeCliOption(String name)
+        {
+            this.name = name;
+        }
+
+        public String getName()
+        {
+            return name;
+        }
+
+        public void setName(String name)
+        {
+            this.name = name;
+        }
+    }
+
+    public interface KasijeCliExecutor
+    {
+        void execute(Map<String, String> argumentValueMap);
+    }
+
+    enum KasijeCliOptionStyle
+    {
+        DEFAULT,
+        ASSIGNED,
+        SPACED
     }
 }
