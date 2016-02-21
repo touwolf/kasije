@@ -57,7 +57,7 @@
                         <span class="icon-bar"></span>
                     </button>
 
-                    <a class="navbar-brand" href="#">
+                    <a class="navbar-brand" href="/">
                         <img class="img-responsive" alt="" width="160" height="50"
                              src="/resources/images/home/koding_hackathon_badge.png">
                     </a>
