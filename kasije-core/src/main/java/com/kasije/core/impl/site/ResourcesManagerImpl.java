@@ -17,6 +17,8 @@
 package com.kasije.core.impl.site;
 
 import com.kasije.core.ResourcesManager;
+import com.yahoo.platform.yui.compressor.CssCompressor;
+import com.yahoo.platform.yui.compressor.JavaScriptCompressor;
 import io.bit3.jsass.CompilationException;
 import io.bit3.jsass.Compiler;
 import io.bit3.jsass.Options;
@@ -27,6 +29,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.io.IOUtils;
 import org.bridje.ioc.Component;
+import org.mozilla.javascript.ErrorReporter;
+import org.mozilla.javascript.EvaluatorException;
 
 /**
  *
@@ -42,7 +46,7 @@ public class ResourcesManagerImpl implements ResourcesManager
 
     private static final String JS_SUFFIX = ".js";
 
-    private static final String MIN_SUFFIX = ".js";
+    private static final String MIN_SUFFIX = ".min";
 
     @Override
     public String getMime(String resourceName)
@@ -92,11 +96,12 @@ public class ResourcesManagerImpl implements ResourcesManager
 
         if (sourceName.endsWith(SASS_SUFFIX))
         {
-            source = sassToCss(source);
+            source = cssFromSass(source);
             if (source == null)
             {
                 throw new IOException("Could not process: " + sourceName);
             }
+            sourceName = source.getName();
         }
 
         if (allowMinify(sourceName) && !isMinified(sourceName))
@@ -129,7 +134,7 @@ public class ResourcesManagerImpl implements ResourcesManager
         return sourceName.endsWith(CSS_SUFFIX) || sourceName.endsWith(JS_SUFFIX);
     }
 
-    private File sassToCss(File source) throws IOException
+    private File cssFromSass(File source) throws IOException
     {
         String sourceName = source.getName();
 
@@ -167,14 +172,106 @@ public class ResourcesManagerImpl implements ResourcesManager
         }
         catch (CompilationException ex)
         {
-            LOG.log(Level.SEVERE, "Error compiling SASS: " + ex.getMessage());
+            LOG.log(Level.SEVERE, "Error compiling SASS: {0}", ex.getMessage());
             return null;
         }
     }
 
     private File compress(File source)
     {
-        //TODO
-        return source;
+        String sourceName = source.getName();
+        String ext = getExtension(sourceName);
+
+        int lastDotIndex = sourceName.lastIndexOf(ext);
+        String minName = sourceName.substring(0, lastDotIndex) + MIN_SUFFIX + ext;
+        File minFile = new File(source.getParentFile(), minName);
+
+        try
+        {
+            //ONLY FROM CACHE IF WAS MODIFIED AFTER SOURCE FILE
+            if (minFile.exists() && source.lastModified() <= minFile.lastModified())
+            {
+                List<String> lines = IOUtils.readLines(new FileInputStream(minFile));
+                if (lines != null && !lines.isEmpty())
+                {
+                    return minFile;
+                }
+            }
+
+            if (!minFile.exists())
+            {
+                if (!minFile.createNewFile())
+                {
+                    LOG.log(Level.SEVERE, "Could not create: {0} to compress resource", minFile.getAbsolutePath());
+                    return source;
+                }
+            }
+
+            if (sourceName.endsWith(CSS_SUFFIX))
+            {
+                compressCss(source, minFile);
+            }
+            else if (sourceName.endsWith(JS_SUFFIX))
+            {
+                compressJs(source, minFile);
+            }
+
+            return minFile;
+        }
+        catch (Exception ex)
+        {
+            LOG.log(Level.WARNING, "Could not compress: {0}", sourceName);
+            return source;
+        }
+    }
+
+    private void compressCss(File source, File target) throws IOException
+    {
+        InputStreamReader reader = new InputStreamReader(new FileInputStream(source));
+        OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(target));
+
+        CssCompressor compressor = new CssCompressor(reader);
+        compressor.compress(writer, -1);
+    }
+
+    private void compressJs(File source, File target) throws IOException
+    {
+        InputStreamReader reader = new InputStreamReader(new FileInputStream(source));
+        OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(target));
+
+        ErrorReporter errorReporter = new ErrorReporter()
+        {
+            @Override
+            public void warning(String s, String s1, int i, String s2, int i1)
+            {
+                LOG.log(Level.WARNING, "{0} {1} {2} {3} {4}", new Object[]
+                {
+                    s, s1, i, s2, i1
+                });
+            }
+
+            @Override
+            public void error(String s, String s1, int i, String s2, int i1)
+            {
+                LOG.log(Level.SEVERE, "{0} {1} {2} {3} {4}", new Object[]
+                {
+                        s, s1, i, s2, i1
+                });
+            }
+
+            @Override
+            public EvaluatorException runtimeError(String s, String s1, int i, String s2, int i1)
+            {
+                LOG.log(Level.SEVERE, "{0} {1} {2} {3} {4}", new Object[]
+                {
+                        s, s1, i, s2, i1
+                });
+
+                return null;
+            }
+        };
+
+        JavaScriptCompressor compressor = new JavaScriptCompressor(reader, errorReporter);
+        compressor.compress(writer, -1, false, false, true, true);
     }
 }

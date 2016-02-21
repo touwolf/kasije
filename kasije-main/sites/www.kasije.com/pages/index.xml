@@ -26,11 +26,12 @@
         <feature title="Contenido ultra dinamico" faIcon="fa-refresh">
             <description>Bla bla</description>
         </feature>
-        <feature title="Preprocessing of resources" faIcon="fa-css3">
+        <feature title="Preprocessing and compression of resources" faIcon="fa-html5">
             <description>
                 Static resources like Sass, Less; scripts to compile (typescript, coffescript) are
                 handled on the fly and compiled to you in the background, so you can use it as is
                 (look in the styles of this page and you will see a stylesheet link with scss extension).
+                The same behavior is used to compress Js and Css files, it is done on background.
             </description>
         </feature>
         <feature title="Separacion de contenido y presentacion" faIcon="fa-gears">

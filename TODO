@@ -32,4 +32,3 @@ Implementar CLI
 PreProcesamiento de recursos
     - Sass (permitir opciones: http://jsass.readthedocs.org/en/latest/options.html)
     - Compilar JS (TypeScript, CoffeScript)
-    - Compresion JS y CSS
