@@ -41,7 +41,7 @@ public class Main
         server.setHandler(servletHandler);
 
         KasijeConfigRepo kasijeConfig = Ioc.context().find(KasijeConfigRepo.class);
-        ServerConfig config = kasijeConfig.findConfig(".", ServerConfig.class);
+        ServerConfig config = kasijeConfig.findConfig("./sites/", ServerConfig.class);
 
         server.start();
         server.join();

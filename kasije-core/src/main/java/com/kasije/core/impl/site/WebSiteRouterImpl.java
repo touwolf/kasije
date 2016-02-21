@@ -3,7 +3,7 @@ package com.kasije.core.impl.site;
 import com.kasije.core.KasijeConfigRepo;
 import com.kasije.core.WebSite;
 import com.kasije.core.WebSiteRouter;
-import com.kasije.core.config.RouterSiteConfig;
+import com.kasije.core.config.RouterConfig;
 import org.bridje.ioc.Component;
 import org.bridje.ioc.Inject;
 import org.bridje.ioc.Priority;
@@ -20,7 +20,7 @@ public class WebSiteRouterImpl implements WebSiteRouter
     @Override
     public WebSite findWebSite(String serverName) throws IOException
     {
-        RouterSiteConfig config = configRepo.findConfig(".", RouterSiteConfig.class);
+        RouterConfig config = configRepo.findConfig("./sites/", RouterConfig.class);
         return new WebSiteImpl("./sites/" + serverName);
     }
 }
