@@ -26,11 +26,19 @@
     </div>
 </#macro>
 
+<#macro renderPanel panel >
+    <div class="panel">
+        ${panel}
+    </div>
+</#macro>
+
 <#macro renderComponents components>
     <#list components as c>
         <#if c?node_type == "element">
             <#if c?node_name == "section">
                 <@renderSection c />
+            <#elseif c?node_name == "panel">
+                <@renderPanel c />
             </#if>
         </#if>
     </#list>

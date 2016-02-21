@@ -8,3 +8,8 @@ div.section
 {
     border: 1px black solid;
 }
+
+div.panel
+{
+    background-color: red;
+}
