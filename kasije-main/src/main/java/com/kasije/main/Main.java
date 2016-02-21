@@ -17,6 +17,7 @@
 package com.kasije.main;
 
 import com.kasije.core.KasijeConfigRepo;
+import com.kasije.core.config.ServerConfig;
 import org.bridje.ioc.Ioc;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletHandler;
@@ -40,7 +41,7 @@ public class Main
         server.setHandler(servletHandler);
 
         KasijeConfigRepo kasijeConfig = Ioc.context().find(KasijeConfigRepo.class);
-        //kasijeConfig.findConfig(new File(".").getAbsolutePath(), null);
+        ServerConfig config = kasijeConfig.findConfig(".", ServerConfig.class);
 
         server.start();
         server.join();
