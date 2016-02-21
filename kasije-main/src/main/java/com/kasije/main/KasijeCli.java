@@ -117,7 +117,8 @@ public class KasijeCli
                             comp = split[1];
                             break;
                         default:
-
+                            System.out.println("Unrecognized option " + split[0]);
+                            break;
                     }
                 }
                 i++;
