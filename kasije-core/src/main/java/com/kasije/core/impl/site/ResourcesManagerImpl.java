@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.kasije.core.impl;
+package com.kasije.core.impl.site;
 
 import com.kasije.core.ResourcesManager;
 import io.bit3.jsass.CompilationException;
