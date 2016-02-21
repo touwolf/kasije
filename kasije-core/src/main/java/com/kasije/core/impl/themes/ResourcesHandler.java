@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.kasije.core.impl;
+package com.kasije.core.impl.themes;
 
 import com.kasije.core.*;
 import java.io.File;
