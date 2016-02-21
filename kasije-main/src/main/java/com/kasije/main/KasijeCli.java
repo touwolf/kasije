@@ -34,10 +34,12 @@ public class KasijeCli
         KasijeCli kasijeCli = new KasijeCli();
 
         KasijeCliUtility kuCreate = new KasijeCliUtility("create", "creates...");
-        kuCreate.addOption(new KasijeCliOption("engine"));
-        kuCreate.addOption(new KasijeCliOption("comp"));
+        kuCreate.addOption(new KasijeCliOption("engine", KasijeCliOptionStyle.WITH_ARGUMENT));
+        kuCreate.addOption(new KasijeCliOption("comp", KasijeCliOptionStyle.WITH_ARGUMENT));
+        kuCreate.setFirstMandatoryOptionName("siteName");
         kuCreate.setKasijeCliExecutor(argumentValueMap ->
         {
+
             System.out.println("Creating site " + argumentValueMap.get("siteName"));
             System.out.println("    Using engine " + argumentValueMap.get("engine"));
             System.out.println("    Component type " + argumentValueMap.get("comp"));
@@ -54,7 +56,7 @@ public class KasijeCli
         {
             if (utility.getName().equals(args[0]))
             {
-                utility.process(args);
+                utility.process(Arrays.copyOfRange(args, 1, args.length));
                 break;
             }
             else
@@ -102,6 +104,8 @@ public class KasijeCli
     {
         private String name;
 
+        private String firstMandatoryOptionName;
+
         private List<KasijeCliOption> kasijeCliOptions;
 
         private String help;
@@ -114,6 +118,16 @@ public class KasijeCli
             this.help = help;
 
             kasijeCliOptions = new LinkedList<>();
+        }
+
+        public String getFirstMandatoryOptionName()
+        {
+            return firstMandatoryOptionName;
+        }
+
+        public void setFirstMandatoryOptionName(String firstMandatoryOptionName)
+        {
+            this.firstMandatoryOptionName = firstMandatoryOptionName;
         }
 
         public void addOption(KasijeCliOption kasijeCliOption)
@@ -148,13 +162,38 @@ public class KasijeCli
 
         public void process(String[] args)
         {
-
-            System.out.println("-- Processing " + getName());
+            String mandatoryOptionValue = null;
             Map<String, String> map = new HashMap<>();
+            String[] arguments = Arrays.copyOfRange(args, 1, args.length);
+
+            if (args.length == 0)
+            {
+                System.out.format("Missing options for the %s utility", getName());
+                return;
+            }
+
+            /* Obtaining mandatory option */
+            if (firstMandatoryOptionName != null)
+            {
+                map.put(firstMandatoryOptionName, args[0]);
+
+                if (args.length > 1)
+                {
+                    arguments = Arrays.copyOfRange(args, 1, args.length);
+                }
+                else
+                {
+                    if (kasijeCliExecutor != null)
+                    {
+                        kasijeCliExecutor.execute(map);
+                    }
+                    return;
+                }
+            }
 
             int i = 1;
             ARGS:
-            for (String arg : Arrays.copyOfRange(args, 1, args.length))
+            for (String arg : arguments)
             {
                 String[] split = arg.split("=");
 
@@ -190,9 +229,10 @@ public class KasijeCli
 
         private KasijeCliOptionStyle kasijeCliOptionStyle;
 
-        public KasijeCliOption(String name)
+        public KasijeCliOption(String name, KasijeCliOptionStyle kasijeCliOptionStyle)
         {
             this.name = name;
+            this.kasijeCliOptionStyle = kasijeCliOptionStyle;
         }
 
         public String getName()
@@ -213,8 +253,8 @@ public class KasijeCli
 
     enum KasijeCliOptionStyle
     {
-        DEFAULT,
-        ASSIGNED,
+        SIMPLE,
+        WITH_ARGUMENT,
         SPACED
     }
 }
