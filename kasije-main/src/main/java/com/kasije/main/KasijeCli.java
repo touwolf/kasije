@@ -162,7 +162,6 @@ public class KasijeCli
 
         public void process(String[] args)
         {
-            String mandatoryOptionValue = null;
             Map<String, String> map = new HashMap<>();
             String[] arguments = Arrays.copyOfRange(args, 1, args.length);
 

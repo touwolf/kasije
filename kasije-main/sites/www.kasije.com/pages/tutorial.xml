@@ -19,7 +19,7 @@
             <content>
                 Download the ZIP of the latest release (available at
                 &lt;a href="https://github.com/touwolf/kasije/releases" target="_blank"&gt; Github&lt;/a&gt;)
-                , extract it in the designed server, and you will a have the following structure:
+                , extract it in the designated server, and you will have the following structure:
             </content>
             <code lang="sh">
                 - kasije-root
@@ -36,9 +36,9 @@
                           - page.ftl
             </code>
             <content>
-                Inside the "sites" folder you will place your websites, by domain name, with a predefined structure.
+                Inside the "sites" folder you will place your websites, grouped by domain name, with a predefined structure.
                 The ZIP contains an example for a simple starting web site, using Freemarker as template engine and XML
-                to define the content. As the example site domain is localhost, you can see locally without any extra configuration.
+                to define the content. As the example site domain is localhost, you can browse it locally without any further configuration.
             </content>
         </step>
         <step title="Start and explore" faIcon="fa-play">
