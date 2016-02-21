@@ -12,13 +12,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @Component
-public class KasijeConfig
+public class KasijeConfigRepo
 {
-    private static final Logger LOG = Logger.getLogger(KasijeConfig.class.getName());
+    private static final Logger LOG = Logger.getLogger(KasijeConfigRepo.class.getName());
 
     private Map<String, Object> mapConfig = new HashMap<>();
 
-    public <T> T findConfig(String absolutePath, Class<T> cls)
+    public <T> T findConfig(String relativePath, Class<T> cls)
     {
         try
         {
@@ -30,7 +30,7 @@ public class KasijeConfig
                 name = cls.getName().toLowerCase(); // FIX: only the first character
             }
 
-            String path = absolutePath + "/etc/" + name;
+            String path = relativePath + "/etc/" + name;
             /* if it is cache */
             if(mapConfig.containsKey(path))
             {
