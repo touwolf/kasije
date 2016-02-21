@@ -26,12 +26,12 @@ public class WebPageImpl implements WebPage
 {
     private final WebSite site;
     
-    private final String relativePath;
+    private final String name;
 
-    public WebPageImpl(WebSite site, String relativePath)
+    public WebPageImpl(WebSite site, String name)
     {
         this.site = site;
-        this.relativePath = relativePath;
+        this.name = name;
     }
 
     @Override
@@ -41,16 +41,14 @@ public class WebPageImpl implements WebPage
     }
 
     @Override
-    public String getRelativeFileName()
+    public String getName()
     {
-        return relativePath;
+        return name;
     }
 
     @Override
-    public String getAbsoluteFileName()
+    public String getRelativePath()
     {
-        return site.getFile().getAbsolutePath() + "/" + relativePath;
-    }
-
-    
+        return "pages/" + name;
+    }    
 }
