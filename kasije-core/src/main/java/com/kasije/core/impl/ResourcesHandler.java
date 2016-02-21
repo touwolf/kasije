@@ -48,6 +48,7 @@ public class ResourcesHandler implements RequestHandler
         {
             return false;
         }
+
         if(req.getPathInfo().startsWith("/resources"))
         {
             String pathInfo = req.getPathInfo();
@@ -55,6 +56,7 @@ public class ResourcesHandler implements RequestHandler
             String[] realPathArr = Arrays.copyOfRange(resPathArr, 2, resPathArr.length);
             String realPath = String.join("/", realPathArr);
             HttpServletResponse resp = reqCtx.get(HttpServletResponse.class);
+
             WebSite site = reqCtx.get(WebSite.class);
             if(site != null)
             {
@@ -63,15 +65,55 @@ public class ResourcesHandler implements RequestHandler
                 if(resFile.exists() && resFile.isFile())
                 {
                     IOUtils.copy(new FileInputStream(resFile), resp.getOutputStream());
+                    resp.setContentType(getMime(realPath));
+
                     return true;
                 }
-                else
-                {
-                    return false;
-                }
             }
+
             return false;
         }
+
         return handler.handle(reqCtx);
+    }
+
+    private String getMime(String path)
+    {
+        int dotIndex = path.lastIndexOf(".");
+        if (dotIndex < 0)
+        {
+            return "text/plain";
+        }
+
+        String ext = path.substring(dotIndex + 1);
+        switch (ext)
+        {
+            case "js":
+            {
+                return "text/javascript";
+            }
+            case "css":
+            {
+                return "text/css";
+            }
+            case "html":
+            {
+                return "text/html";
+            }
+            case "png":
+            {
+                return "image/png";
+            }
+            case "jpg":
+            {
+                return "image/jpg";
+            }
+            case "ico":
+            {
+                return "image/ico";
+            }
+        }
+
+        return "text/plain";
     }
 }
