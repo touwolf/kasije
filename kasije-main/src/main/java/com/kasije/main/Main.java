@@ -48,16 +48,16 @@ public class Main
         KasijeConfigRepo kasijeConfig = Ioc.context().find(KasijeConfigRepo.class);
         ServerConfig config = kasijeConfig.findConfig("./sites/", ServerConfig.class);
 
-        if(null != config.getConnectorConfigs() && !config.getConnectorConfigs().isEmpty())
+        if(null == config || null == config.getConnectorConfigs() || config.getConnectorConfigs().isEmpty())
+        {
+            server.addConnector(createConnector(server, null));
+        }
+        else
         {
             for (ConnectorConfig connectorConfig : config.getConnectorConfigs())
             {
                 server.addConnector(createConnector(server, connectorConfig));
             }
-        }
-        else
-        {
-            server.addConnector(createConnector(server, null));
         }
 
         server.start();
