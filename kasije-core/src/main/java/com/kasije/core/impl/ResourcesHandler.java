@@ -60,8 +60,7 @@ public class ResourcesHandler implements RequestHandler
             WebSite site = reqCtx.get(WebSite.class);
             if(site != null)
             {
-                File root = site.getFile();
-                File resFile = new File(root.getAbsolutePath() + "/themes/" + site.getTheme() + "/resources/" + realPath);
+                File resFile = new File("./sites/themes/" + site.getTheme() + "/resources/" + realPath);
                 if(resFile.exists() && resFile.isFile())
                 {
                     IOUtils.copy(new FileInputStream(resFile), resp.getOutputStream());

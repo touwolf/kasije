@@ -69,7 +69,7 @@ public class FreemarkerTemplateContext implements TemplateContext
 
         String theme = webSite.getTheme();
 
-        Template template = config.getTemplate("themes/" + theme + "/page.ftl");
+        Template template = config.getTemplate(theme + "/page.ftl");
         PrintWriter writer = reqCtx.get(HttpServletResponse.class).getWriter();
 
         DataTemplateModel dataModel = DataTemplateModel.getDataModel(webSite.getFile(), webPage.getRelativePath());

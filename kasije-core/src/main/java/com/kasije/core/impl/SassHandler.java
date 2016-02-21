@@ -66,18 +66,17 @@ public class SassHandler implements RequestHandler
             WebSite site = reqCtx.get(WebSite.class);
             if(site != null)
             {
-                File root = site.getFile();
-                File resFile = new File(root.getAbsoluteFile(), "themes/" + site.getTheme() + "/resources/" + realPath);
+                File resFile = new File("./sites/themes/" + site.getTheme() + "/resources/" + realPath);
                 if(resFile.exists() && resFile.isFile())
                 {
                     int lastDotIndex = realPath.lastIndexOf(".scss");
                     String cssPath = realPath.substring(0, lastDotIndex) + ".css";
-                    File cssFile = new File(root.getAbsoluteFile(), "themes/" + site.getTheme() + "/resources/" + cssPath);
+                    File cssFile = new File("./sites/themes/" + site.getTheme() + "/resources/" + cssPath);
                     if (!cssFile.exists())
                     {
                         if (!cssFile.createNewFile())
                         {
-                            LOG.log(Level.SEVERE, "Could not create: " + cssFile.getAbsolutePath() + " to compile sass");
+                            LOG.log(Level.SEVERE, "Could not create: {0} to compile sass", cssFile.getAbsolutePath());
                             return false;
                         }
                     }

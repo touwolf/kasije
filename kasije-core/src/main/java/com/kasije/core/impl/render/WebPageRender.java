@@ -21,6 +21,7 @@ import com.kasije.core.RequestHandler;
 import com.kasije.core.WebSite;
 import com.kasije.core.tpl.TemplateContext;
 import com.kasije.core.tpl.TemplateEngine;
+import java.io.File;
 import java.io.IOException;
 import org.bridje.ioc.Component;
 import org.bridje.ioc.Inject;
@@ -50,7 +51,7 @@ class WebPageRender implements RequestHandler
 
         for (TemplateEngine engine : tplEngines)
         {
-            TemplateContext context = engine.createContext(webSite.getFile());
+            TemplateContext context = engine.createContext(new File("sites/themes"));
             if (context.render(reqCtx))
             {
                 return true;
