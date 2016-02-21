@@ -19,6 +19,7 @@ package com.kasije.core.impl.themes;
 import com.kasije.core.RequestContext;
 import com.kasije.core.RequestHandler;
 import com.kasije.core.ThemesManager;
+import com.kasije.core.WebSite;
 import com.kasije.core.WebSiteTheme;
 import java.io.IOException;
 import org.bridje.ioc.Component;
@@ -45,10 +46,14 @@ class ThemesHandler implements RequestHandler
         WebSiteTheme webSiteTheme = reqCtx.get(WebSiteTheme.class);
         if (webSiteTheme == null)
         {
-            WebSiteTheme theme = themesManag.findTheme("default");
-            if(theme != null)
+            WebSite webSite = reqCtx.get(WebSite.class);
+            if(webSite != null)
             {
-                reqCtx.put(WebSiteTheme.class, theme);
+                WebSiteTheme theme = themesManag.findTheme(webSite.getTheme());
+                if(theme != null)
+                {
+                    reqCtx.put(WebSiteTheme.class, theme);
+                }
             }
         }
         return handler.handle(reqCtx);
