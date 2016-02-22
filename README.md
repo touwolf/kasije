@@ -6,13 +6,18 @@ Kasije lightweight cms, evolve the productivity.
 
 Our product is not this website, but the framework that enables you to access this content.
 
+### Dependencies
+
 * [Bridje Framework] [Bridje]
 
 
-### Installation
+### Deploy
 
 ```sh
 $ 
 ```
+
+### Developer
+
 
 [Bridje]: <https://github.com/bridje/bridje-framework>
