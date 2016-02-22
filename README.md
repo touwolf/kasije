@@ -6,6 +6,8 @@ Kasije lightweight cms, evolve the productivity.
 
 Our product is not this website, but the framework that enables you to access this content.
 
+> Develop and host multiple websites has never been easier.
+
 ### Dependencies
 
 * [Bridje Framework] [Bridje]
