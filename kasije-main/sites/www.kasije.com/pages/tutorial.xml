@@ -22,7 +22,7 @@
         <step title="Download and install" faIcon="fa-cloud-download">
             <content>
                 Download the TAR file of the latest release (available at
-                &lt;a href="https://www.kasije.com/downloads/kasije-main-0.0.1-dist.tar.gz" target="_blank"&gt; 0.0.1&lt;/a&gt;)
+                &lt;a href="/downloads/kasije-main-0.0.1-dist.tar.gz" target="_blank"&gt; 0.0.1&lt;/a&gt;)
                 , extract it in the designated server, and you will have the following structure:
             </content>
             <code lang="sh">
