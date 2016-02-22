@@ -45,5 +45,8 @@ $
 
 ### Developer
 
+**Java based framework**
+
+Kasije is a Java based framework for the web. Its implementations relies in other pure Java components and libraries, providing great multipleatform support.
 
 [Bridje]: <https://github.com/bridje/bridje-framework>
