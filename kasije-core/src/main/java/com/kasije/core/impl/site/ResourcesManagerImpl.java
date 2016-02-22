@@ -16,20 +16,24 @@
 
 package com.kasije.core.impl.site;
 
+import com.google.javascript.jscomp.CompilationLevel;
+import com.google.javascript.jscomp.CompilerOptions;
+import com.google.javascript.jscomp.SourceFile;
 import com.kasije.core.ResourcesManager;
 import com.yahoo.platform.yui.compressor.CssCompressor;
-import com.yahoo.platform.yui.compressor.JavaScriptCompressor;
 import io.bit3.jsass.CompilationException;
 import io.bit3.jsass.Compiler;
 import io.bit3.jsass.Options;
 import io.bit3.jsass.Output;
 import java.io.*;
+import java.nio.charset.Charset;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.io.IOUtils;
 import org.bridje.ioc.Component;
-import org.mozilla.javascript.ErrorReporter;
 import org.mozilla.javascript.EvaluatorException;
 
 /**
@@ -131,7 +135,7 @@ public class ResourcesManagerImpl implements ResourcesManager
 
     private boolean allowMinify(String sourceName)
     {
-        return sourceName.endsWith(CSS_SUFFIX) || sourceName.endsWith(JS_SUFFIX);
+        return /*sourceName.endsWith(CSS_SUFFIX) || */sourceName.endsWith(JS_SUFFIX);
     }
 
     private File cssFromSass(File source) throws IOException
@@ -209,11 +213,15 @@ public class ResourcesManagerImpl implements ResourcesManager
 
             if (sourceName.endsWith(CSS_SUFFIX))
             {
-                compressCss(source, minFile);
+                Reader reader = new FileReader(source);
+                Writer writer = new FileWriter(minFile);
+                compressCss(reader, writer);
             }
             else if (sourceName.endsWith(JS_SUFFIX))
             {
-                compressJs(source, minFile);
+                InputStream in = new BufferedInputStream(new FileInputStream(source));
+                OutputStream out = new BufferedOutputStream(new FileOutputStream(minFile));
+                compressJs(sourceName, in, out);
             }
 
             return minFile;
@@ -225,53 +233,28 @@ public class ResourcesManagerImpl implements ResourcesManager
         }
     }
 
-    private void compressCss(File source, File target) throws IOException
+    private void compressCss(Reader reader, Writer writer) throws IOException
     {
-        InputStreamReader reader = new InputStreamReader(new FileInputStream(source));
-        OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(target));
-
         CssCompressor compressor = new CssCompressor(reader);
-        compressor.compress(writer, 1000);
+        compressor.compress(writer, -1);
     }
 
-    private void compressJs(File source, File target) throws IOException
+    private void compressJs(String sourceName, InputStream in, OutputStream out) throws IOException
     {
-        InputStreamReader reader = new InputStreamReader(new FileInputStream(source));
-        OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(target));
+        CompilerOptions options = new CompilerOptions();
+        CompilationLevel.SIMPLE_OPTIMIZATIONS.setOptionsForCompilationLevel(options);
 
-        ErrorReporter errorReporter = new ErrorReporter()
+        SourceFile input = SourceFile.fromInputStream(sourceName, in, Charset.forName("UTF-8"));
+
+        com.google.javascript.jscomp.Compiler compiler = new com.google.javascript.jscomp.Compiler();
+        compiler.compile(Collections.EMPTY_LIST, Arrays.asList(input), options);
+
+        if (compiler.hasErrors())
         {
-            @Override
-            public void warning(String s, String s1, int i, String s2, int i1)
-            {
-                LOG.log(Level.WARNING, "{0} {1} {2} {3} {4}", new Object[]
-                {
-                    s, s1, i, s2, i1
-                });
-            }
+            throw new EvaluatorException(compiler.getErrors()[0].description);
+        }
 
-            @Override
-            public void error(String s, String s1, int i, String s2, int i1)
-            {
-                LOG.log(Level.SEVERE, "{0} {1} {2} {3} {4}", new Object[]
-                {
-                        s, s1, i, s2, i1
-                });
-            }
-
-            @Override
-            public EvaluatorException runtimeError(String s, String s1, int i, String s2, int i1)
-            {
-                LOG.log(Level.SEVERE, "{0} {1} {2} {3} {4}", new Object[]
-                {
-                        s, s1, i, s2, i1
-                });
-
-                return null;
-            }
-        };
-
-        JavaScriptCompressor compressor = new JavaScriptCompressor(reader, errorReporter);
-        compressor.compress(writer, 1000, false, false, true, true);
+        String toSource = compiler.toSource();
+        IOUtils.copy(new StringReader(toSource), out);
     }
 }
