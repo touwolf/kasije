@@ -56,7 +56,7 @@
             <description>
                 The CMS supports the implementation of plugins to extend its core features, provide more options for working
                 with templates (alternative engines to freemarker or velocity), support formats for content editing (alternatives to
-                XML or Json) and support other resource kinds preprocessing.
+                XML or Json) and support preprocessing of other resource kinds.
             </description>
         </feature>
         <feature title="Command line interface" faIcon="fa-terminal">
