@@ -48,52 +48,9 @@ Kasije depends on the following projects:
 
 ### Deploy
 
-**Download and install**
-
-Download the TAR file of the latest release (available at 0.0.1), extract it in the designated server, and you will have the following structure:
-
 ```sh
-- kasije-root
-  - lib
-  - bin
-  - log
-  - sites
-    - themes
-      - default
-        - page.ftl
-    - localhost
-      - etc
-      - pages
-        - index.xml
+$ 
 ```
-
-Inside the "sites" folder you will place your websites, grouped by domain name, with a predefined structure. The TAR contains an example for a simple starting web site, using Freemarker as template engine and XML to define the content. As the example site domain is localhost, you can browse it locally without any further configuration.
-
-**Start and explore**
-
-Inside the "bin" folder are several scripts to control the server:
-
-```sh
-- kasije-root
-   ...
-   - bin
-     - start.sh
-     - stop.sh
-     - restart.sh
-   ...
-```
-
-Invoke the start command via terminal:
-
-```sh
-$ sh bin/start.sh
-   > :INFO::main: Logging initialized @168ms
-   > :INFO:oejs.Server:main: jetty-9.3.7.v20160115
-   > :INFO:oejs.ServerConnector:main: Started ServerConnector@5c30a9b0{HTTP/1.1,[http/1.1]}{0.0.0.0:8080}
-   > :INFO:oejs.Server:main: Started @481ms
-```
-
-Now navigate to "localhost:8080" on the browser. Voila! We got a web site (dummy of course).
 
 ### Developer
 
@@ -105,7 +62,13 @@ Kasije is a Java based framework for the web. Its implementations relies in othe
 
 Kasije is developed using the chain of responsibility pattern, in order to make it easy for other users to extend or add features. Each request is processed through the chain where a group of handles performs specific actions adding information to the final result.
 
-To extend the system, simply add handlers with the desired functionalities.
+To extend the system, simply add handlers with the desired functionalities implementing the following interface:
+```java
+public interface RequestHandler
+{
+    boolean handle(RequestContext reqCtx) throws IOException;
+}
+```
 
 Kasije serves a variety of components and content. Among the current available functionalities are to serve sites, static resources, themes and templates.
 
