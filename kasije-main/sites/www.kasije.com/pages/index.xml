@@ -21,9 +21,9 @@
         <header title="What we offer">
             If you want to propose new features, please contact us.
         </header>
-        <feature title="Web sites" faIcon="fa-rocket">
+        <feature title="Websites" faIcon="fa-rocket">
             <description>
-                Efficiently develop multiple web sites from a single location with shared resources and resources.
+                Efficiently develop multiple websites from a single location with shared resources and templates.
                 Define the content of text files in various formats (XML, JSON, YAML, etc.) and update it at any time.
                 Themes can be edited in multiple templating engines (freemarker, velocity, etc.).
             </description>
@@ -31,7 +31,7 @@
         <feature title="Preprocessing and compression of static resources" faIcon="fa-html5">
             <description>
                 Static resources that require preprocessing (Sass, typescript, CoffeeScript, etc) are processed without
-                you needing to intervene, all you need is to include as it and Kasije processes it appropriately by its extension.
+                your intervention, all you need to do is include them as they are, and Kasije will process them appropriately by their extension.
                 Also the resources that support compression (JS and CSS) are compressed by the system and cached until they
                 return to be modified. (All this features are used on this site you are reading ;)
             </description>
@@ -39,31 +39,31 @@
         <feature title="Separation of content and presentation" faIcon="fa-gears">
             <description>
                 It is a good design philosophy that we made concrete. You will preserve the semantics of the content,
-                your content will be a piece of structured information. And also you will keep all aesthetic details away
-                from this structured information. Good structured information remains readable always. Your site content will
-                also look more adequate to all members in your team. Everybody benefit from the separation: the content
+                your content will be a piece of structured information. With features such as Kasije theme sharing, you can define
+                and share themes among your sites and still keep all aesthetic details separated
+                from the subject, allowing your information schema to be always readable. Everybody benefits from the separation: the content
                 supplier does not have to be a good designer and vice versa.
             </description>
         </feature>
         <feature title="Easy virtual hosting" faIcon="fa-desktop">
             <description>
-                Virtual Host refers to running multiples web sites on a single physical server, wich is not apparent to the end
-                user. With Kasije there is no need of complicated configurations or server restarts, simply add content in the
-                folder with the name of the virtual domain and the virtual host is ready (as we have done this website).
+                Virtual Host refers to running multiples websites on a single physical server, which is not apparent to the end
+                user. Kasije leaves no room for complicated configurations or server restarts, simply add content in the
+                folder with the name of the virtual domain and the virtual host will be ready (as we have done with this website).
             </description>
         </feature>
-        <feature title="Extendable by plugins" faIcon="fa-puzzle-piece">
+        <feature title="Extensible by plugins" faIcon="fa-puzzle-piece">
             <description>
-                The CMS supports the implementation of plugins to extend its core, also to provide more options for working
-                with templates (engines alternatives to freemarker or velocity), formats for content editing (alternatives to
-                XML or Json); preprocessing resources, among others.
+                The CMS supports the implementation of plugins to extend its core features, provide more options for working
+                with templates (engines alternatives to freemarker or velocity), support formats for content editing (alternatives to
+                XML or Json) and support other resource kinds preprocessing.
             </description>
         </feature>
         <feature title="Command line interface" faIcon="fa-terminal">
             <description>
-                Kasije has multiple command line tools integrated to facilitate the work on the server, as is a Java based system
-                this works in all platforms and allow you to create new sites, configure, monitor their execution; among other useful
-                options of operation and control systems.
+                Kasije has multiple command line tools integrated to facilitate the work on the server, its Java based nature
+                makes it run on most platforms and allow you to create new sites, configure and monitor them in the most natural
+                way.
             </description>
         </feature>
     </section>
