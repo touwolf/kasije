@@ -12,7 +12,7 @@
         </header>
         <tip title="It is a lightweight CMS, ultra productive and extendible">
             <line duration="300" delay="100">
-                Mauris pretium auctor quam. Vestibulum et nunc id nisi fringilla iaculis. Mauris pretium auctor quam.
+                It is a lightweight CMS, ultra productive and extendible
             </line>
             <link duration="300" delay="200" text="Get Started">/tutorial</link>
         </tip>
@@ -21,8 +21,8 @@
         <intro>The following steps will show how to get started using the Kasije CMS</intro>
         <step title="Download and install" faIcon="fa-cloud-download">
             <content>
-                Download the ZIP of the latest release (available at
-                &lt;a href="https://github.com/touwolf/kasije/releases" target="_blank"&gt; Github&lt;/a&gt;)
+                Download the TAR file of the latest release (available at
+                &lt;a href="https://www.kasije.com/releases" target="_blank"&gt; Github&lt;/a&gt;)
                 , extract it in the designated server, and you will have the following structure:
             </content>
             <code lang="sh">
