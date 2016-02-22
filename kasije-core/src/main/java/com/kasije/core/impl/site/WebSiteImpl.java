@@ -16,8 +16,10 @@
 
 package com.kasije.core.impl.site;
 
+import com.kasije.core.WebFile;
 import com.kasije.core.WebPage;
 import com.kasije.core.WebSite;
+import com.kasije.core.impl.files.WebFileImpl;
 import com.kasije.core.impl.page.WebPageImpl;
 import java.io.File;
 import java.util.logging.Logger;
@@ -76,5 +78,16 @@ class WebSiteImpl implements WebSite
     public String getTheme()
     {
         return "default";
+    }
+
+    @Override
+    public WebFile findFile(String filePath)
+    {
+        File file = new File(siteFolder.getAbsoluteFile() + "/pages/" + filePath);
+        if(file.exists() && file.isFile())
+        {
+            return new WebFileImpl(this, filePath);
+        }
+        return null;
     }
 }

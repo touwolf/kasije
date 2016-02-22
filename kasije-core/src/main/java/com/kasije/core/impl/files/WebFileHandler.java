@@ -14,13 +14,11 @@
  * limitations under the License.
  */
 
-package com.kasije.core.impl.page;
+package com.kasije.core.impl.files;
 
-import com.kasije.core.RequestContext;
-import com.kasije.core.RequestHandler;
-import com.kasije.core.WebPage;
-import com.kasije.core.WebSiteTheme;
+import com.kasije.core.*;
 import java.io.IOException;
+import javax.servlet.http.HttpServletRequest;
 import org.bridje.ioc.Component;
 import org.bridje.ioc.InjectNext;
 import org.bridje.ioc.Priority;
@@ -29,8 +27,8 @@ import org.bridje.ioc.Priority;
  *
  */
 @Component
-@Priority(Integer.MIN_VALUE + 1000)
-class WebPageRender implements RequestHandler
+@Priority(Integer.MIN_VALUE + 250)
+class WebFileHandler implements RequestHandler
 {
     @InjectNext
     private RequestHandler handler;
@@ -38,20 +36,33 @@ class WebPageRender implements RequestHandler
     @Override
     public boolean handle(RequestContext reqCtx) throws IOException
     {
-        if(reqCtx.get(WebPage.class) != null)
-        {
-            WebSiteTheme webSiteTheme = reqCtx.get(WebSiteTheme.class);
-            if (webSiteTheme != null)
-            {
-                return webSiteTheme.render(reqCtx);
-            }
-        }
-
-        if(handler == null)
+        if(null == handler)
         {
             return false;
         }
+
+        /* was it handled */
+        WebFile webFile = reqCtx.get(WebFile.class);
+        if(null == webFile)
+        {
+            WebSite site = reqCtx.get(WebSite.class);
+            if(null != site)
+            {
+                String fileName = findFileName(reqCtx);
+                /* find the page using the router */
+                webFile = site.findFile(fileName);
+                if(null != webFile)
+                {
+                    reqCtx.put(WebFile.class, webFile);
+                }
+            }
+        }
         return handler.handle(reqCtx);
     }
-}
 
+    private String findFileName(RequestContext reqCtx)
+    {
+        HttpServletRequest req = reqCtx.get(HttpServletRequest.class);
+        return req.getPathInfo();
+    }
+}

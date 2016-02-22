@@ -16,22 +16,14 @@
 
 package com.kasije.core;
 
-import java.io.File;
-
 /**
  *
  */
-public interface WebSite
+public interface WebFile
 {
+    WebSite getSite();
+
     String getName();
 
-    File getFile();
-
-    WebPage findPage(String pagePath);
-    
-    WebFile findFile(String filePath);
-    
-    <T> T findConfig(Class<T> cls);
-    
-    String getTheme();
+    String getRelativePath();
 }

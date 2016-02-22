@@ -14,24 +14,41 @@
  * limitations under the License.
  */
 
-package com.kasije.core;
+package com.kasije.core.impl.files;
 
-import java.io.File;
+import com.kasije.core.WebFile;
+import com.kasije.core.WebSite;
 
 /**
- *
+ * 
  */
-public interface WebSite
+public class WebFileImpl implements WebFile
 {
-    String getName();
+    private final WebSite site;
+    
+    private final String name;
 
-    File getFile();
+    public WebFileImpl(WebSite site, String name)
+    {
+        this.site = site;
+        this.name = name;
+    }
 
-    WebPage findPage(String pagePath);
-    
-    WebFile findFile(String filePath);
-    
-    <T> T findConfig(Class<T> cls);
-    
-    String getTheme();
+    @Override
+    public WebSite getSite()
+    {
+        return site;
+    }
+
+    @Override
+    public String getName()
+    {
+        return name;
+    }
+
+    @Override
+    public String getRelativePath()
+    {
+        return "pages/" + name;
+    }    
 }

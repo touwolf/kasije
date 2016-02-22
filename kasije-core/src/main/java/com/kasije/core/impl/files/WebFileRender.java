@@ -14,13 +14,14 @@
  * limitations under the License.
  */
 
-package com.kasije.core.impl.page;
+package com.kasije.core.impl.files;
 
-import com.kasije.core.RequestContext;
-import com.kasije.core.RequestHandler;
-import com.kasije.core.WebPage;
-import com.kasije.core.WebSiteTheme;
+import com.kasije.core.*;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.io.IOUtils;
 import org.bridje.ioc.Component;
 import org.bridje.ioc.InjectNext;
 import org.bridje.ioc.Priority;
@@ -29,22 +30,21 @@ import org.bridje.ioc.Priority;
  *
  */
 @Component
-@Priority(Integer.MIN_VALUE + 1000)
-class WebPageRender implements RequestHandler
+@Priority(Integer.MIN_VALUE + 900)
+class WebFileRender implements RequestHandler
 {
     @InjectNext
     private RequestHandler handler;
-
+    
     @Override
     public boolean handle(RequestContext reqCtx) throws IOException
     {
-        if(reqCtx.get(WebPage.class) != null)
+        WebFile webFile = reqCtx.get(WebFile.class);
+        if(webFile != null)
         {
-            WebSiteTheme webSiteTheme = reqCtx.get(WebSiteTheme.class);
-            if (webSiteTheme != null)
-            {
-                return webSiteTheme.render(reqCtx);
-            }
+            HttpServletResponse resp = reqCtx.get(HttpServletResponse.class);
+            IOUtils.copy(new FileInputStream(new File(webFile.getSite().getFile().getAbsolutePath() + "/" + webFile.getRelativePath())), resp.getOutputStream());
+            return true;
         }
 
         if(handler == null)
@@ -54,4 +54,3 @@ class WebPageRender implements RequestHandler
         return handler.handle(reqCtx);
     }
 }
-
