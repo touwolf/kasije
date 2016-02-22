@@ -50,5 +50,10 @@
             <artifactId>yuicompressor</artifactId>
             <version>2.4.8</version>
         </dependency>
+        <dependency>
+            <groupId>com.google.javascript</groupId>
+            <artifactId>closure-compiler</artifactId>
+            <version>v20151216</version>
+        </dependency>
     </dependencies>
 </project>
