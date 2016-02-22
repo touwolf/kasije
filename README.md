@@ -2,6 +2,7 @@
 
 # kasije
 [![Koding Hackathon Badge](/koding_hackathon_badge.png?raw=true "Koding Hackathon Badge")](https://koding.com/Hackathon)
+
 Kasije lightweight cms, evolve the productivity.
 
 > Develop and host multiple websites has never been easier.
@@ -67,3 +68,7 @@ To extend the system, simply add handlers with the desired functionalities.
 Kasije serves a variety of components and content. Among the current available functionalities are to serve sites, static resources, themes and templates.
 
 [Bridje]: <https://github.com/bridje/bridje-framework>
+
+### License
+
+Apache License, Version 2.0
