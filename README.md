@@ -56,6 +56,14 @@ $
 
 **Java based framework**
 
-Kasije is a Java based framework for the web. Its implementations relies in other pure Java components and libraries, providing great multi-platform support.
+Kasije is a Java based framework for the web. Its implementations relies in other pure Java components and libraries, providing great multi platform support, performance, maintainability and scalability.
+
+**How it is designed**
+
+Kasije is developed using the chain of responsibility pattern, in order to make it easy for other users to extend or add features. Each request is processed through the chain where a group of handles performs specific actions adding information to the final result.
+
+To extend the system, simply add handlers with the desired functionalities.
+
+Kasije serves a variety of components and content. Among the current available functionalities are to serve sites, static resources, themes and templates.
 
 [Bridje]: <https://github.com/bridje/bridje-framework>
