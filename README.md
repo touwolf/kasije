@@ -32,6 +32,8 @@ Kasije has multiple command line tools integrated to facilitate the work on the 
   
 ### Dependencies
 
+A project providing Java API for building Fast, Roboust Java Aplications with Maven
+
 * [Bridje Framework] [Bridje]
 
 
