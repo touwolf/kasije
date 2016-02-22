@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/touwolf/kasije.svg?branch=master)](https://travis-ci.org/touwolf/kasije)
+
 # kasije
 Kasije lightweight cms
 
