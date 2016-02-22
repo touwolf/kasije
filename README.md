@@ -73,6 +73,7 @@ Inside the "sites" folder you will place your websites, grouped by domain name, 
 
 Inside the "bin" folder are several scripts to control the server:
 
+```sh
 - kasije-root
    ...
    - bin
@@ -80,6 +81,7 @@ Inside the "bin" folder are several scripts to control the server:
      - stop.sh
      - restart.sh
    ...
+```
 
 Invoke the start command via terminal:
 
