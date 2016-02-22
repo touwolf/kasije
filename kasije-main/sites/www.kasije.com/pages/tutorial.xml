@@ -41,7 +41,7 @@
             </code>
             <content>
                 Inside the "sites" folder you will place your websites, grouped by domain name, with a predefined structure.
-                The ZIP contains an example for a simple starting web site, using Freemarker as template engine and XML
+                The TAR contains an example for a simple starting web site, using Freemarker as template engine and XML
                 to define the content. As the example site domain is localhost, you can browse it locally without any further configuration.
             </content>
         </step>
