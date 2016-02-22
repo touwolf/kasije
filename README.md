@@ -4,8 +4,6 @@
 # kasije
 Kasije lightweight cms, evolve the productivity.
 
-Our product is not just a website, but a framework that enables you to serve other web sites or content.
-
 > Develop and host multiple websites has never been easier.
 
 ### Features
