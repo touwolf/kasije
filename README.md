@@ -1,7 +1,7 @@
-[![Koding Hackathon Badge](/koding_hackathon_badge.png?raw=true "Koding Hackathon Badge")](https://koding.com/Hackathon) [![Build Status](https://travis-ci.org/touwolf/kasije.svg?branch=master)](https://travis-ci.org/touwolf/kasije)
-
+[![Build Status](https://travis-ci.org/touwolf/kasije.svg?branch=master)](https://travis-ci.org/touwolf/kasije)
 
 # kasije
+[![Koding Hackathon Badge](/koding_hackathon_badge.png?raw=true "Koding Hackathon Badge")](https://koding.com/Hackathon)
 Kasije lightweight cms, evolve the productivity.
 
 > Develop and host multiple websites has never been easier.
@@ -32,10 +32,19 @@ Kasije has multiple command line tools integrated to facilitate the work on the 
   
 ### Dependencies
 
-A project providing Java API for building Fast, Roboust Java Aplications with Maven
+Kasije depends on the following projects:
 
-* [Bridje Framework] [Bridje]
+ - [Bridje]: A project providing Java API for building Fast, Roboust Java Aplications with Maven.
+ - [Jetty]: Jetty provides a Web server and javax.servlet container.
+ - [Freemarker]: Apache FreeMarker is a template engine: a Java library to generate text output.
+ - [Google Closure]: The Closure Compiler is a tool for making JavaScript download and run faster.
+ - [JSass]: jsass is a Java sass compiler using libsass.
 
+[Bridje]: <https://github.com/bridje/bridje-framework>
+[Jetty]: <https://eclipse.org/jetty/>
+[Freemarker]: <http://freemarker.incubator.apache.org/>
+[Google Closure]: <https://developers.google.com/closure/compiler/>
+[JSass]: <http://jsass.readthedocs.org/en/latest/>
 
 ### Deploy
 
