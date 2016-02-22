@@ -55,7 +55,7 @@
         <feature title="Extensible by plugins" faIcon="fa-puzzle-piece">
             <description>
                 The CMS supports the implementation of plugins to extend its core features, provide more options for working
-                with templates (engines alternatives to freemarker or velocity), support formats for content editing (alternatives to
+                with templates (alternative engines to freemarker or velocity), support formats for content editing (alternatives to
                 XML or Json) and support other resource kinds preprocessing.
             </description>
         </feature>
