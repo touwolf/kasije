@@ -2,7 +2,6 @@
 
 # kasije
 [![Koding Hackathon Badge](/koding_hackathon_badge.png?raw=true "Koding Hackathon Badge")](https://koding.com/Hackathon)
-
 Kasije lightweight cms, evolve the productivity.
 
 > Develop and host multiple websites has never been easier.
@@ -67,8 +66,21 @@ To extend the system, simply add handlers with the desired functionalities.
 
 Kasije serves a variety of components and content. Among the current available functionalities are to serve sites, static resources, themes and templates.
 
+By simple configurations the service can be tailored, such as adjusting a site route, an alias or the servlet protocol. For example, the following snippet shows how to configure the route for the www.kasije.com site:
+
+```xml
+<routerConfig>
+   <routers>
+       <!--router uri="www.kasije.com" path="/var/www/"></router-->
+   </routers>
+</routerConfig>
+```
+To configure an alias, for example, see the code below:
+
+```xml
+<aliasConfig>
+   <alias path="/home" realpath="/index" />
+</aliasConfig>
+```
+
 [Bridje]: <https://github.com/bridje/bridje-framework>
-
-### License
-
-Apache License, Version 2.0
