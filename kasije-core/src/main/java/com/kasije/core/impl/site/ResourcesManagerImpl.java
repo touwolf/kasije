@@ -135,7 +135,7 @@ public class ResourcesManagerImpl implements ResourcesManager
 
     private boolean allowMinify(String sourceName)
     {
-        return /*sourceName.endsWith(CSS_SUFFIX) || */sourceName.endsWith(JS_SUFFIX);
+        return sourceName.endsWith(CSS_SUFFIX) || sourceName.endsWith(JS_SUFFIX);
     }
 
     private File cssFromSass(File source) throws IOException
@@ -211,16 +211,16 @@ public class ResourcesManagerImpl implements ResourcesManager
                 }
             }
 
+            OutputStream out = new BufferedOutputStream(new FileOutputStream(minFile));
+
             if (sourceName.endsWith(CSS_SUFFIX))
             {
                 Reader reader = new FileReader(source);
-                Writer writer = new FileWriter(minFile);
-                compressCss(reader, writer);
+                compressCss(reader, out);
             }
             else if (sourceName.endsWith(JS_SUFFIX))
             {
                 InputStream in = new BufferedInputStream(new FileInputStream(source));
-                OutputStream out = new BufferedOutputStream(new FileOutputStream(minFile));
                 compressJs(sourceName, in, out);
             }
 
@@ -233,10 +233,15 @@ public class ResourcesManagerImpl implements ResourcesManager
         }
     }
 
-    private void compressCss(Reader reader, Writer writer) throws IOException
+    private void compressCss(Reader reader, OutputStream out) throws IOException
     {
         CssCompressor compressor = new CssCompressor(reader);
+        StringWriter writer = new StringWriter();
+
         compressor.compress(writer, -1);
+
+        String compressed = writer.toString();
+        IOUtils.copy(new StringReader(compressed), out);
     }
 
     private void compressJs(String sourceName, InputStream in, OutputStream out) throws IOException
@@ -254,7 +259,7 @@ public class ResourcesManagerImpl implements ResourcesManager
             throw new EvaluatorException(compiler.getErrors()[0].description);
         }
 
-        String toSource = compiler.toSource();
-        IOUtils.copy(new StringReader(toSource), out);
+        String compressed = compiler.toSource();
+        IOUtils.copy(new StringReader(compressed), out);
     }
 }
