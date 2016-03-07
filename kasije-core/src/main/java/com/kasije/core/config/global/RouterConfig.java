@@ -1,11 +1,10 @@
 package com.kasije.core.config.global;
 
-import org.bridje.cfg.Configuration;
-import org.bridje.cfg.adapter.XmlConfigAdapter;
-
-import javax.xml.bind.annotation.*;
 import java.util.LinkedList;
 import java.util.List;
+import javax.xml.bind.annotation.*;
+import org.bridje.cfg.Configuration;
+import org.bridje.cfg.adapter.XmlConfigAdapter;
 
 @Configuration(XmlConfigAdapter.class)
 @XmlAccessorType(XmlAccessType.FIELD)

@@ -16,7 +16,7 @@
 
 package com.kasije.core;
 
-import com.kasije.core.config.Alias;
+import com.kasije.core.config.sites.Alias;
 import java.io.File;
 
 /**

@@ -4,16 +4,15 @@ import com.kasije.core.WebSite;
 import com.kasije.core.WebSiteRouter;
 import com.kasije.core.config.global.Router;
 import com.kasije.core.config.global.RouterConfig;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.apache.commons.lang.StringUtils;
 import org.bridje.cfg.ConfigRepositoryContext;
 import org.bridje.cfg.ConfigService;
 import org.bridje.ioc.Component;
 import org.bridje.ioc.Ioc;
 import org.bridje.ioc.Priority;
-
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 @Component
 @Priority(value = Integer.MAX_VALUE)

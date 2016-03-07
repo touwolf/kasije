@@ -1,5 +1,6 @@
 package com.kasije.core.config;
 
+import com.kasije.core.config.sites.Alias;
 import java.util.LinkedList;
 import java.util.List;
 import javax.xml.bind.annotation.*;

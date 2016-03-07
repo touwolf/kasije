@@ -20,6 +20,7 @@ import com.google.javascript.jscomp.CompilationLevel;
 import com.google.javascript.jscomp.CompilerOptions;
 import com.google.javascript.jscomp.SourceFile;
 import com.kasije.core.ResourcesManager;
+import com.kasije.core.config.ServerConfig;
 import com.yahoo.platform.yui.compressor.CssCompressor;
 import io.bit3.jsass.CompilationException;
 import io.bit3.jsass.Compiler;
@@ -30,10 +31,14 @@ import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.io.IOUtils;
+import org.bridje.cfg.ConfigRepositoryContext;
+import org.bridje.cfg.ConfigService;
 import org.bridje.ioc.Component;
+import org.bridje.ioc.Ioc;
 import org.mozilla.javascript.EvaluatorException;
 
 /**
@@ -51,6 +56,22 @@ public class ResourcesManagerImpl implements ResourcesManager
     private static final String JS_SUFFIX = ".js";
 
     private static final String MIN_SUFFIX = ".min";
+
+    private ServerConfig serverConfig;
+
+    public ResourcesManagerImpl()
+    {
+        ConfigService configService = Ioc.context().find(ConfigService.class);
+        ConfigRepositoryContext configContext = configService.createRepoContext("global");
+
+        try
+        {
+            serverConfig = configContext.findConfig(ServerConfig.class);
+        }
+        catch (IOException e)
+        {
+        }
+    }
 
     @Override
     public String getMime(String resourceName)
@@ -135,6 +156,11 @@ public class ResourcesManagerImpl implements ResourcesManager
 
     private boolean allowMinify(String sourceName)
     {
+        if (serverConfig != null && Objects.equals(Boolean.TRUE, serverConfig.getDevelopment()))
+        {
+            return false;
+        }
+
         return sourceName.endsWith(CSS_SUFFIX) || sourceName.endsWith(JS_SUFFIX);
     }
 

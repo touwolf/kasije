@@ -12,4 +12,5 @@
         </connector>
     </connectors>
     <sessionExp></sessionExp>
+    <development>true</development>
 </serverConfig>

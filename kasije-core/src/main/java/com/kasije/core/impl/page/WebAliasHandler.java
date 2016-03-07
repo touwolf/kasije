@@ -1,7 +1,7 @@
 package com.kasije.core.impl.page;
 
 import com.kasije.core.*;
-import com.kasije.core.config.Alias;
+import com.kasije.core.config.sites.Alias;
 import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import org.bridje.ioc.Component;
