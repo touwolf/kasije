@@ -8,17 +8,26 @@ import java.io.*;
 @Component
 public class SitesRepository implements ConfigRepository
 {
+    private String filePath;
+
     @Override
     public Boolean handleContext(String context)
     {
-        return "global".equals(context);
+        File configFile = new File(context);
+        if(configFile.exists())
+        {
+            filePath = context;
+            return true;
+        }
+
+        return false;
     }
 
     @Override
     public Reader findConfig(String configName) throws IOException
     {
 
-        File configFile = new File("sites/etc/" + configName);
+        File configFile = new File(filePath + configName);
         if(configFile.exists())
         {
             InputStream inputStream = new FileInputStream(configFile);

@@ -10,7 +10,7 @@ import java.util.List;
 
 @Configuration(XmlConfigAdapter.class)
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlRootElement(name = "configAlias")
+@XmlRootElement(name = "aliasConfig")
 public class AliasConfig
 {
     @XmlElements(

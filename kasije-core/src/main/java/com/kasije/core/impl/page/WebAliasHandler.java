@@ -1,25 +1,30 @@
 package com.kasije.core.impl.page;
 
 import com.kasije.core.*;
+import com.kasije.core.config.global.RouterConfig;
 import com.kasije.core.config.sites.Alias;
 import com.kasije.core.config.sites.AliasConfig;
-import org.bridje.ioc.Component;
-import org.bridje.ioc.Inject;
-import org.bridje.ioc.InjectNext;
-import org.bridje.ioc.Priority;
+import org.bridje.cfg.ConfigRepositoryContext;
+import org.bridje.cfg.ConfigService;
+import org.bridje.ioc.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Component
 @Priority(Integer.MIN_VALUE + 190)
 public class WebAliasHandler implements RequestHandler
 {
+    private static final Logger LOG = Logger.getLogger(WebAliasHandler.class.getName());
+
     @InjectNext
     private RequestHandler handler;
 
-    @Inject
-    private KasijeConfigRepo configRepo;
+    private Map<String, AliasConfig> configs = new HashMap<>();
 
     @Override
     public boolean handle(RequestContext reqCtx) throws IOException
@@ -30,7 +35,7 @@ public class WebAliasHandler implements RequestHandler
             return handler.handle(reqCtx);
         }
 
-        AliasConfig aliasConfig = configRepo.findConfig(webSite.getFile().getAbsolutePath(), AliasConfig.class);
+        AliasConfig aliasConfig = getConfig(webSite.getFile().getAbsolutePath() + "/etc/");
         if(null == aliasConfig)
         {
             return handler.handle(reqCtx);
@@ -52,5 +57,27 @@ public class WebAliasHandler implements RequestHandler
             }
         }
         return handler.handle(reqCtx);
+    }
+
+    private AliasConfig getConfig(String key)
+    {
+        AliasConfig aliasConfig = configs.get(key);
+        try
+        {
+            if (null == aliasConfig)
+            {
+                ConfigService configService = Ioc.context().find(ConfigService.class);
+                ConfigRepositoryContext configContext = configService.createRepoContext(key);
+
+                aliasConfig = configContext.findConfig(AliasConfig.class);
+                configs.put(key, aliasConfig);
+            }
+        }
+        catch (IOException ex)
+        {
+            LOG.log(Level.SEVERE, ex.getMessage(), ex);
+        }
+
+        return aliasConfig;
     }
 }
