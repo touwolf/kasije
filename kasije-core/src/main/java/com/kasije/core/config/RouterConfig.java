@@ -11,7 +11,7 @@ public class RouterConfig
     @XmlElementWrapper(name = "routers")
     @XmlElements(
     {
-            @XmlElement(name = "router", type = Router.class)
+        @XmlElement(name = "router", type = Router.class)
     })
     private List<Router> routers;
 

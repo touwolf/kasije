@@ -1,18 +1,21 @@
 package com.kasije.core.config;
 
-import javax.xml.bind.annotation.*;
 import java.util.LinkedList;
 import java.util.List;
+import javax.xml.bind.annotation.*;
+import org.apache.commons.lang.StringUtils;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlRootElement(name = "aliasConfig")
-public class AliasConfig
+@XmlRootElement(name = "siteConfig")
+public class SiteConfig
 {
     @XmlElements(
     {
         @XmlElement(name = "alias", type = Alias.class)
     })
     private List<Alias> alias;
+
+    private String theme;
 
     public List<Alias> getAlias()
     {
@@ -27,5 +30,20 @@ public class AliasConfig
     public void setAlias(List<Alias> alias)
     {
         this.alias = alias;
+    }
+
+    public String getTheme()
+    {
+        if (StringUtils.isBlank(theme))
+        {
+            theme = "default";
+        }
+
+        return theme;
+    }
+
+    public void setTheme(String theme)
+    {
+        this.theme = theme;
     }
 }

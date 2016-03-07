@@ -55,19 +55,27 @@ public class ResourcesHandler implements RequestHandler
             String[] resPathArr = pathInfo.split("/");
             String[] realPathArr = Arrays.copyOfRange(resPathArr, 2, resPathArr.length);
             String realPath = String.join("/", realPathArr);
-            HttpServletResponse resp = reqCtx.get(HttpServletResponse.class);
 
-            WebSite site = reqCtx.get(WebSite.class);
-            if(site != null)
+            String resourcesRelativePath = "resources/";//TODO: config
+
+            File resFile = new File(reqCtx.get(WebSiteTheme.class).getFile(), resourcesRelativePath + realPath);
+            if (!resFile.exists() || !resFile.isFile())
             {
-                File resFile = new File(reqCtx.get(WebSiteTheme.class).getFile().getAbsolutePath() + "/resources/" + realPath);
-                if (resFile.exists() && resFile.isFile())
+                WebSite site = reqCtx.get(WebSite.class);
+                if(site != null)
                 {
-                    resMgr.processResource(resFile, resp.getOutputStream());
-                    resp.setContentType(resMgr.getMime(realPath));
-
-                    return true;
+                    resourcesRelativePath = "resources/";//TODO: config
+                    resFile = new File(site.getFile().getAbsolutePath(), resourcesRelativePath + realPath);
                 }
+            }
+
+            if (resFile.exists() && resFile.isFile())
+            {
+                HttpServletResponse resp = reqCtx.get(HttpServletResponse.class);
+                resMgr.processResource(resFile, resp.getOutputStream());
+                resp.setContentType(resMgr.getMime(realPath));
+
+                return true;
             }
 
             return false;

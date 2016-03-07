@@ -10,7 +10,7 @@ public class ServerConfig
     @XmlElementWrapper(name = "connectorConfigs")
     @XmlElements(
     {
-            @XmlElement(name = "connectorConfig", type = ConnectorConfig.class)
+        @XmlElement(name = "connectorConfig", type = ConnectorConfig.class)
     })
     private List<ConnectorConfig> connectorConfigs;
 
