@@ -1,9 +1,13 @@
-package com.kasije.core.config;
+package com.kasije.core.config.global;
+
+import org.bridje.cfg.Configuration;
+import org.bridje.cfg.adapter.XmlConfigAdapter;
 
 import javax.xml.bind.annotation.*;
 import java.util.LinkedList;
 import java.util.List;
 
+@Configuration(XmlConfigAdapter.class)
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "routerConfig")
 public class RouterConfig

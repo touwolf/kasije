@@ -1,17 +1,26 @@
-package com.kasije.core.config;
+package com.kasije.core.config.global;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Alias
+public class Router
 {
+    @XmlAttribute
+    private String uri;
+
     @XmlAttribute
     private String path;
 
-    @XmlAttribute(name = "realpath")
-    private String realPath;
+    public String getUri()
+    {
+        return uri;
+    }
+
+    public void setUri(String uri) {
+        this.uri = uri;
+    }
 
     public String getPath() {
         return path;
@@ -19,13 +28,5 @@ public class Alias
 
     public void setPath(String path) {
         this.path = path;
-    }
-
-    public String getRealPath() {
-        return realPath;
-    }
-
-    public void setRealPath(String realPath) {
-        this.realPath = realPath;
     }
 }
