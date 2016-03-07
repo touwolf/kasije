@@ -24,6 +24,7 @@ import com.kasije.core.config.sites.Alias;
 import com.kasije.core.impl.files.WebFileImpl;
 import com.kasije.core.impl.page.WebPageImpl;
 import java.io.File;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.bridje.cfg.ConfigRepositoryContext;
 import org.bridje.cfg.ConfigService;
@@ -40,7 +41,7 @@ class WebSiteImpl implements WebSite
 
     private final File siteFolder;
 
-    private final SiteConfig config;
+    private SiteConfig config;
 
     public WebSiteImpl(String absolutePath)
     {
@@ -51,20 +52,18 @@ class WebSiteImpl implements WebSite
         }
 
         name = siteFolder.getName();
-
-        ConfigService configService = Ioc.context().find(ConfigService.class);
-        ConfigRepositoryContext configContext = configService.createRepoContext(absolutePath + "/etc/");
-
-        SiteConfig siteConfig = null;
+        config = new SiteConfig();
         try
         {
-            siteConfig = configContext.findConfig(SiteConfig.class);
+            // TODO: this configuration has to be handler for the WebSiteRoute to introduce cache
+            ConfigService configService = Ioc.context().find(ConfigService.class);
+            ConfigRepositoryContext configContext = configService.createRepoContext(absolutePath + "/etc/");
+            config = configContext.findConfig(SiteConfig.class);
         }
         catch (Exception ex)
         {
+            LOG.log(Level.SEVERE, ex.getMessage(), ex);
         }
-
-        config = siteConfig != null ? siteConfig : new SiteConfig();
     }
 
     @Override
