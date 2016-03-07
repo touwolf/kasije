@@ -1,6 +1,6 @@
-package com.kasije.core.config;
+package com.kasije.core.config.global;
 
-public class ConnectorConfig
+public class Connector
 {
     private String protocol;
 

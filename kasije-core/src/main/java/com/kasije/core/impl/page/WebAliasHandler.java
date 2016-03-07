@@ -1,8 +1,8 @@
 package com.kasije.core.impl.page;
 
 import com.kasije.core.*;
-import com.kasije.core.config.Alias;
-import com.kasije.core.config.AliasConfig;
+import com.kasije.core.config.sites.Alias;
+import com.kasije.core.config.sites.AliasConfig;
 import org.bridje.ioc.Component;
 import org.bridje.ioc.Inject;
 import org.bridje.ioc.InjectNext;
