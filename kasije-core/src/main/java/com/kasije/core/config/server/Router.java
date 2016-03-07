@@ -1,4 +1,4 @@
-package com.kasije.core.config.global;
+package com.kasije.core.config.server;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

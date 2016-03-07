@@ -16,8 +16,8 @@
 
 package com.kasije.main;
 
-import com.kasije.core.config.global.Connector;
-import com.kasije.core.config.global.ServerConfig;
+import com.kasije.core.config.server.Connector;
+import com.kasije.core.config.ServerConfig;
 import org.apache.commons.lang.StringUtils;
 import org.bridje.cfg.ConfigRepositoryContext;
 import org.bridje.cfg.ConfigService;
@@ -46,7 +46,7 @@ public class Main
         server.setHandler(servletHandler);
 
         ConfigService configService = Ioc.context().find(ConfigService.class);
-        ConfigRepositoryContext configContext = configService.createRepoContext("global");
+        ConfigRepositoryContext configContext = configService.createRepoContext("server");
 
         ServerConfig config = configContext.findConfig(ServerConfig.class);
         if(null == config || null == config.getConnectors() || config.getConnectors().isEmpty())

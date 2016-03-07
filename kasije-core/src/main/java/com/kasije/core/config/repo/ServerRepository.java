@@ -1,4 +1,4 @@
-package com.kasije.core.config.global;
+package com.kasije.core.config.repo;
 
 import org.bridje.cfg.ConfigRepository;
 import org.bridje.ioc.Component;
@@ -7,12 +7,12 @@ import java.io.*;
 import java.net.URL;
 
 @Component
-public class GlobalRepository implements ConfigRepository
+public class ServerRepository implements ConfigRepository
 {
     @Override
     public Boolean handleContext(String context)
     {
-        return "global".equals(context);
+        return "server".equals(context);
     }
 
     @Override

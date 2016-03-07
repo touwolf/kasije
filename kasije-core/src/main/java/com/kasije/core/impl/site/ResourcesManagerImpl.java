@@ -62,7 +62,7 @@ public class ResourcesManagerImpl implements ResourcesManager
     public ResourcesManagerImpl()
     {
         ConfigService configService = Ioc.context().find(ConfigService.class);
-        ConfigRepositoryContext configContext = configService.createRepoContext("global");
+        ConfigRepositoryContext configContext = configService.createRepoContext("server");
 
         try
         {

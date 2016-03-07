@@ -1,8 +1,10 @@
-package com.kasije.core.config.global;
+package com.kasije.core.config;
 
 import java.util.LinkedList;
 import java.util.List;
 import javax.xml.bind.annotation.*;
+
+import com.kasije.core.config.server.Router;
 import org.bridje.cfg.Configuration;
 import org.bridje.cfg.adapter.XmlConfigAdapter;
 

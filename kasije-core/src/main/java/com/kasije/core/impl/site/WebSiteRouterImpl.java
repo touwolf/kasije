@@ -2,8 +2,8 @@ package com.kasije.core.impl.site;
 
 import com.kasije.core.WebSite;
 import com.kasije.core.WebSiteRouter;
-import com.kasije.core.config.global.Router;
-import com.kasije.core.config.global.RouterConfig;
+import com.kasije.core.config.server.Router;
+import com.kasije.core.config.RouterConfig;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -49,7 +49,7 @@ public class WebSiteRouterImpl implements WebSiteRouter
             if (null == config)
             {
                 ConfigService configService = Ioc.context().find(ConfigService.class);
-                ConfigRepositoryContext configContext = configService.createRepoContext("global");
+                ConfigRepositoryContext configContext = configService.createRepoContext("server");
 
                 config = configContext.findConfig(RouterConfig.class);
             }

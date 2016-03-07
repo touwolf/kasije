@@ -1,4 +1,4 @@
-package com.kasije.core.config.sites;
+package com.kasije.core.config.repo;
 
 import org.bridje.cfg.ConfigRepository;
 import org.bridje.ioc.Component;
