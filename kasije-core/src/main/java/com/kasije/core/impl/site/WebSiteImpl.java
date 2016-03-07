@@ -16,7 +16,6 @@
 
 package com.kasije.core.impl.site;
 
-import com.kasije.core.KasijeConfigRepo;
 import com.kasije.core.WebFile;
 import com.kasije.core.WebPage;
 import com.kasije.core.WebSite;
@@ -26,6 +25,8 @@ import com.kasije.core.impl.files.WebFileImpl;
 import com.kasije.core.impl.page.WebPageImpl;
 import java.io.File;
 import java.util.logging.Logger;
+import org.bridje.cfg.ConfigRepositoryContext;
+import org.bridje.cfg.ConfigService;
 import org.bridje.ioc.Ioc;
 
 /**
@@ -48,15 +49,22 @@ class WebSiteImpl implements WebSite
         {
             throw new IllegalArgumentException("Web Site " + siteFolder.getName() + " does not exists.");
         }
-        this.name = siteFolder.getName();
 
-        KasijeConfigRepo configRepo = Ioc.context().find(KasijeConfigRepo.class);
-        SiteConfig siteConfig = configRepo.findConfig(absolutePath, SiteConfig.class);
-        if (siteConfig == null)
+        name = siteFolder.getName();
+
+        ConfigService configService = Ioc.context().find(ConfigService.class);
+        ConfigRepositoryContext configContext = configService.createRepoContext(absolutePath + "/etc/");
+
+        SiteConfig siteConfig = null;
+        try
         {
-            siteConfig = new SiteConfig();
+            siteConfig = configContext.findConfig(SiteConfig.class);
         }
-        config = siteConfig;
+        catch (Exception ex)
+        {
+        }
+
+        config = siteConfig != null ? siteConfig : new SiteConfig();
     }
 
     @Override

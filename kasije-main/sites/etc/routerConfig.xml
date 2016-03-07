@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <routerConfig>
     <routers>
-        <!--router uri="0.0.0.0" path="/var/www/"></router-->
+        <router uri="0.0.0.0" path="/var/www/"></router>
     </routers>
 </routerConfig>

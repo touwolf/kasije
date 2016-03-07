@@ -1,11 +1,13 @@
 package com.kasije.core.impl.page;
 
-import com.kasije.core.*;
+import com.kasije.core.RequestContext;
+import com.kasije.core.RequestHandler;
+import com.kasije.core.WebPageRef;
+import com.kasije.core.WebSite;
 import com.kasije.core.config.sites.Alias;
 import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import org.bridje.ioc.Component;
-import org.bridje.ioc.Inject;
 import org.bridje.ioc.InjectNext;
 import org.bridje.ioc.Priority;
 
@@ -15,9 +17,6 @@ public class WebAliasHandler implements RequestHandler
 {
     @InjectNext
     private RequestHandler handler;
-
-    @Inject
-    private KasijeConfigRepo configRepo;
 
     @Override
     public boolean handle(RequestContext reqCtx) throws IOException
