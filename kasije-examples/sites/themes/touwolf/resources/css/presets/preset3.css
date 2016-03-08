@@ -5,17 +5,20 @@ a,
 #single-portfolio .close-folio-item:hover, 
 .single-table.featured .btn.btn-primary, 
 .contact-info ul li a:hover, 
-#footer .footer-bottom a  {
-  color: #7FBA00;
+#footer .footer-bottom a  
+{
+    color: #7FBA00;
 }
 
 .btn.btn-primary:hover,
-.btn-submit:hover {
-  background-color: #6ea100
+.btn-submit:hover 
+{
+    background-color: #6ea100
 }
 
-a:hover, a:focus {
-	color: #6ea100;
+a:hover, a:focus 
+{
+    color: #6ea100;
 }
 
 .main-nav, 
@@ -33,22 +36,26 @@ a:hover, a:focus {
 .caption .btn-start:hover, 
 .left-control:hover, 
 .right-control:hover, 
-.folio-overview a:hover {
-  background-color:#7FBA00;
+.folio-overview a:hover 
+{
+    background-color:#7FBA00;
 }
 
 .twitter-left-control:hover, 
 .twitter-right-control:hover, 
-.btn-loadmore:hover  {
-	border: 1px solid #7FBA00;
+.btn-loadmore:hover  
+{
+    border: 1px solid #7FBA00;
 }
 
 .caption .btn-start:hover, 
 .left-control:hover, 
-.right-control:hover {
-	border-color: #7FBA00;
+.right-control:hover 
+{
+    border-color: #7FBA00;
 }
 
-.twitter-icon .fa-twitter:after {
-	border-color: #7FBA00 transparent transparent;
+.twitter-icon .fa-twitter:after 
+{
+    border-color: #7FBA00 transparent transparent;
 }

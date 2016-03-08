@@ -15,7 +15,8 @@
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/css/lightbox.min.css" rel="stylesheet">
     <link href="/resources/css/main.css" rel="stylesheet">
-    <link href="/resources/css/presets/preset1.css" rel="stylesheet" id="css-preset">
+
+    <link href="/resources/css/presets/preset${random(1, 4)}.css" rel="stylesheet" id="css-preset">
     <link href="/resources/css/responsive.css" rel="stylesheet">
 
     <#if page.resources??>
@@ -37,15 +38,28 @@
         <i class="fa fa-circle-o-notch fa-spin"></i>
     </div>
 
+    <#assign teamDisabled = (page.teamDisabled?? && page.teamDisabled?boolean) />
+    <#assign blogDisabled = (page.blogDisabled?? && page.blogDisabled?boolean) />
+    <#assign pricingDisabled = (page.pricingDisabled?? && page.pricingDisabled?boolean) />
+    <#assign twitterDisabled = (page.twitterDisabled?? && page.twitterDisabled?boolean) />
+
     <@header />
     <@services />
     <@about />
     <@portfolio />
+    <#if !teamDisabled>
     <@team />
+    </#if>
     <@features />
+    <#if !pricingDisabled>
     <@pricing />
+    </#if>
+    <#if !twitterDisabled>
     <@twitter />
+    </#if>
+    <#if !blogDisabled>
     <@blog />
+    </#if>
     <@contact />
     <@footer />
 
@@ -66,29 +80,15 @@
     <header id="home">
         <div id="home-slider" class="carousel slide carousel-fade" data-ride="carousel">
             <div class="carousel-inner">
-                <div class="item active" style="background-image: url(/resources/images/slider/1.jpg)">
+                <#list page.carousel.slide as slide>
+                <div class="item<#if slide?is_first> active</#if>" style="background-image: url(${slide.image})">
                     <div class="caption">
-                        <h1 class="animated fadeInLeftBig">Welcome to <span>Oxygen</span></h1>
-                        <p class="animated fadeInRightBig">Bootstrap - Responsive Design - Retina Ready - Parallax</p>
+                        <h1 class="animated fadeInLeftBig">${slide.title}</h1>
+                        <p class="animated fadeInRightBig">${slide.description}</p>
                         <a data-scroll class="btn btn-start animated fadeInUpBig" href="#services">Start now</a>
                     </div>
                 </div>
-
-                <div class="item" style="background-image: url(/resources/images/slider/2.jpg)">
-                    <div class="caption">
-                        <h1 class="animated fadeInLeftBig">Say Hello to <span>Oxygen</span></h1>
-                        <p class="animated fadeInRightBig">Bootstrap - Responsive Design - Retina Ready - Parallax</p>
-                        <a data-scroll class="btn btn-start animated fadeInUpBig" href="#services">Start now</a>
-                    </div>
-                </div>
-
-                <div class="item" style="background-image: url(/resources/images/slider/3.jpg)">
-                    <div class="caption">
-                        <h1 class="animated fadeInLeftBig">We are <span>Creative</span></h1>
-                        <p class="animated fadeInRightBig">Bootstrap - Responsive Design - Retina Ready - Parallax</p>
-                        <a data-scroll class="btn btn-start animated fadeInUpBig" href="#services">Start now</a>
-                    </div>
-                </div>
+                </#list>
             </div>
 
             <a class="left-control" href="#home-slider" data-slide="prev"><i class="fa fa-angle-left"></i></a>
@@ -117,8 +117,12 @@
                         <li class="scroll"><a href="#services">Service</a></li>
                         <li class="scroll"><a href="#about-us">About Us</a></li>
                         <li class="scroll"><a href="#portfolio">Portfolio</a></li>
+                        <#if !teamDisabled>
                         <li class="scroll"><a href="#team">Team</a></li>
+                        </#if>
+                        <#if !blogDisabled>
                         <li class="scroll"><a href="#blog">Blog</a></li>
+                        </#if>
                         <li class="scroll"><a href="#contact">Contact</a></li>
                     </ul>
                 </div>
@@ -133,67 +137,30 @@
             <div class="heading wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="300ms">
                 <div class="row">
                     <div class="text-center col-sm-8 col-sm-offset-2">
-                        <h2>Our Services</h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam</p>
+                        <h2>${page.services.title}</h2>
+                        <p>${page.services.description}</p>
                     </div>
                 </div>
             </div>
+
             <div class="text-center our-services">
                 <div class="row">
-                    <div class="col-sm-4 wow fadeInDown" data-wow-duration="1000ms" data-wow-delay="300ms">
-                        <div class="service-icon">
-                            <i class="fa fa-flask"></i>
-                        </div>
-                        <div class="service-info">
-                            <h3>Brand Identity</h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore</p>
-                        </div>
-                    </div>
-                    <div class="col-sm-4 wow fadeInDown" data-wow-duration="1000ms" data-wow-delay="450ms">
-                        <div class="service-icon">
-                            <i class="fa fa-umbrella"></i>
-                        </div>
-                        <div class="service-info">
-                            <h3>Creative Idea</h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore</p>
-                        </div>
-                    </div>
-                    <div class="col-sm-4 wow fadeInDown" data-wow-duration="1000ms" data-wow-delay="550ms">
-                        <div class="service-icon">
-                            <i class="fa fa-cloud"></i>
-                        </div>
-                        <div class="service-info">
-                            <h3>Awesome Support</h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore</p>
-                        </div>
-                    </div>
-                    <div class="col-sm-4 wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="650ms">
-                        <div class="service-icon">
-                            <i class="fa fa-coffee"></i>
-                        </div>
-                        <div class="service-info">
-                            <h3>Professional Design</h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore</p>
-                        </div>
-                    </div>
-                    <div class="col-sm-4 wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="750ms">
-                        <div class="service-icon">
-                            <i class="fa fa-bitbucket"></i>
-                        </div>
-                        <div class="service-info">
-                            <h3>App Development</h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore</p>
-                        </div>
-                    </div>
-                    <div class="col-sm-4 wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="850ms">
-                        <div class="service-icon">
-                            <i class="fa fa-gift"></i>
-                        </div>
-                        <div class="service-info">
-                            <h3>Clean Code</h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore</p>
-                        </div>
-                    </div>
+                    <#assign delayBase = 300 />
+                    <#assign delayStep = 100 />
+                    <#list page.services.item?chunk(3) as items>
+                        <#list items as item>
+                            <div class="col-sm-4 wow fadeInDown" data-wow-duration="1000ms"
+                                 data-wow-delay="${delayBase + (item?index * delayStep)}ms">
+                                <div class="service-icon">
+                                    <i class="fa fa-${item.faIcon}"></i>
+                                </div>
+                                <div class="service-info">
+                                    <h3>${item.title}</h3>
+                                    <p>${item.description}</p>
+                                </div>
+                            </div>
+                        </#list>
+                    </#list>
                 </div>
             </div>
         </div>
@@ -206,37 +173,27 @@
             <div class="row">
                 <div class="col-sm-6">
                     <div class="about-info wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="300ms">
-                        <h2>About us</h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.Ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
-                        <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                        <h2>${page.about.title}</h2>
+                        <#list page.about.description as description>
+                        <p>${description}</p>
+                        </#list>
                     </div>
                 </div>
+
                 <div class="col-sm-6">
+                    <#assign delayBase = 300 />
+                    <#assign delayStep = 100 />
                     <div class="our-skills wow fadeInDown" data-wow-duration="1000ms" data-wow-delay="300ms">
-                        <div class="single-skill wow fadeInDown" data-wow-duration="1000ms" data-wow-delay="300ms">
-                            <p class="lead">User Experiances</p>
+                        <#list page.about.skill as skill>
+                        <div class="single-skill wow fadeInDown" data-wow-duration="1000ms"
+                             data-wow-delay="${delayBase + (skill?index * delayStep)}ms">
+                            <p class="lead">${skill}</p>
                             <div class="progress">
-                                <div class="progress-bar progress-bar-primary six-sec-ease-in-out" role="progressbar"  aria-valuetransitiongoal="95">95%</div>
+                                <div class="progress-bar progress-bar-primary six-sec-ease-in-out" role="progressbar"
+                                     aria-valuetransitiongoal="${skill.@value}">${skill.@value}%</div>
                             </div>
                         </div>
-                        <div class="single-skill wow fadeInDown" data-wow-duration="1000ms" data-wow-delay="400ms">
-                            <p class="lead">Web Design</p>
-                            <div class="progress">
-                                <div class="progress-bar progress-bar-primary six-sec-ease-in-out" role="progressbar"  aria-valuetransitiongoal="75">75%</div>
-                            </div>
-                        </div>
-                        <div class="single-skill wow fadeInDown" data-wow-duration="1000ms" data-wow-delay="500ms">
-                            <p class="lead">Programming</p>
-                            <div class="progress">
-                                <div class="progress-bar progress-bar-primary six-sec-ease-in-out" role="progressbar"  aria-valuetransitiongoal="60">60%</div>
-                            </div>
-                        </div>
-                        <div class="single-skill wow fadeInDown" data-wow-duration="1000ms" data-wow-delay="600ms">
-                            <p class="lead">Fun</p>
-                            <div class="progress">
-                                <div class="progress-bar progress-bar-primary six-sec-ease-in-out" role="progressbar"  aria-valuetransitiongoal="85">85%</div>
-                            </div>
-                        </div>
+                        </#list>
                     </div>
                 </div>
             </div>
@@ -832,31 +789,33 @@
         <div class="footer-top wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="300ms">
             <div class="container text-center">
                 <div class="footer-logo">
-                    <a href="index.html"><img class="img-responsive" src="/resources/images/logo.png" alt=""></a>
+                    <a href="#"><img class="img-responsive" src="/resources/images/logo.png" alt=""></a>
                 </div>
+
                 <div class="social-icons">
                     <ul>
-                        <li><a class="envelope" href="#"><i class="fa fa-envelope"></i></a></li>
-                        <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
-                        <li><a class="dribbble" href="#"><i class="fa fa-dribbble"></i></a></li>
-                        <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
-                        <li><a class="linkedin" href="#"><i class="fa fa-linkedin"></i></a></li>
-                        <li><a class="tumblr" href="#"><i class="fa fa-tumblr-square"></i></a></li>
+                        <#list page.social?children as social>
+                        <#if social?node_type != "text">
+                        <li><a class="${social?node_name}" href="${social}" target="_blank">
+                            <i class="fa fa-${social?node_name}"></i>
+                        </a></li>
+                        </#if>
+                        </#list>
                     </ul>
-                </div>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <p>&copy; 2014 Oxygen Theme.</p>
-                    </div>
-                    <div class="col-sm-6">
-                        <p class="pull-right">Designed by <a href="http://www.themeum.com/">Themeum</a></p>
-                    </div>
                 </div>
             </div>
         </div>
     </footer>
 </#macro>
+
+<#function random lo hi>
+    <#local n = (.now?string["m"])[0]?number />
+    <#if n &lt; lo>
+        <#local n = lo />
+    </#if>
+    <#if n &gt; hi>
+        <#local n = hi />
+    </#if>
+
+    <#return n />
+</#function>
