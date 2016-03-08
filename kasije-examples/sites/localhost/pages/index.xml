@@ -5,4 +5,8 @@
         <author>Touwolf Technologies</author>
         <description>IT company that develops projects with the quality and accuracy you deserve</description>
     </meta>
+    <resources>
+        <favicon>/resources/images/favicon.ico</favicon>
+        <css>/resources/css/styles.css</css>
+    </resources>
 </page>
