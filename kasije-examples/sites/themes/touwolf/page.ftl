@@ -3,25 +3,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="author" content="${page.meta.author}">
-    <meta name="description" content="${page.meta.description}">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="author" content="${page.meta.author}" />
+    <meta name="description" content="${page.meta.description}" />
 
     <title>${page.@title}</title>
 
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.1/animate.min.css" rel="stylesheet" />
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/css/lightbox.min.css" rel="stylesheet">
-    <link href="/resources/css/main.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/css/lightbox.min.css" rel="stylesheet" />
+    <link href="/resources/css/main.css" rel="stylesheet" />
 
-    <link href="/resources/css/presets/preset${random(1, 4)}.css" rel="stylesheet" id="css-preset">
-    <link href="/resources/css/responsive.css" rel="stylesheet">
+    <link href="/resources/css/presets/preset${random(1, 4)}.css" rel="stylesheet" />
+    <link href="/resources/css/responsive.css" rel="stylesheet" />
 
     <#if page.resources??>
     <#list page.resources.css![] as css>
-    <link href="${css}" rel="stylesheet">
+    <link href="${css}" rel="stylesheet" />
     </#list>
     </#if>
 
@@ -30,8 +30,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700' rel='stylesheet' type='text/css'>
-    <link rel="shortcut icon" href="${page.resources.favicon!}">
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" type="text/css" />
+    <link rel="shortcut icon" href="${page.resources.favicon!}" />
 </head>
 <body>
     <div class="preloader">
@@ -65,7 +65,7 @@
 
     <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <script src="https://maps.google.com/maps/api/js"></script>
+    <script src="https://maps.google.com/maps/api/js?key=${page.contact.geolocation.@apiKey}"></script>
     <script src="https://cdn.jsdelivr.net/jquery.inview/0.2/jquery.inview.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
     <script src="/resources/js/mousescroll.js"></script>
@@ -73,6 +73,11 @@
     <script src="/resources/js/jquery.countTo.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/js/lightbox.min.js"></script>
     <script src="/resources/js/main.js"></script>
+    <#if page.resources??>
+    <#list page.resources.js![] as js>
+    <script src="${js}"></script>
+    </#list>
+    </#if>
 </body>
 </html>
 
@@ -540,15 +545,23 @@
 
 <#macro contact>
     <section id="contact">
-        <div id="google-map" class="wow fadeIn" data-latitude="52.365629" data-longitude="4.871331" data-wow-duration="1000ms" data-wow-delay="400ms"></div>
+        <div id="google-map" class="wow fadeIn"
+             data-zoom="${page.contact.geolocation.@zoom}"
+             data-latitude="${page.contact.geolocation.@latitude}"
+             data-longitude="${page.contact.geolocation.@longitude}"
+             data-wow-duration="1000ms" data-wow-delay="400ms">
+        </div>
+
         <div id="contact-us" class="parallax">
             <div class="container">
                 <div class="row">
-                    <div class="heading text-center col-sm-8 col-sm-offset-2 wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="300ms">
-                        <h2>Contact Us</h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam</p>
+                    <div class="heading text-center col-sm-8 col-sm-offset-2 wow fadeInUp"
+                         data-wow-duration="1000ms" data-wow-delay="300ms">
+                        <h2>${page.contact.title}</h2>
+                        <p>${page.contact.description}</p>
                     </div>
                 </div>
+
                 <div class="contact-form wow fadeIn" data-wow-duration="1000ms" data-wow-delay="600ms">
                     <div class="row">
                         <div class="col-sm-6">
@@ -556,34 +569,50 @@
                                 <div class="row  wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="300ms">
                                     <div class="col-sm-6">
                                         <div class="form-group">
-                                            <input type="text" name="name" class="form-control" placeholder="Name" required="required">
+                                            <input type="text" name="name" class="form-control"
+                                                   placeholder="Name" required="required">
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="form-group">
-                                            <input type="email" name="email" class="form-control" placeholder="Email Address" required="required">
+                                            <input type="email" name="email" class="form-control"
+                                                   placeholder="Email Address" required="required">
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="form-group">
-                                    <input type="text" name="subject" class="form-control" placeholder="Subject" required="required">
+                                    <input type="text" name="subject" class="form-control"
+                                           placeholder="Subject" required="required">
                                 </div>
+
                                 <div class="form-group">
-                                    <textarea name="message" id="message" class="form-control" rows="4" placeholder="Enter your message" required="required"></textarea>
+                                    <textarea name="message" id="message" class="form-control" rows="4"
+                                              placeholder="Enter your message" required="required"></textarea>
                                 </div>
                                 <div class="form-group">
                                     <button type="submit" class="btn-submit">Send Now</button>
                                 </div>
                             </form>
                         </div>
+
                         <div class="col-sm-6">
-                            <div class="contact-info wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="300ms">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
+                            <div class="contact-info wow fadeInUp" data-wow-duration="1000ms"
+                                 data-wow-delay="300ms">
                                 <ul class="address">
-                                    <li><i class="fa fa-map-marker"></i> <span> Address:</span> 2400 South Avenue A </li>
-                                    <li><i class="fa fa-phone"></i> <span> Phone:</span> +928 336 2000  </li>
-                                    <li><i class="fa fa-envelope"></i> <span> Email:</span><a href="mailto:someone@yoursite.com"> support@oxygen.com</a></li>
-                                    <li><i class="fa fa-globe"></i> <span> Website:</span> <a href="#">www.sitename.com</a></li>
+                                    <li>
+                                        <i class="fa fa-map-marker"></i>
+                                        <span> Address:</span> ${page.contact.address}
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-phone"></i>
+                                        <span> Phone:</span> ${page.contact.phone}
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-envelope"></i>
+                                        <span> Email:</span>
+                                        <a href="mailto:${page.contact.email}"> ${page.contact.email}</a>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -612,6 +641,18 @@
                         </#if>
                         </#list>
                     </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <p>&copy; ${.now?string["yyyy"]} ${page.meta.author}</p>
+                    </div>
+
+                    <div class="col-sm-6"></div>
                 </div>
             </div>
         </div>

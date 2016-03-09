@@ -9,6 +9,7 @@
         <logo>/resources/images/logo.png</logo>
         <favicon>/resources/images/favicon.ico</favicon>
         <css>/resources/css/styles.css</css>
+        <js>/resources/js/scripts.js</js>
     </resources>
     <carousel>
         <slide>
@@ -200,6 +201,14 @@
             <title>Fast Support</title>
         </item>
     </features>
+    <contact>
+        <geolocation latitude="-0.160257" longitude="-78.478172" zoom="15" apiKey="AIzaSyC21Pz0EBD7qjt4xqO-8KFok_uXLqjTUkQ" />
+        <title>Contact Us</title>
+        <description>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam</description>
+        <address>Shyris y Rio Coca</address>
+        <phone>(+593) 220-0000</phone>
+        <email>info@touwolf.com</email>
+    </contact>
     <teamDisabled>true</teamDisabled>
     <blogDisabled>true</blogDisabled>
     <pricingDisabled>true</pricingDisabled>

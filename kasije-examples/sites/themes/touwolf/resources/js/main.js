@@ -14,11 +14,10 @@ jQuery(function ($)
     $(window).resize(function ()
     {
         'use strict',
-            $('#home-slider .item').css('height', slideHeight);
+        $('#home-slider .item').css('height', slideHeight);
     });
 
-    //Scroll Menu
-    $(window).on('scroll', function ()
+    var adjustNav = function ()
     {
         if ($(window).scrollTop() > slideHeight)
         {
@@ -28,7 +27,11 @@ jQuery(function ($)
         {
             $('.main-nav').removeClass('navbar-fixed-top');
         }
-    });
+    };
+
+    //Scroll Menu
+    $(window).on('scroll', adjustNav);
+    adjustNav();
 
     // Navigation Scroll
     $(window).scroll(function (event)
@@ -38,7 +41,7 @@ jQuery(function ($)
 
     $('.navbar-collapse ul li a').on('click', function ()
     {
-        $('html, body').animate({scrollTop: $(this.hash).offset().top - 5}, 1000);
+        $('html, body').animate({scrollTop: $(this.hash).offset().top - 5}, 800);
         return false;
     });
 
@@ -54,7 +57,7 @@ jQuery(function ($)
         {
             contentTop.push($($(this).attr('href')).offset().top);
             contentBottom.push($($(this).attr('href')).offset().top + $($(this).attr('href')).height());
-        })
+        });
         $.each(contentTop, function (i)
         {
             if (winTop > contentTop[i] - rangeTop)
@@ -63,7 +66,7 @@ jQuery(function ($)
                     .removeClass('active')
                     .eq(i).addClass('active');
             }
-        })
+        });
     };
 
     $('#tohash').on('click', function ()
@@ -144,52 +147,40 @@ jQuery(function ($)
         $("#portfolio-single").slideUp(500);
     });
 
-    // Contact form
-    var form = $('#main-contact-form');
-    form.submit(function (event)
-    {
-        event.preventDefault();
-        var form_status = $('<div class="form_status"></div>');
-        $.ajax({
-            url: $(this).attr('action'),
-            beforeSend: function ()
-            {
-                form.prepend(form_status.html('<p><i class="fa fa-spinner fa-spin"></i> Email is sending...</p>').fadeIn());
-            }
-        }).done(function (data)
-        {
-            form_status.html('<p class="text-success">Thank you for contact us. As early as possible  we will contact you</p>').delay(3000).fadeOut();
-        });
-    });
-
     //Google Map
-    var latitude = $('#google-map').data('latitude')
-    var longitude = $('#google-map').data('longitude')
+    var $gMap = $('#google-map');
 
-    function initialize_map()
+    var latitude = $gMap.data('latitude');
+    var longitude = $gMap.data('longitude');
+    var zoom = $gMap.data('zoom') || 14;
+
+    function initGoogleMap()
     {
-        var myLatlng = new google.maps.LatLng(latitude, longitude);
+        var geoPosition = new google.maps.LatLng(latitude, longitude);
         var mapOptions = {
-            zoom: 14,
+            zoom: zoom,
             scrollwheel: false,
-            center: myLatlng
+            center: geoPosition
         };
+
         var map = new google.maps.Map(document.getElementById('google-map'), mapOptions);
-        var contentString = '';
-        var infowindow = new google.maps.InfoWindow({
+
+        var infoWindow = new google.maps.InfoWindow({
             content: '<div class="map-content"><ul class="address">' + $('.address').html() + '</ul></div>'
         });
+
         var marker = new google.maps.Marker({
-            position: myLatlng,
+            position: geoPosition,
             map: map
         });
+
         google.maps.event.addListener(marker, 'click', function ()
         {
-            infowindow.open(map, marker);
+            infoWindow.open(map, marker);
         });
     }
 
-    google.maps.event.addDomListener(window, 'load', initialize_map);
+    google.maps.event.addDomListener(window, 'load', initGoogleMap);
 
 });
 
