@@ -6,6 +6,7 @@
         <description>IT company that develops projects with the quality and accuracy you deserve</description>
     </meta>
     <resources>
+        <logo>/resources/images/logo.png</logo>
         <favicon>/resources/images/favicon.ico</favicon>
         <css>/resources/css/styles.css</css>
     </resources>
@@ -69,6 +70,136 @@
         <skill value="60">Programming</skill>
         <skill value="85">Fun</skill>
     </about>
+    <portfolio>
+        <title>Our Portfolio</title>
+        <description>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam</description>
+        <item>
+            <image>/resources/images/portfolio/1.jpg</image>
+            <title>Time Hours</title>
+            <description>Design, Photography</description>
+            <detailImage>/resources/images/portfolio/portfolio-details.jpg</detailImage>
+            <url>http://bridje.org</url>
+        </item>
+        <item>
+            <image>/resources/images/portfolio/2.jpg</image>
+            <title>Time Hours 2</title>
+            <description>Design, Photography 2</description>
+            <detailImage>/resources/images/portfolio/portfolio-details.jpg</detailImage>
+            <url>http://bridje.org</url>
+        </item>
+        <item>
+            <image>/resources/images/portfolio/3.jpg</image>
+            <title>Time Hours 3</title>
+            <description>Design, Photography 3</description>
+            <detailImage>/resources/images/portfolio/portfolio-details.jpg</detailImage>
+            <url>http://bridje.org</url>
+        </item>
+        <item>
+            <image>/resources/images/portfolio/4.jpg</image>
+            <title>Time Hours 4</title>
+            <description>Design, Photography 4</description>
+            <detailImage>/resources/images/portfolio/portfolio-details.jpg</detailImage>
+            <url>http://bridje.org</url>
+        </item>
+        <item>
+            <image>/resources/images/portfolio/5.jpg</image>
+            <title>Time Hours 5</title>
+            <description>Design, Photography 5</description>
+            <detailImage>/resources/images/portfolio/portfolio-details.jpg</detailImage>
+            <url>http://bridje.org</url>
+        </item>
+        <item>
+            <image>/resources/images/portfolio/6.jpg</image>
+            <title>Time Hours 6</title>
+            <description>Design, Photography 6</description>
+            <detailImage>/resources/images/portfolio/portfolio-details.jpg</detailImage>
+            <url>http://bridje.org</url>
+        </item>
+        <item>
+            <image>/resources/images/portfolio/7.jpg</image>
+            <title>Time Hours 7</title>
+            <description>Design, Photography 7</description>
+            <detailImage>/resources/images/portfolio/portfolio-details.jpg</detailImage>
+            <url>http://bridje.org</url>
+        </item>
+        <item>
+            <image>/resources/images/portfolio/8.jpg</image>
+            <title>Time Hours 8</title>
+            <description>Design, Photography 8</description>
+            <detailImage>/resources/images/portfolio/portfolio-details.jpg</detailImage>
+            <url>http://bridje.org</url>
+        </item>
+    </portfolio>
+    <team>
+        <title>The Team</title>
+        <description>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam</description>
+        <item>
+            <image>/resources/images/team/1.jpg</image>
+            <name>Member 1</name>
+            <title>CEO &amp; Founder 1</title>
+            <description>Consectetur adipisicing elit, sed do eiusmod tempor incididunt</description>
+            <social>
+                <facebook>https://facebook.com/marian1</facebook>
+                <twitter>https://twitter.com/marian1</twitter>
+                <github>https://github.com/marian1</github>
+            </social>
+        </item>
+        <item>
+            <image>/resources/images/team/2.jpg</image>
+            <name>Member 2</name>
+            <title>CEO &amp; Founder 2</title>
+            <description>Consectetur adipisicing elit, sed do eiusmod tempor incididunt</description>
+            <social>
+                <facebook>https://facebook.com/marian2</facebook>
+                <twitter>https://twitter.com/marian2</twitter>
+                <github>https://github.com/marian2</github>
+            </social>
+        </item>
+        <item>
+            <image>/resources/images/team/3.jpg</image>
+            <name>Member 1</name>
+            <title>CEO &amp; Founder 3</title>
+            <description>Consectetur adipisicing elit, sed do eiusmod tempor incididunt</description>
+            <social>
+                <facebook>https://facebook.com/marian3</facebook>
+                <twitter>https://twitter.com/marian3</twitter>
+                <github>https://github.com/marian3</github>
+            </social>
+        </item>
+        <item>
+            <image>/resources/images/team/4.jpg</image>
+            <name>Member 4</name>
+            <title>CEO &amp; Founder 4</title>
+            <description>Consectetur adipisicing elit, sed do eiusmod tempor incididunt</description>
+            <social>
+                <facebook>https://facebook.com/marian4</facebook>
+                <twitter>https://twitter.com/marian4</twitter>
+                <github>https://github.com/marian4</github>
+            </social>
+        </item>
+    </team>
+    <features>
+        <item>
+            <faIcon>user</faIcon>
+            <value>4000</value>
+            <title>Happy Clients</title>
+        </item>
+        <item>
+            <faIcon>desktop</faIcon>
+            <value>200</value>
+            <title>Modern Websites</title>
+        </item>
+        <item>
+            <faIcon>trophy</faIcon>
+            <value>10</value>
+            <title>WINNING AWARDS</title>
+        </item>
+        <item>
+            <faIcon>comment-o</faIcon>
+            <value>24/7</value>
+            <title>Fast Support</title>
+        </item>
+    </features>
     <teamDisabled>true</teamDisabled>
     <blogDisabled>true</blogDisabled>
     <pricingDisabled>true</pricingDisabled>
