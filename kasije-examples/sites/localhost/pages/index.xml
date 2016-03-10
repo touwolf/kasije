@@ -11,25 +11,36 @@
         <css>/resources/css/styles.css</css>
         <js>/resources/js/scripts.js</js>
     </resources>
+    <text>
+        <start>Continuar</start>
+        <home>Inicio</home>
+        <services>Servicios</services>
+        <about>Nosotros</about>
+        <portfolio>Productos</portfolio>
+        <team>Equipo</team>
+        <contact>Contacto</contact>
+        <name>Nombre</name>
+        <email>Correo</email>
+        <subject>Asunto</subject>
+        <enterMessage>Introduzca su mensaje...</enterMessage>
+        <sendNow>Enviar ahora</sendNow>
+        <address><![CDATA[Direcci&oacute;n]]></address>
+        <phone><![CDATA[Tel&eacute;fono]]></phone>
+    </text>
     <carousel>
         <slide>
             <image>/resources/images/slider/1.jpg</image>
-            <title>Welcome to &lt;span&gt;Oxygen&lt;/span&gt; 1</title>
-            <description>Bootstrap - Responsive Design - Retina Ready - Parallax</description>
+            <title>Bienvenidos a &lt;span&gt;Touwolf&lt;/span&gt;!</title>
+            <description><![CDATA[Desarrollo WEB - Desarrollo m&oacute;vil - Gesti&oacute;n de redes]]></description>
         </slide>
         <slide>
             <image>/resources/images/slider/2.jpg</image>
-            <title>Welcome to &lt;span&gt;Oxygen&lt;/span&gt; 2</title>
-            <description>Bootstrap - Responsive Design - Retina Ready - Parallax</description>
-        </slide>
-        <slide>
-            <image>/resources/images/slider/3.jpg</image>
-            <title>Welcome to &lt;span&gt;Oxygen&lt;/span&gt; 3</title>
-            <description>Bootstrap - Responsive Design - Retina Ready - Parallax</description>
+            <title>Desarrollo de &lt;span&gt;Software&lt;/span&gt; 2</title>
+            <description><![CDATA[SQL y NoSQL - Aplicaciones en tiempo real - Sistemas de gesti&oacute;n]]></description>
         </slide>
     </carousel>
     <services>
-        <title>Our Services</title>
+        <title>Nuestros Servicios</title>
         <description>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam</description>
         <item>
             <faIcon>flask</faIcon>

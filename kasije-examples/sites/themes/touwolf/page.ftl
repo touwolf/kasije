@@ -90,7 +90,9 @@
                     <div class="caption">
                         <h1 class="animated fadeInLeftBig">${slide.title}</h1>
                         <p class="animated fadeInRightBig">${slide.description}</p>
-                        <a data-scroll class="btn btn-start animated fadeInUpBig" href="#services">Start now</a>
+                        <a data-scroll class="btn btn-start animated fadeInUpBig" href="#services">
+                            ${page.text.start!"Start now"}
+                        </a>
                     </div>
                 </div>
                 </#list>
@@ -118,17 +120,17 @@
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
-                        <li class="scroll active"><a href="#home">Home</a></li>
-                        <li class="scroll"><a href="#services">Service</a></li>
-                        <li class="scroll"><a href="#about-us">About Us</a></li>
-                        <li class="scroll"><a href="#portfolio">Portfolio</a></li>
+                        <li class="scroll active"><a href="#home">${page.text.home!"Home"}</a></li>
+                        <li class="scroll"><a href="#services">${page.text.services!"Service"}</a></li>
+                        <li class="scroll"><a href="#about-us">${page.text.about!"About Us"}</a></li>
+                        <li class="scroll"><a href="#portfolio">${page.text.portfolio!"Portfolio"}</a></li>
                         <#if !teamDisabled>
-                        <li class="scroll"><a href="#team">Team</a></li>
+                        <li class="scroll"><a href="#team">${page.text.team!"Team"}</a></li>
                         </#if>
                         <#if !blogDisabled>
-                        <li class="scroll"><a href="#blog">Blog</a></li>
+                        <li class="scroll"><a href="#blog">${page.text.blog!"Blog"}</a></li>
                         </#if>
-                        <li class="scroll"><a href="#contact">Contact</a></li>
+                        <li class="scroll"><a href="#contact">${page.text.contact!"Contact"}</a></li>
                     </ul>
                 </div>
             </div>
@@ -210,7 +212,8 @@
     <section id="portfolio">
         <div class="container">
             <div class="row">
-                <div class="heading text-center col-sm-8 col-sm-offset-2 wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="300ms">
+                <div class="heading text-center col-sm-8 col-sm-offset-2 wow fadeInUp"
+                     data-wow-duration="1000ms" data-wow-delay="300ms">
                     <h2>${page.portfolio.title}</h2>
                     <p>${page.portfolio.description}</p>
                 </div>
@@ -339,7 +342,8 @@
     <section id="pricing">
         <div class="container">
             <div class="row">
-                <div class="heading text-center col-sm-8 col-sm-offset-2 wow fadeInUp" data-wow-duration="1200ms" data-wow-delay="300ms">
+                <div class="heading text-center col-sm-8 col-sm-offset-2 wow fadeInUp"
+                     data-wow-duration="1200ms" data-wow-delay="300ms">
                     <h2>Pricing Table</h2>
                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam</p>
                 </div>
@@ -570,28 +574,29 @@
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <input type="text" name="name" class="form-control"
-                                                   placeholder="Name" required="required">
+                                                   placeholder='${page.text.name!"Name"}' required="required">
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <input type="email" name="email" class="form-control"
-                                                   placeholder="Email Address" required="required">
+                                                   placeholder='${page.text.email!"Email Address"}' required="required">
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <input type="text" name="subject" class="form-control"
-                                           placeholder="Subject" required="required">
+                                           placeholder='${page.text.subject!"Subject"}' required="required">
                                 </div>
 
                                 <div class="form-group">
                                     <textarea name="message" id="message" class="form-control" rows="4"
-                                              placeholder="Enter your message" required="required"></textarea>
+                                              placeholder='${page.text.enterMessage!"Enter your message"}'
+                                              required="required"></textarea>
                                 </div>
                                 <div class="form-group">
-                                    <button type="submit" class="btn-submit">Send Now</button>
+                                    <button type="submit" class="btn-submit">${page.text.sendNow!"Send Now"}</button>
                                 </div>
                             </form>
                         </div>
@@ -602,15 +607,15 @@
                                 <ul class="address">
                                     <li>
                                         <i class="fa fa-map-marker"></i>
-                                        <span> Address:</span> ${page.contact.address}
+                                        <span> ${page.text.address!"Address"}:</span> ${page.contact.address}
                                     </li>
                                     <li>
                                         <i class="fa fa-phone"></i>
-                                        <span> Phone:</span> ${page.contact.phone}
+                                        <span> ${page.text.phone!"Phone"}:</span> ${page.contact.phone}
                                     </li>
                                     <li>
                                         <i class="fa fa-envelope"></i>
-                                        <span> Email:</span>
+                                        <span> ${page.text.email!"Email"}:</span>
                                         <a href="mailto:${page.contact.email}"> ${page.contact.email}</a>
                                     </li>
                                 </ul>
