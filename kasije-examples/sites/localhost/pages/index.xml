@@ -179,14 +179,14 @@
             </social>
         </item>
         <item>
-            <image>/resources/images/team/4.jpg</image>
-            <name>Member 4</name>
-            <title>CEO &amp; Founder 4</title>
-            <description>Consectetur adipisicing elit, sed do eiusmod tempor incididunt</description>
+            <image>/resources/images/team/4.gif</image>
+            <name>miche.atucha</name>
+            <title>Developer</title>
+            <description>The best in Ping Pong at Touwolf.</description>
             <social>
-                <facebook>https://facebook.com/marian4</facebook>
-                <twitter>https://twitter.com/marian4</twitter>
-                <github>https://github.com/marian4</github>
+                <facebook>https://facebook.com/miche.atuchat</facebook>
+                <twitter>https://twitter.com/micheatucha</twitter>
+                <github>https://github.com/miche-atucha</github>
             </social>
         </item>
     </team>
@@ -220,7 +220,7 @@
         <phone>(+593) 220-0000</phone>
         <email>info@touwolf.com</email>
     </contact>
-    <teamDisabled>true</teamDisabled>
+    <teamDisabled>false</teamDisabled>
     <blogDisabled>true</blogDisabled>
     <pricingDisabled>true</pricingDisabled>
     <twitterDisabled>true</twitterDisabled>

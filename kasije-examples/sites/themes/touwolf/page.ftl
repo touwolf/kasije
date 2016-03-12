@@ -302,7 +302,7 @@
                                     <#list item.social?children as social>
                                     <#if social?node_type != "text">
                                     <li>
-                                        <a class="${social?node_name}" href="${social}">
+                                        <a class="${social?node_name}" href="${social}" target="_blank">
                                             <i class="fa fa-${social?node_name}"></i>
                                         </a>
                                     </li>
