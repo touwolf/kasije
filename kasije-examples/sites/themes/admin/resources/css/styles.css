@@ -1,0 +1,14 @@
+.editor
+{
+    border: solid gray thin;
+    min-height: 300px;
+}
+
+.editor-status
+{
+    border: solid gray thin;
+    border-top: hidden;
+    min-height: 25px;
+    max-height: 25px;
+    background-color: lightgrey;
+}
