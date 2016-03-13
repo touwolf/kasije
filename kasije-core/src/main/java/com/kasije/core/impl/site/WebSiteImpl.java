@@ -24,11 +24,7 @@ import com.kasije.core.config.sites.Alias;
 import com.kasije.core.impl.files.WebFileImpl;
 import com.kasije.core.impl.page.WebPageImpl;
 import java.io.File;
-import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.bridje.cfg.ConfigRepositoryContext;
-import org.bridje.cfg.ConfigService;
-import org.bridje.ioc.Ioc;
 
 /**
  *
@@ -43,27 +39,16 @@ class WebSiteImpl implements WebSite
 
     private SiteConfig config;
 
-    public WebSiteImpl(String absolutePath)
+    public WebSiteImpl(String absolutePath, SiteConfig config)
     {
-        siteFolder = new File(absolutePath);
+        this.siteFolder = new File(absolutePath);
         if(!siteFolder.exists() || !siteFolder.isDirectory())
         {
             throw new IllegalArgumentException("Web Site " + siteFolder.getName() + " does not exists.");
         }
 
-        name = siteFolder.getName();
-        config = new SiteConfig();
-        try
-        {
-            // TODO: this configuration has to be handler for the WebSiteRoute to introduce cache
-            ConfigService configService = Ioc.context().find(ConfigService.class);
-            ConfigRepositoryContext configContext = configService.createRepoContext(absolutePath + "/etc/");
-            config = configContext.findConfig(SiteConfig.class);
-        }
-        catch (Exception ex)
-        {
-            LOG.log(Level.SEVERE, ex.getMessage(), ex);
-        }
+        this.config = config;
+        this.name = siteFolder.getName();
     }
 
     @Override

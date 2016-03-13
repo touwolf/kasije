@@ -2,9 +2,12 @@ package com.kasije.core.impl.site;
 
 import com.kasije.core.WebSite;
 import com.kasije.core.WebSiteRouter;
+import com.kasije.core.config.SiteConfig;
 import com.kasije.core.config.server.Router;
 import com.kasije.core.config.RouterConfig;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.lang.StringUtils;
@@ -21,6 +24,8 @@ public class WebSiteRouterImpl implements WebSiteRouter
     private static final Logger LOG = Logger.getLogger(WebSiteRouterImpl.class.getName());
 
     private RouterConfig config;
+
+    private Map<String, SiteConfig> siteConfigs = new HashMap<>();
 
     @Override
     public WebSite findWebSite(String serverName) throws IOException
@@ -39,7 +44,8 @@ public class WebSiteRouterImpl implements WebSiteRouter
             relativePath = router.getPath();
         }
 
-        return new WebSiteImpl(relativePath + serverName);
+        SiteConfig siteConfig = getSiteConfig(relativePath + serverName);
+        return new WebSiteImpl(relativePath + serverName, siteConfig);
     }
 
     public RouterConfig getConfig()
@@ -60,6 +66,28 @@ public class WebSiteRouterImpl implements WebSiteRouter
         }
 
         return config;
+    }
+
+    private SiteConfig getSiteConfig(String absolutePath)
+    {
+        SiteConfig siteConfig = siteConfigs.get(absolutePath);
+        try
+        {
+            if(null == siteConfig)
+            {
+                ConfigService configService = Ioc.context().find(ConfigService.class);
+                ConfigRepositoryContext configContext = configService.createRepoContext(absolutePath + "/etc/");
+                siteConfig = configContext.findConfig(SiteConfig.class);
+
+                siteConfigs.put(absolutePath, siteConfig);
+            }
+        }
+        catch (Exception ex)
+        {
+            LOG.log(Level.SEVERE, ex.getMessage(), ex);
+        }
+
+        return siteConfig == null ? new SiteConfig() : siteConfig;
     }
 
     public void setConfig(RouterConfig config) {
