@@ -17,7 +17,10 @@ public class WebSiteRepositoryImpl implements WebSiteRepository
 
     @Inject
     private WebSiteRouter siteRouter;
-    
+
+    @Inject
+    private WebSiteVirtual siteVirtual;
+
     private final Map<String, WebSite> mapWebSite = new HashMap<>();
 
     @Override
@@ -30,6 +33,7 @@ public class WebSiteRepositoryImpl implements WebSiteRepository
             return webSite;
         }
 
+        siteName = siteVirtual.findRealSiteName(siteName);
         webSite = siteRouter.findWebSite(siteName);
         if(null != webSite)
         {
