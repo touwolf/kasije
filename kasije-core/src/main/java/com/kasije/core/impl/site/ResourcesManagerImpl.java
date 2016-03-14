@@ -20,6 +20,7 @@ import com.google.javascript.jscomp.CompilationLevel;
 import com.google.javascript.jscomp.CompilerOptions;
 import com.google.javascript.jscomp.SourceFile;
 import com.kasije.core.ResourcesManager;
+import com.kasije.core.config.Helper;
 import com.kasije.core.config.ServerConfig;
 import com.yahoo.platform.yui.compressor.CssCompressor;
 import io.bit3.jsass.CompilationException;
@@ -35,10 +36,7 @@ import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.io.IOUtils;
-import org.bridje.cfg.ConfigRepositoryContext;
-import org.bridje.cfg.ConfigService;
 import org.bridje.ioc.Component;
-import org.bridje.ioc.Ioc;
 import org.mozilla.javascript.EvaluatorException;
 
 /**
@@ -61,12 +59,9 @@ public class ResourcesManagerImpl implements ResourcesManager
 
     public ResourcesManagerImpl()
     {
-        ConfigService configService = Ioc.context().find(ConfigService.class);
-        ConfigRepositoryContext configContext = configService.createRepoContext("server");
-
         try
         {
-            serverConfig = configContext.findConfig(ServerConfig.class);
+            serverConfig = Helper.findConfig("server", ServerConfig.class);
         }
         catch (IOException e)
         {

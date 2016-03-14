@@ -74,15 +74,16 @@ jQuery(document).ready(function($)
         }
     };
 
-    var files = [{
-        name: 'index.html',
-        type: 'xml',
-        text: '<root></root>'
-    }, {
-        name: 'index.js',
-        type: 'javascript',
-        text: 'var a = 1;'
-    }];
+    var jqXHR = $.get('/admin/pages');
 
-    initEditorHolder($('body'), files);
+    jqXHR.done(function(files)
+    {
+        initEditorHolder($('body'), files);
+    });
+
+    jqXHR.fail(function()
+    {
+        //TODO
+        console.error(arguments)
+    });
 });

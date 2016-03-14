@@ -1,24 +1,30 @@
+/*
+ * Copyright 2016 Kasije Framework.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.kasije.core.impl.site;
 
-import com.kasije.core.WebSite;
-import com.kasije.core.WebSiteRouter;
 import com.kasije.core.WebSiteVirtual;
+import com.kasije.core.config.Helper;
 import com.kasije.core.config.RouterConfig;
-import com.kasije.core.config.SiteConfig;
-import com.kasije.core.config.server.Router;
 import com.kasije.core.config.server.Virtual;
-import org.apache.commons.lang.StringUtils;
-import org.bridje.cfg.ConfigRepositoryContext;
-import org.bridje.cfg.ConfigService;
-import org.bridje.ioc.Component;
-import org.bridje.ioc.Ioc;
-import org.bridje.ioc.Priority;
-
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.bridje.ioc.Component;
+import org.bridje.ioc.Priority;
 
 @Component
 @Priority(value = Integer.MAX_VALUE)
@@ -45,10 +51,7 @@ public class WebSiteVirtualImpl implements WebSiteVirtual
         {
             if (null == config)
             {
-                ConfigService configService = Ioc.context().find(ConfigService.class);
-                ConfigRepositoryContext configContext = configService.createRepoContext("server");
-
-                config = configContext.findConfig(RouterConfig.class);
+                config = Helper.findConfig("server", RouterConfig.class);
             }
         }
         catch (IOException ex)
