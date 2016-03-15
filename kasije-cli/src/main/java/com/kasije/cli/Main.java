@@ -1,12 +1,15 @@
 package com.kasije.cli;
 
 /**
- * CLI.
+ * Add this alias on different unix installed or updated by the .rpm or .deb
+ * alias kasije='java -jar kasije-cli-[v.v.v].jar'.
+ *
+ * Then you can use this cli like $kasije [options] [params]
  */
 public class Main
 {
     public static void main(String[] args)
     {
-        System.out.print("Hello kasije CLI!");
+        System.out.printf("Hello kasije CLI!");
     }
 }
