@@ -29,6 +29,7 @@
         <module>kasije-freemarker</module>
         <module>kasije-main</module>
         <module>kasije-admin</module>
+        <module>kasije-cli</module>
     </modules>
 
     <scm>
