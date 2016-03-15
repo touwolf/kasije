@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <siteConfig>
-    <theme>multi</theme>
+    <theme>admin</theme>
     <alias path="/home" realpath="/index" />
 </siteConfig>

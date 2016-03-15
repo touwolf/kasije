@@ -50,7 +50,7 @@
     <#if !teamDisabled>
     <@team />
     </#if>
-    <@features />
+    <@items />
     <#if !pricingDisabled>
     <@pricing />
     </#if>
@@ -319,13 +319,13 @@
     </section>
 </#macro>
 
-<#macro features>
+<#macro items>
     <section id="features" class="parallax">
         <div class="container">
             <div class="row count">
                 <#assign delayBase = 300 />
                 <#assign delayStep = 200 />
-                <#list page.features.item as item>
+                <#list page.items.item as item>
                 <div class="col-sm-3 col-xs-6 wow fadeInLeft" data-wow-duration="1000ms"
                      data-wow-delay="${delayBase + (item?index * delayStep)}ms">
                     <i class="fa fa-${item.faIcon}"></i>
