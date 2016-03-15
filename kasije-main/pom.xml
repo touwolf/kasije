@@ -52,6 +52,7 @@
             </plugin>
         </plugins>
     </build>
+
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
@@ -61,7 +62,10 @@
         <dependency>
             <groupId>org.bridje</groupId>
             <artifactId>bridje-ioc</artifactId>
-            <version>0.1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.bridje</groupId>
+            <artifactId>bridje-cfg</artifactId>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
@@ -71,6 +75,11 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>kasije-freemarker</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>kasije-admin</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

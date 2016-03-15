@@ -1,29 +1,36 @@
 package com.kasije.core.config;
 
+import com.kasije.core.config.server.Connector;
+import org.bridje.cfg.Configuration;
+import org.bridje.cfg.adapter.XmlConfigAdapter;
+
 import javax.xml.bind.annotation.*;
 import java.util.List;
 
+@Configuration(XmlConfigAdapter.class)
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "serverConfig")
 public class ServerConfig
 {
-    @XmlElementWrapper(name = "connectorConfigs")
+    @XmlElementWrapper(name = "connectors")
     @XmlElements(
     {
-            @XmlElement(name = "connectorConfig", type = ConnectorConfig.class)
+            @XmlElement(name = "connector", type = Connector.class)
     })
-    private List<ConnectorConfig> connectorConfigs;
+    private List<Connector> connectors;
 
     private Integer sessionExp;
 
-    public List<ConnectorConfig> getConnectorConfigs()
+    private Boolean development;
+
+    public List<Connector> getConnectors()
     {
-        return connectorConfigs;
+        return connectors;
     }
 
-    public void setConnectorConfigs(List<ConnectorConfig> connectorConfigs)
+    public void setConnectors(List<Connector> connectors)
     {
-        this.connectorConfigs = connectorConfigs;
+        this.connectors = connectors;
     }
 
     public Integer getSessionExp()
@@ -34,5 +41,17 @@ public class ServerConfig
     public void setSessionExp(Integer sessionExp)
     {
         this.sessionExp = sessionExp;
+    }
+
+    public Boolean getDevelopment() {
+        if(null == development)
+        {
+            development = false;
+        }
+        return development;
+    }
+
+    public void setDevelopment(Boolean development) {
+        this.development = development;
     }
 }

@@ -23,7 +23,10 @@
         <dependency>
             <groupId>org.bridje</groupId>
             <artifactId>bridje-ioc</artifactId>
-            <version>0.1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.bridje</groupId>
+            <artifactId>bridje-cfg</artifactId>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>

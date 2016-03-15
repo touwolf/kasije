@@ -1,9 +1,31 @@
+/*
+ * Copyright 2016 Kasije Framework.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.kasije.core.config;
 
-import javax.xml.bind.annotation.*;
 import java.util.LinkedList;
 import java.util.List;
+import javax.xml.bind.annotation.*;
 
+import com.kasije.core.config.server.Router;
+import com.kasije.core.config.server.Virtual;
+import org.bridje.cfg.Configuration;
+import org.bridje.cfg.adapter.XmlConfigAdapter;
+
+@Configuration(XmlConfigAdapter.class)
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "routerConfig")
 public class RouterConfig
@@ -11,9 +33,16 @@ public class RouterConfig
     @XmlElementWrapper(name = "routers")
     @XmlElements(
     {
-            @XmlElement(name = "router", type = Router.class)
+        @XmlElement(name = "router", type = Router.class)
     })
     private List<Router> routers;
+
+    @XmlElementWrapper(name = "virtuals")
+    @XmlElements(
+    {
+        @XmlElement(name = "virtual", type = Virtual.class)
+    })
+    private List<Virtual> virtuals;
 
     public List<Router> getRouters()
     {
@@ -28,5 +57,18 @@ public class RouterConfig
     public void setRouters(List<Router> routers)
     {
         this.routers = routers;
+    }
+
+    public List<Virtual> getVirtuals() {
+        if(null == virtuals)
+        {
+            virtuals = new LinkedList<>();
+        }
+
+        return virtuals;
+    }
+
+    public void setVirtuals(List<Virtual> virtuals) {
+        this.virtuals = virtuals;
     }
 }

@@ -16,6 +16,7 @@
 
 package com.kasije.core;
 
+import com.kasije.core.config.sites.Alias;
 import java.io.File;
 
 /**
@@ -27,11 +28,11 @@ public interface WebSite
 
     File getFile();
 
-    WebPage findPage(String pagePath);
-    
-    WebFile findFile(String filePath);
-    
-    <T> T findConfig(Class<T> cls);
-    
     String getTheme();
+
+    Alias findAlias(String path);
+
+    WebPage findPage(String pagePath);
+
+    WebFile findFile(String filePath);
 }

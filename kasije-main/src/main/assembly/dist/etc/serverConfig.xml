@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <serverConfig>
-    <connectorConfigs>
+    <connectors>
         <connectorConfig>
             <protocol>http</protocol>
             <port>8080</port>
@@ -10,6 +10,6 @@
             <trustStorePath></trustStorePath>
             <trustStorePassword></trustStorePassword>
         </connectorConfig>
-    </connectorConfigs>
+    </connectors>
     <sessionExp></sessionExp>
 </serverConfig>

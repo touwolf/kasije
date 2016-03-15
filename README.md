@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/touwolf/kasije.svg?branch=master)](https://travis-ci.org/touwolf/kasije)
+[![Release](https://img.shields.io/github/release/touwolf/kasije.svg)](https://github.com/touwolf/kasije/releases/)
 
 [![Koding Hackathon Badge](/koding_hackathon_badge.png?raw=true "Koding Hackathon Badge")](https://koding.com/Hackathon)
 

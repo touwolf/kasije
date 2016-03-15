@@ -20,6 +20,8 @@ import com.google.javascript.jscomp.CompilationLevel;
 import com.google.javascript.jscomp.CompilerOptions;
 import com.google.javascript.jscomp.SourceFile;
 import com.kasije.core.ResourcesManager;
+import com.kasije.core.config.Helper;
+import com.kasije.core.config.ServerConfig;
 import com.yahoo.platform.yui.compressor.CssCompressor;
 import io.bit3.jsass.CompilationException;
 import io.bit3.jsass.Compiler;
@@ -30,6 +32,7 @@ import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.io.IOUtils;
@@ -51,6 +54,19 @@ public class ResourcesManagerImpl implements ResourcesManager
     private static final String JS_SUFFIX = ".js";
 
     private static final String MIN_SUFFIX = ".min";
+
+    private ServerConfig serverConfig;
+
+    public ResourcesManagerImpl()
+    {
+        try
+        {
+            serverConfig = Helper.findConfig("server", ServerConfig.class);
+        }
+        catch (IOException e)
+        {
+        }
+    }
 
     @Override
     public String getMime(String resourceName)
@@ -135,7 +151,12 @@ public class ResourcesManagerImpl implements ResourcesManager
 
     private boolean allowMinify(String sourceName)
     {
-        return /*sourceName.endsWith(CSS_SUFFIX) || */sourceName.endsWith(JS_SUFFIX);
+        if (serverConfig != null && Objects.equals(Boolean.TRUE, serverConfig.getDevelopment()))
+        {
+            return false;
+        }
+
+        return sourceName.endsWith(CSS_SUFFIX) || sourceName.endsWith(JS_SUFFIX);
     }
 
     private File cssFromSass(File source) throws IOException
@@ -211,16 +232,16 @@ public class ResourcesManagerImpl implements ResourcesManager
                 }
             }
 
+            OutputStream out = new BufferedOutputStream(new FileOutputStream(minFile));
+
             if (sourceName.endsWith(CSS_SUFFIX))
             {
                 Reader reader = new FileReader(source);
-                Writer writer = new FileWriter(minFile);
-                compressCss(reader, writer);
+                compressCss(reader, out);
             }
             else if (sourceName.endsWith(JS_SUFFIX))
             {
                 InputStream in = new BufferedInputStream(new FileInputStream(source));
-                OutputStream out = new BufferedOutputStream(new FileOutputStream(minFile));
                 compressJs(sourceName, in, out);
             }
 
@@ -233,10 +254,15 @@ public class ResourcesManagerImpl implements ResourcesManager
         }
     }
 
-    private void compressCss(Reader reader, Writer writer) throws IOException
+    private void compressCss(Reader reader, OutputStream out) throws IOException
     {
         CssCompressor compressor = new CssCompressor(reader);
+        StringWriter writer = new StringWriter();
+
         compressor.compress(writer, -1);
+
+        String compressed = writer.toString();
+        IOUtils.copy(new StringReader(compressed), out);
     }
 
     private void compressJs(String sourceName, InputStream in, OutputStream out) throws IOException
@@ -254,7 +280,7 @@ public class ResourcesManagerImpl implements ResourcesManager
             throw new EvaluatorException(compiler.getErrors()[0].description);
         }
 
-        String toSource = compiler.toSource();
-        IOUtils.copy(new StringReader(toSource), out);
+        String compressed = compiler.toSource();
+        IOUtils.copy(new StringReader(compressed), out);
     }
 }

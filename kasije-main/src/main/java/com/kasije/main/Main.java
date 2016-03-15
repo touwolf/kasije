@@ -16,12 +16,12 @@
 
 package com.kasije.main;
 
-import com.kasije.core.KasijeConfigRepo;
-import com.kasije.core.config.ConnectorConfig;
+import com.kasije.core.config.server.Connector;
 import com.kasije.core.config.ServerConfig;
 import org.apache.commons.lang.StringUtils;
+import org.bridje.cfg.ConfigRepositoryContext;
+import org.bridje.cfg.ConfigService;
 import org.bridje.ioc.Ioc;
-import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.servlet.ServletHandler;
@@ -45,16 +45,17 @@ public class Main
         servletHandler.addServletWithMapping(servletHolder, "/*");
         server.setHandler(servletHandler);
 
-        KasijeConfigRepo kasijeConfig = Ioc.context().find(KasijeConfigRepo.class);
-        ServerConfig config = kasijeConfig.findConfig("./sites/", ServerConfig.class);
+        ConfigService configService = Ioc.context().find(ConfigService.class);
+        ConfigRepositoryContext configContext = configService.createRepoContext("server");
 
-        if(null == config || null == config.getConnectorConfigs() || config.getConnectorConfigs().isEmpty())
+        ServerConfig config = configContext.findConfig(ServerConfig.class);
+        if(null == config || null == config.getConnectors() || config.getConnectors().isEmpty())
         {
             server.addConnector(createConnector(server, null));
         }
         else
         {
-            for (ConnectorConfig connectorConfig : config.getConnectorConfigs())
+            for (Connector connectorConfig : config.getConnectors())
             {
                 server.addConnector(createConnector(server, connectorConfig));
             }
@@ -64,11 +65,11 @@ public class Main
         server.join();
     }
 
-    private static Connector createConnector(Server server, ConnectorConfig connectorConfig)
+    private static org.eclipse.jetty.server.Connector createConnector(Server server, Connector connectorConfig)
     {
         if (connectorConfig == null)
         {
-            connectorConfig = new ConnectorConfig();
+            connectorConfig = new Connector();
         }
 
         if (!"http".equalsIgnoreCase(connectorConfig.getProtocol()) && !"https".equalsIgnoreCase(connectorConfig.getProtocol()))

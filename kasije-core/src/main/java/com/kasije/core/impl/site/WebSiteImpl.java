@@ -19,6 +19,8 @@ package com.kasije.core.impl.site;
 import com.kasije.core.WebFile;
 import com.kasije.core.WebPage;
 import com.kasije.core.WebSite;
+import com.kasije.core.config.SiteConfig;
+import com.kasije.core.config.sites.Alias;
 import com.kasije.core.impl.files.WebFileImpl;
 import com.kasije.core.impl.page.WebPageImpl;
 import java.io.File;
@@ -32,19 +34,23 @@ class WebSiteImpl implements WebSite
     private static final Logger LOG = Logger.getLogger(WebSiteImpl.class.getName());
 
     private final String name;
-    
+
     private final File siteFolder;
 
-    public WebSiteImpl(String absolutePath)
+    private SiteConfig config;
+
+    public WebSiteImpl(String absolutePath, SiteConfig config)
     {
-        siteFolder = new File(absolutePath);
+        this.siteFolder = new File(absolutePath);
         if(!siteFolder.exists() || !siteFolder.isDirectory())
         {
             throw new IllegalArgumentException("Web Site " + siteFolder.getName() + " does not exists.");
         }
+
+        this.config = config;
         this.name = siteFolder.getName();
     }
-    
+
     @Override
     public String getName()
     {
@@ -55,6 +61,12 @@ class WebSiteImpl implements WebSite
     public File getFile()
     {
         return siteFolder;
+    }
+
+    @Override
+    public String getTheme()
+    {
+        return config.getTheme();
     }
 
     @Override
@@ -69,18 +81,6 @@ class WebSiteImpl implements WebSite
     }
 
     @Override
-    public <T> T findConfig(Class<T> cls)
-    {
-        return null;
-    }
-
-    @Override
-    public String getTheme()
-    {
-        return "default";
-    }
-
-    @Override
     public WebFile findFile(String filePath)
     {
         File file = new File(siteFolder.getAbsoluteFile() + "/pages/" + filePath);
@@ -89,5 +89,14 @@ class WebSiteImpl implements WebSite
             return new WebFileImpl(this, filePath);
         }
         return null;
+    }
+
+    @Override
+    public Alias findAlias(String path)
+    {
+        return config.getAlias().parallelStream()
+            .filter(a -> path.equals(a.getPath()))
+            .findFirst()
+            .orElse(null);
     }
 }

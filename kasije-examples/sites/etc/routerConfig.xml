@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<routerConfig>
+    <virtuals>
+        <virtual uri="0.0.0.0" real="www.kasije.com" />
+    </virtuals>
+    <routers>
+        <router uri="www.kasije.com" path="/var/www/" />
+    </routers>
+</routerConfig>

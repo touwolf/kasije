@@ -10,8 +10,8 @@ import java.util.*;
  */
 public class KasijeCli
 {
-
     private List<KasijeCliUtility> utilities = new LinkedList<>();
+
     private String helpCommand;
 
     public List<KasijeCliUtility> getUtilities()
@@ -42,7 +42,7 @@ public class KasijeCli
     {
         KasijeCli kasijeCli = new KasijeCli();
 
-                /* create */
+        /* create */
         KasijeCliUtility kuCreate = new KasijeCliUtility("create", "creates a site...");
         kuCreate.addOption(new KasijeCliOption("engine", KasijeCliOptionStyle.WITH_ARGUMENT));
         kuCreate.addOption(new KasijeCliOption("comp", KasijeCliOptionStyle.WITH_ARGUMENT));
