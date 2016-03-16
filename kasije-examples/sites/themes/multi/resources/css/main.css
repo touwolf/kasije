@@ -304,7 +304,6 @@ ul.nostyle i {
   margin-top: 40px;
 }
 #cta2 {
-  background: #242a33 url(../images/cta2/cta2-bg.jpg) no-repeat 50% 50%;
   background-size: cover;
   color: #fff;
   padding-top: 70px;
@@ -517,7 +516,6 @@ ul.nostyle i {
   transition: none;
 }
 #testimonial {
-  background: #333333 url(../images/testimonial/bg.jpg) no-repeat 0 0;
   background-size: cover;
   padding: 100px 0;
   color: #fff;
@@ -539,7 +537,6 @@ ul.nostyle i {
 }
 #work-process {
   padding: 100px 0 50px;
-  background: #20222e url(../images/work-process/bg.jpg) no-repeat 0 0;
   background-size: cover;
   color: #fff;
 }
@@ -678,7 +675,6 @@ ul.nostyle i {
 }
 #animated-number {
   padding: 100px 0 70px;
-  background: #132125 url(../images/animated-number/bg.jpg) no-repeat 0 0;
   background-size: cover;
   color: #fff;
 }

@@ -10,9 +10,9 @@
 
     <title>${page.@title}</title>
 
-    <link href="/resources/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/resources/css/font-awesome.min.css" rel="stylesheet">
-    <link href="/resources/css/animate.min.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.1/animate.min.css" rel="stylesheet">
     <link href="/resources/css/owl.carousel.css" rel="stylesheet">
     <link href="/resources/css/owl.transitions.css" rel="stylesheet">
     <link href="/resources/css/prettyPhoto.css" rel="stylesheet">
@@ -26,8 +26,8 @@
     </#if>
 
     <!--[if lt IE 9]>
-    <script src="/resources/js/html5shiv.js"></script>
-    <script src="/resources/js/respond.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
     <link rel="shortcut icon" href="/resources/images/ico/favicon.ico">
@@ -58,40 +58,24 @@
     <@blog />
     </#if>
     <@contact />
+    <@footer />
 
-    <footer id="footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-6">
-                    &copy; ${.now?string["yyyy"]} ${page.meta.author}
-                </div>
-
-                <div class="col-sm-6">
-                    <ul class="social-icons">
-                        <#list page.social?children as social>
-                        <#if social?node_type != "text">
-                        <li><a href="${social}" target="_blank">
-                            <i class="fa fa-${social?node_name}"></i>
-                        </a></li>
-                        </#if>
-                        </#list>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <script src="/resources/js/jquery.js"></script>
-    <script src="/resources/js/bootstrap.min.js"></script>
-    <script src="http://maps.google.com/maps/api/js?sensor=true"></script>
+    <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="http://maps.google.com/maps/api/js?key=${page.contact.geolocation.@apiKey}"></script>
     <script src="/resources/js/owl.carousel.min.js"></script>
     <script src="/resources/js/mousescroll.js"></script>
     <script src="/resources/js/smoothscroll.js"></script>
     <script src="/resources/js/jquery.prettyPhoto.js"></script>
     <script src="/resources/js/jquery.isotope.min.js"></script>
     <script src="/resources/js/jquery.inview.min.js"></script>
-    <script src="/resources/js/wow.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
     <script src="/resources/js/main.js"></script>
+    <#if page.resources??>
+    <#list page.resources.js![] as js>
+    <script src="${js}"></script>
+    </#list>
+    </#if>
 </body>
 </html>
 
@@ -700,4 +684,28 @@
             </div>
         </div>
     </section>
+</#macro>
+
+<#macro footer>
+    <footer id="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6">
+                    &copy; ${.now?string["yyyy"]} ${page.meta.author}
+                </div>
+
+                <div class="col-sm-6">
+                    <ul class="social-icons">
+                        <#list page.social?children as social>
+                            <#if social?node_type != "text">
+                                <li><a href="${social}" target="_blank">
+                                    <i class="fa fa-${social?node_name}"></i>
+                                </a></li>
+                            </#if>
+                        </#list>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
 </#macro>
