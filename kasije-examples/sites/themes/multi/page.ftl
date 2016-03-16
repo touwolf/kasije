@@ -45,227 +45,268 @@
 
     <@header />
     <@features />
+    <@services />
+    <@portfolio />
+    <@about />
+    <#if !teamDisabled>
+    <@team />
+    </#if>
+    <#if !pricingDisabled>
+    <@pricing />
+    </#if>
+    <#if !blogDisabled>
+    <@blog />
+    </#if>
+    <@contact />
 
-    <section id="cta2">
+    <footer id="footer">
         <div class="container">
-            <div class="text-center">
-                <h2 class="wow fadeInUp" data-wow-duration="300ms" data-wow-delay="0ms"><span>MULTI</span> IS A CREATIVE HTML TEMPLATE</h2>
-                <p class="wow fadeInUp" data-wow-duration="300ms" data-wow-delay="100ms">Mauris pretium auctor quam. Vestibulum et nunc id nisi fringilla <br />iaculis. Mauris pretium auctor quam.</p>
-                <p class="wow fadeInUp" data-wow-duration="300ms" data-wow-delay="200ms"><a class="btn btn-primary btn-lg" href="#">Free Download</a></p>
-                <img class="img-responsive wow fadeIn" src="/resources/images/cta2/cta2-img.png" alt="" data-wow-duration="300ms" data-wow-delay="300ms">
+            <div class="row">
+                <div class="col-sm-6">
+                    &copy; ${.now?string["yyyy"]} ${page.meta.author}
+                </div>
+
+                <div class="col-sm-6">
+                    <ul class="social-icons">
+                        <#list page.social?children as social>
+                        <#if social?node_type != "text">
+                        <li><a href="${social}" target="_blank">
+                            <i class="fa fa-${social?node_name}"></i>
+                        </a></li>
+                        </#if>
+                        </#list>
+                    </ul>
+                </div>
             </div>
         </div>
-    </section>
+    </footer>
 
-    <section id="services" >
-        <div class="container">
+    <script src="/resources/js/jquery.js"></script>
+    <script src="/resources/js/bootstrap.min.js"></script>
+    <script src="http://maps.google.com/maps/api/js?sensor=true"></script>
+    <script src="/resources/js/owl.carousel.min.js"></script>
+    <script src="/resources/js/mousescroll.js"></script>
+    <script src="/resources/js/smoothscroll.js"></script>
+    <script src="/resources/js/jquery.prettyPhoto.js"></script>
+    <script src="/resources/js/jquery.isotope.min.js"></script>
+    <script src="/resources/js/jquery.inview.min.js"></script>
+    <script src="/resources/js/wow.min.js"></script>
+    <script src="/resources/js/main.js"></script>
+</body>
+</html>
 
-            <div class="section-header">
-                <h2 class="section-title text-center wow fadeInDown">Our Services</h2>
-                <p class="text-center wow fadeInDown">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut <br> et dolore magna aliqua. Ut enim ad minim veniam</p>
-            </div>
+<#macro header>
+    <header id="header">
+        <nav id="main-menu" class="navbar navbar-default navbar-fixed-top" role="banner">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
 
-            <div class="row">
-                <div class="features">
-                    <div class="col-md-4 col-sm-6 wow fadeInUp" data-wow-duration="300ms" data-wow-delay="0ms">
-                        <div class="media service-box">
-                            <div class="pull-left">
-                                <i class="fa fa-line-chart"></i>
-                            </div>
-                            <div class="media-body">
-                                <h4 class="media-heading">UX design</h4>
-                                <p>Backed by some of the biggest names in the industry, Firefox OS is an open platform that fosters greater</p>
-                            </div>
-                        </div>
-                    </div><!--/.col-md-4-->
-
-                    <div class="col-md-4 col-sm-6 wow fadeInUp" data-wow-duration="300ms" data-wow-delay="100ms">
-                        <div class="media service-box">
-                            <div class="pull-left">
-                                <i class="fa fa-cubes"></i>
-                            </div>
-                            <div class="media-body">
-                                <h4 class="media-heading">UI design</h4>
-                                <p>Backed by some of the biggest names in the industry, Firefox OS is an open platform that fosters greater</p>
-                            </div>
-                        </div>
-                    </div><!--/.col-md-4-->
-
-                    <div class="col-md-4 col-sm-6 wow fadeInUp" data-wow-duration="300ms" data-wow-delay="200ms">
-                        <div class="media service-box">
-                            <div class="pull-left">
-                                <i class="fa fa-pie-chart"></i>
-                            </div>
-                            <div class="media-body">
-                                <h4 class="media-heading">SEO Services</h4>
-                                <p>Backed by some of the biggest names in the industry, Firefox OS is an open platform that fosters greater</p>
-                            </div>
-                        </div>
-                    </div><!--/.col-md-4-->
-
-                    <div class="col-md-4 col-sm-6 wow fadeInUp" data-wow-duration="300ms" data-wow-delay="300ms">
-                        <div class="media service-box">
-                            <div class="pull-left">
-                                <i class="fa fa-bar-chart"></i>
-                            </div>
-                            <div class="media-body">
-                                <h4 class="media-heading">iOS App</h4>
-                                <p>Backed by some of the biggest names in the industry, Firefox OS is an open platform that fosters greater</p>
-                            </div>
-                        </div>
-                    </div><!--/.col-md-4-->
-
-                    <div class="col-md-4 col-sm-6 wow fadeInUp" data-wow-duration="300ms" data-wow-delay="400ms">
-                        <div class="media service-box">
-                            <div class="pull-left">
-                                <i class="fa fa-language"></i>
-                            </div>
-                            <div class="media-body">
-                                <h4 class="media-heading">Android App</h4>
-                                <p>Backed by some of the biggest names in the industry, Firefox OS is an open platform that fosters greater</p>
-                            </div>
-                        </div>
-                    </div><!--/.col-md-4-->
-
-                    <div class="col-md-4 col-sm-6 wow fadeInUp" data-wow-duration="300ms" data-wow-delay="500ms">
-                        <div class="media service-box">
-                            <div class="pull-left">
-                                <i class="fa fa-bullseye"></i>
-                            </div>
-                            <div class="media-body">
-                                <h4 class="media-heading">Win App</h4>
-                                <p>Backed by some of the biggest names in the industry, Firefox OS is an open platform that fosters greater</p>
-                            </div>
-                        </div>
-                    </div><!--/.col-md-4-->
+                    <a class="navbar-brand" href="#">
+                        <img src="${page.resources.logo}" alt="logo">
+                    </a>
                 </div>
-            </div><!--/.row-->
-        </div><!--/.container-->
-    </section><!--/#services-->
 
-    <section id="portfolio">
+                <div class="collapse navbar-collapse navbar-right">
+                    <ul class="nav navbar-nav">
+                        <li class="scroll active"><a href="#home">${page.text.home!"Home"}</a></li>
+                        <li class="scroll"><a href="#features">${page.text.features!"Features"}</a></li>
+                        <li class="scroll"><a href="#services">${page.text.services!"Services"}</a></li>
+                        <li class="scroll"><a href="#portfolio">${page.text.portfolio!"Portfolio"}</a></li>
+                        <li class="scroll"><a href="#about">${page.text.about!"About"}</a></li>
+                        <#if !teamDisabled>
+                        <li class="scroll"><a href="#meet-team">${page.text.team!"Team"}</a></li>
+                        </#if>
+                        <#if !pricingDisabled>
+                        <li class="scroll"><a href="#pricing">${page.text.pricing!"Pricing"}</a></li>
+                        </#if>
+                        <#if !blogDisabled>
+                        <li class="scroll"><a href="#blog">${page.text.blog!"Blog"}</a></li>
+                        </#if>
+                        <li class="scroll"><a href="#get-in-touch">${page.text.contact!"Contact"}</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <section id="main-slider">
+        <div class="owl-carousel">
+            <#list page.carousel.slide as slide>
+            <div class="item" style="background-image: url(${slide.image});">
+                <div class="slider-inner">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="carousel-content">
+                                    <h2>${slide.title}</h2>
+                                    <p>${slide.description}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </#list>
+        </div>
+    </section>
+</#macro>
+
+<#macro features>
+    <section id="features">
         <div class="container">
             <div class="section-header">
-                <h2 class="section-title text-center wow fadeInDown">Our Works</h2>
-                <p class="text-center wow fadeInDown">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut <br> et dolore magna aliqua. Ut enim ad minim veniam</p>
-            </div>
-
-            <div class="text-center">
-                <ul class="portfolio-filter">
-                    <li><a class="active" href="#" data-filter="*">All Works</a></li>
-                    <li><a href="#" data-filter=".creative">Creative</a></li>
-                    <li><a href="#" data-filter=".corporate">Corporate</a></li>
-                    <li><a href="#" data-filter=".portfolio">Portfolio</a></li>
-                </ul><!--/#portfolio-filter-->
-            </div>
-
-            <div class="portfolio-items">
-                <div class="portfolio-item creative">
-                    <div class="portfolio-item-inner">
-                        <img class="img-responsive" src="/resources/images/portfolio/01.jpg" alt="">
-                        <div class="portfolio-info">
-                            <h3>Portfolio Item 1</h3>
-                            Lorem Ipsum Dolor Sit
-                            <a class="preview" href="/resources/images/portfolio/full.jpg" rel="prettyPhoto"><i class="fa fa-eye"></i></a>
-                        </div>
-                    </div>
-                </div><!--/.portfolio-item-->
-
-                <div class="portfolio-item corporate portfolio">
-                    <div class="portfolio-item-inner">
-                        <img class="img-responsive" src="/resources/images/portfolio/02.jpg" alt="">
-                        <div class="portfolio-info">
-                            <h3>Portfolio Item 2</h3>
-                            Lorem Ipsum Dolor Sit
-                            <a class="preview" href="/resources/images/portfolio/full.jpg" rel="prettyPhoto"><i class="fa fa-eye"></i></a>
-                        </div>
-                    </div>
-                </div><!--/.portfolio-item-->
-
-                <div class="portfolio-item creative">
-                    <div class="portfolio-item-inner">
-                        <img class="img-responsive" src="/resources/images/portfolio/03.jpg" alt="">
-                        <div class="portfolio-info">
-                            <h3>Portfolio Item 3</h3>
-                            Lorem Ipsum Dolor Sit
-                            <a class="preview" href="/resources/images/portfolio/full.jpg" rel="prettyPhoto"><i class="fa fa-eye"></i></a>
-                        </div>
-                    </div>
-                </div><!--/.portfolio-item-->
-
-                <div class="portfolio-item corporate">
-                    <div class="portfolio-item-inner">
-                        <img class="img-responsive" src="/resources/images/portfolio/04.jpg" alt="">
-                        <div class="portfolio-info">
-                            <h3>Portfolio Item 4</h3>
-                            Lorem Ipsum Dolor Sit
-                            <a class="preview" href="/resources/images/portfolio/full.jpg" rel="prettyPhoto"><i class="fa fa-eye"></i></a>
-                        </div>
-                    </div>
-                </div><!--/.portfolio-item-->
-
-                <div class="portfolio-item creative portfolio">
-                    <div class="portfolio-item-inner">
-                        <img class="img-responsive" src="/resources/images/portfolio/05.jpg" alt="">
-                        <div class="portfolio-info">
-                            <h3>Portfolio Item 5</h3>
-                            Lorem Ipsum Dolor Sit
-                            <a class="preview" href="/resources/images/portfolio/full.jpg" rel="prettyPhoto"><i class="fa fa-eye"></i></a>
-                        </div>
-                    </div>
-                </div><!--/.portfolio-item-->
-
-                <div class="portfolio-item corporate">
-                    <div class="portfolio-item-inner">
-                        <img class="img-responsive" src="/resources/images/portfolio/06.jpg" alt="">
-                        <div class="portfolio-info">
-                            <h3>Portfolio Item 5</h3>
-                            Lorem Ipsum Dolor Sit
-                            <a class="preview" href="/resources/images/portfolio/full.jpg" rel="prettyPhoto"><i class="fa fa-eye"></i></a>
-                        </div>
-                    </div>
-                </div><!--/.portfolio-item-->
-
-                <div class="portfolio-item creative portfolio">
-                    <div class="portfolio-item-inner">
-                        <img class="img-responsive" src="/resources/images/portfolio/07.jpg" alt="">
-                        <div class="portfolio-info">
-                            <h3>Portfolio Item 7</h3>
-                            Lorem Ipsum Dolor Sit
-                            <a class="preview" href="/resources/images/portfolio/full.jpg" rel="prettyPhoto"><i class="fa fa-eye"></i></a>
-                        </div>
-                    </div>
-                </div><!--/.portfolio-item-->
-
-                <div class="portfolio-item corporate">
-                    <div class="portfolio-item-inner">
-                        <img class="img-responsive" src="/resources/images/portfolio/08.jpg" alt="">
-                        <div class="portfolio-info">
-                            <h3>Portfolio Item 8</h3>
-                            Lorem Ipsum Dolor Sit
-                            <a class="preview" href="/resources/images/portfolio/full.jpg" rel="prettyPhoto"><i class="fa fa-eye"></i></a>
-                        </div>
-                    </div>
-                </div><!--/.portfolio-item-->
-            </div>
-        </div><!--/.container-->
-    </section><!--/#portfolio-->
-
-    <section id="about">
-        <div class="container">
-
-            <div class="section-header">
-                <h2 class="section-title text-center wow fadeInDown">About Us</h2>
-                <p class="text-center wow fadeInDown">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut <br> et dolore magna aliqua. Ut enim ad minim veniam</p>
+                <h2 class="section-title text-center wow fadeInDown">${page.features.title}</h2>
+                <p class="text-center wow fadeInDown">${page.features.description}</p>
             </div>
 
             <div class="row">
                 <div class="col-sm-6 wow fadeInLeft">
+                    <img class="img-responsive" src="${page.features.image}" alt="">
+                </div>
+
+                <div class="col-sm-6">
+                    <#list page.features.item as item>
+                    <div class="media service-box wow fadeInRight">
+                        <div class="pull-left">
+                            <i class="fa ${item.faIcon}"></i>
+                        </div>
+                        <div class="media-body">
+                            <h4 class="media-heading">${item.title}</h4>
+                            <p>${item.description}</p>
+                        </div>
+                    </div>
+                    </#list>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="cta2">
+        <div class="container">
+            <div class="text-center">
+                <h2 class="wow fadeInUp" data-wow-duration="300ms" data-wow-delay="0ms">
+                    ${page.features.banner.title}
+                </h2>
+                <p class="wow fadeInUp" data-wow-duration="300ms" data-wow-delay="100ms">
+                    ${page.features.banner.description}
+                </p>
+
+                <img class="img-responsive wow fadeIn" src="${page.features.banner.image}" alt="" data-wow-duration="300ms" data-wow-delay="300ms">
+            </div>
+        </div>
+    </section>
+</#macro>
+
+<#macro services>
+    <section id="services" >
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title text-center wow fadeInDown">
+                    ${page.services.title}
+                </h2>
+                <p class="text-center wow fadeInDown">
+                    ${page.services.description}
+                </p>
+            </div>
+
+            <div class="row">
+                <div class="features">
+                    <#list page.services.item?chunk(3) as items>
+                    <#list items as item>
+                    <div class="col-md-4 col-sm-6 wow fadeInUp" data-wow-duration="300ms" data-wow-delay="0ms">
+                        <div class="media service-box">
+                            <div class="pull-left">
+                                <i class="fa ${item.faIcon}"></i>
+                            </div>
+                            <div class="media-body">
+                                <h4 class="media-heading">${item.title}</h4>
+                                <p>${item.description}</p>
+                            </div>
+                        </div>
+                    </div>
+                    </#list>
+                    </#list>
+                </div>
+            </div>
+        </div>
+    </section>
+</#macro>
+
+<#macro portfolio>
+    <section id="portfolio">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title text-center wow fadeInDown">
+                    ${page.portfolio.title}
+                </h2>
+                <p class="text-center wow fadeInDown">
+                    ${page.portfolio.description}
+                </p>
+            </div>
+
+            <div class="text-center">
+                <ul class="portfolio-filter">
+                    <li><a class="active" href="#" data-filter="*">${page.text.allWorks!"All Works"}</a></li>
+                    <#assign categories = {} />
+                    <#list page.portfolio.item as item>
+                    <#if !(categories[item.category]??)>
+                        <#assign categories = categories + {item.category: true} />
+                        <li><a href="#" data-filter=".${item.category}">${item.category?cap_first}</a></li>
+                    </#if>
+                    </#list>
+                </ul>
+            </div>
+
+            <div class="portfolio-items">
+                <#list page.portfolio.item as item>
+                <div class="portfolio-item ${item.category}">
+                    <div class="portfolio-item-inner">
+                        <img class="img-responsive" src="${item.image}" alt="">
+                        <div class="portfolio-info">
+                            <h3>${item.title}</h3>
+                            ${item.description}
+                            <a class="preview" href="${item.url}" target="_blank" rel="prettyPhoto"><i class="fa fa-eye"></i></a>
+                        </div>
+                    </div>
+                </div>
+                </#list>
+            </div>
+        </div>
+    </section>
+</#macro>
+
+<#macro about>
+    <section id="about">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title text-center wow fadeInDown">${page.about.title}</h2>
+                <#list page.about.description as description>
+                <p class="text-center wow fadeInDown">${description}</p>
+                </#list>
+            </div>
+
+            <divclass="row">
+                <#--div class="col-sm-6 wow fadeInLeft">
                     <h3 class="column-title">Video Intro</h3>
-                    <!-- 16:9 aspect ratio -->
+
                     <div class="embed-responsive embed-responsive-16by9">
                         <iframe src="//player.vimeo.com/video/58093852?title=0&amp;byline=0&amp;portrait=0&amp;color=e79b39" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
                     </div>
+                </div-->
+                <div class="col-sm-6">
+                    <h3 class="column-title">${page.text.skills!"Our Skills"}</h3>
+                    <#list page.about.skill as skill>
+                    <strong>${skill}</strong>
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-primary" role="progressbar" data-width="${skill.@value}">${skill.@value}%</div>
+                    </div>
+                    </#list>
                 </div>
 
                 <div class="col-sm-6 wow fadeInRight">
@@ -291,272 +332,72 @@
                     </div>
 
                     <a class="btn btn-primary" href="#">Learn More</a>
-
                 </div>
             </div>
         </div>
-    </section><!--/#about-->
+    </section>
 
     <section id="work-process">
         <div class="container">
             <div class="section-header">
-                <h2 class="section-title text-center wow fadeInDown">Our Process</h2>
-                <p class="text-center wow fadeInDown">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut <br> et dolore magna aliqua. Ut enim ad minim veniam</p>
+                <h2 class="section-title text-center wow fadeInDown">${page.process.title}</h2>
+                <p class="text-center wow fadeInDown">${page.process.description}</p>
             </div>
 
             <div class="row text-center">
+                <#list page.process.item as item>
                 <div class="col-md-2 col-md-4 col-xs-6">
                     <div class="wow fadeInUp" data-wow-duration="400ms" data-wow-delay="0ms">
                         <div class="icon-circle">
-                            <span>1</span>
-                            <i class="fa fa-coffee fa-2x"></i>
+                            <span>${item?index + 1}</span>
+                            <i class="fa ${item.faIcon} fa-2x"></i>
                         </div>
-                        <h3>MEET</h3>
+                        <h3>${item.title}</h3>
                     </div>
                 </div>
-                <div class="col-md-2 col-md-4 col-xs-6">
-                    <div class="wow fadeInUp" data-wow-duration="400ms" data-wow-delay="100ms">
-                        <div class="icon-circle">
-                            <span>2</span>
-                            <i class="fa fa-bullhorn fa-2x"></i>
-                        </div>
-                        <h3>PLAN</h3>
-                    </div>
-                </div>
-                <div class="col-md-2 col-md-4 col-xs-6">
-                    <div class="wow fadeInUp" data-wow-duration="400ms" data-wow-delay="200ms">
-                        <div class="icon-circle">
-                            <span>3</span>
-                            <i class="fa fa-image fa-2x"></i>
-                        </div>
-                        <h3>DESIGN</h3>
-                    </div>
-                </div>
-                <div class="col-md-2 col-md-4 col-xs-6">
-                    <div class="wow fadeInUp" data-wow-duration="400ms" data-wow-delay="300ms">
-                        <div class="icon-circle">
-                            <span>4</span>
-                            <i class="fa fa-heart fa-2x"></i>
-                        </div>
-                        <h3>DEVELOP</h3>
-                    </div>
-                </div>
-                <div class="col-md-2 col-md-4 col-xs-6">
-                    <div class="wow fadeInUp" data-wow-duration="400ms" data-wow-delay="400ms">
-                        <div class="icon-circle">
-                            <span>5</span>
-                            <i class="fa fa-shopping-cart fa-2x"></i>
-                        </div>
-                        <h3>TESTING</h3>
-                    </div>
-                </div>
-                <div class="col-md-2 col-md-4 col-xs-6">
-                    <div class="wow fadeInUp" data-wow-duration="400ms" data-wow-delay="500ms">
-                        <div class="icon-circle">
-                            <span>6</span>
-                            <i class="fa fa-space-shuttle fa-2x"></i>
-                        </div>
-                        <h3>LAUNCH</h3>
-                    </div>
-                </div>
+                </#list>
             </div>
         </div>
-    </section><!--/#work-process-->
+    </section>
+</#macro>
 
+<#macro team>
     <section id="meet-team">
         <div class="container">
             <div class="section-header">
-                <h2 class="section-title text-center wow fadeInDown">Meet The Team</h2>
-                <p class="text-center wow fadeInDown">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut <br> et dolore magna aliqua. Ut enim ad minim veniam</p>
+                <h2 class="section-title text-center wow fadeInDown">${page.team.title}</h2>
+                <p class="text-center wow fadeInDown">${page.team.description}</p>
             </div>
 
             <div class="row">
+                <#list page.team.item as item>
                 <div class="col-sm-6 col-md-3">
                     <div class="team-member wow fadeInUp" data-wow-duration="400ms" data-wow-delay="0ms">
                         <div class="team-img">
-                            <img class="img-responsive" src="/resources/images/team/01.jpg" alt="">
+                            <img class="img-responsive" src="${item.image}" alt="">
                         </div>
                         <div class="team-info">
-                            <h3>Bin Burhan</h3>
-                            <span>Co-Founder</span>
+                            <h3>${item.name}</h3>
+                            <span>${item.title}</span>
                         </div>
-                        <p>Backed by some of the biggest names in the industry, Firefox OS is an open platform that fosters greater</p>
+                        <p>${item.description}</p>
                         <ul class="social-icons">
-                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                            <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-3">
-                    <div class="team-member wow fadeInUp" data-wow-duration="400ms" data-wow-delay="100ms">
-                        <div class="team-img">
-                            <img class="img-responsive" src="/resources/images/team/02.jpg" alt="">
-                        </div>
-                        <div class="team-info">
-                            <h3>Jane Man</h3>
-                            <span>Project Manager</span>
-                        </div>
-                        <p>Backed by some of the biggest names in the industry, Firefox OS is an open platform that fosters greater</p>
-                        <ul class="social-icons">
-                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                            <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-3">
-                    <div class="team-member wow fadeInUp" data-wow-duration="400ms" data-wow-delay="200ms">
-                        <div class="team-img">
-                            <img class="img-responsive" src="/resources/images/team/03.jpg" alt="">
-                        </div>
-                        <div class="team-info">
-                            <h3>Pahlwan</h3>
-                            <span>Designer</span>
-                        </div>
-                        <p>Backed by some of the biggest names in the industry, Firefox OS is an open platform that fosters greater</p>
-                        <ul class="social-icons">
-                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                            <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-3">
-                    <div class="team-member wow fadeInUp" data-wow-duration="400ms" data-wow-delay="300ms">
-                        <div class="team-img">
-                            <img class="img-responsive" src="/resources/images/team/04.jpg" alt="">
-                        </div>
-                        <div class="team-info">
-                            <h3>Nasir uddin</h3>
-                            <span>UI/UX</span>
-                        </div>
-                        <p>Backed by some of the biggest names in the industry, Firefox OS is an open platform that fosters greater</p>
-                        <ul class="social-icons">
-                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                            <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <div class="divider"></div>
-
-            <div class="row">
-                <div class="col-sm-4">
-                    <h3 class="column-title">Our Skills</h3>
-                    <strong>GRAPHIC DESIGN</strong>
-                    <div class="progress">
-                        <div class="progress-bar progress-bar-primary" role="progressbar" data-width="85">85%</div>
-                    </div>
-                    <strong>WEB DESIGN</strong>
-                    <div class="progress">
-                        <div class="progress-bar progress-bar-primary" role="progressbar" data-width="70">70%</div>
-                    </div>
-                    <strong>WORDPRESS DEVELOPMENT</strong>
-                    <div class="progress">
-                        <div class="progress-bar progress-bar-primary" role="progressbar" data-width="90">90%</div>
-                    </div>
-                    <strong>JOOMLA DEVELOPMENT</strong>
-                    <div class="progress">
-                        <div class="progress-bar progress-bar-primary" role="progressbar" data-width="65">65%</div>
-                    </div>
-                </div>
-
-                <div class="col-sm-4">
-                    <h3 class="column-title">Our History</h3>
-                    <div role="tabpanel">
-                        <ul class="nav main-tab nav-justified" role="tablist">
-                            <li role="presentation" class="active">
-                                <a href="#tab1" role="tab" data-toggle="tab" aria-controls="tab1" aria-expanded="true">2010</a>
+                            <#list item.social?children as social>
+                            <#if social?node_type != "text">
+                            <li>
+                                <a href="${social}" target="_blank">
+                                    <i class="fa fa-${social?node_name}"></i>
+                                </a>
                             </li>
-                            <li role="presentation">
-                                <a href="#tab2" role="tab" data-toggle="tab" aria-controls="tab2" aria-expanded="false">2011</a>
-                            </li>
-                            <li role="presentation">
-                                <a href="#tab3" role="tab" data-toggle="tab" aria-controls="tab3" aria-expanded="false">2013</a>
-                            </li>
-                            <li role="presentation">
-                                <a href="#tab4" role="tab" data-toggle="tab" aria-controls="tab4" aria-expanded="false">2014</a>
-                            </li>
+                            </#if>
+                            </#list>
                         </ul>
-                        <div id="tab-content" class="tab-content">
-                            <div role="tabpanel" class="tab-pane fade active in" id="tab1" aria-labelledby="tab1">
-                                <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</p>
-                                <p>The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters readable English.</p>
-                            </div>
-                            <div role="tabpanel" class="tab-pane fade" id="tab2" aria-labelledby="tab2">
-                                <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</p>
-                                <p>The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters readable English.</p>
-                            </div>
-                            <div role="tabpanel" class="tab-pane fade" id="tab3" aria-labelledby="tab3">
-                                <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</p>
-                                <p>The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters readable English.</p>
-                            </div>
-                            <div role="tabpanel" class="tab-pane fade" id="tab4" aria-labelledby="tab3">
-                                <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</p>
-                                <p>The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters readable English.</p>
-                            </div>
-                        </div>
                     </div>
                 </div>
-
-                <div class="col-sm-4">
-                    <h3 class="column-title">Faqs</h3>
-                    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                        <div class="panel panel-default">
-                            <div class="panel-heading" role="tab" id="headingOne">
-                                <h4 class="panel-title">
-                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                        Enim eiusmod high life accusamus
-                                    </a>
-                                </h4>
-                            </div>
-                            <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
-                                <div class="panel-body">
-                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum.
-                                </div>
-                            </div>
-                        </div>
-                        <div class="panel panel-default">
-                            <div class="panel-heading" role="tab" id="headingTwo">
-                                <h4 class="panel-title">
-                                    <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                        Nihil anim keffiyeh helvetica
-                                    </a>
-                                </h4>
-                            </div>
-                            <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
-                                <div class="panel-body">
-                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum.
-                                </div>
-                            </div>
-                        </div>
-                        <div class="panel panel-default">
-                            <div class="panel-heading" role="tab" id="headingThree">
-                                <h4 class="panel-title">
-                                    <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                        Vegan excepteur butcher vice lomo
-                                    </a>
-                                </h4>
-                            </div>
-                            <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
-                                <div class="panel-body">
-                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+                </#list>
             </div>
         </div>
-    </section><!--/#meet-team-->
+    </section>
 
     <section id="animated-number">
         <div class="container">
@@ -592,8 +433,10 @@
                 </div>
             </div>
         </div>
-    </section><!--/#animated-number-->
+    </section>
+</#macro>
 
+<#macro pricing>
     <section id="pricing">
         <div class="container">
             <div class="section-header">
@@ -607,12 +450,12 @@
                         <ul class="pricing">
                             <li class="plan-header">
                                 <div class="price-duration">
-                                        <span class="price">
-                                            $39
-                                        </span>
-                                        <span class="duration">
-                                            per month
-                                        </span>
+                                            <span class="price">
+                                                $39
+                                            </span>
+                                            <span class="duration">
+                                                per month
+                                            </span>
                                 </div>
 
                                 <div class="plan-name">
@@ -634,12 +477,12 @@
                         <ul class="pricing featured">
                             <li class="plan-header">
                                 <div class="price-duration">
-                                        <span class="price">
-                                            $69
-                                        </span>
-                                        <span class="duration">
-                                            per month
-                                        </span>
+                                            <span class="price">
+                                                $69
+                                            </span>
+                                            <span class="duration">
+                                                per month
+                                            </span>
                                 </div>
 
                                 <div class="plan-name">
@@ -661,12 +504,12 @@
                         <ul class="pricing">
                             <li class="plan-header">
                                 <div class="price-duration">
-                                        <span class="price">
-                                            $99
-                                        </span>
-                                        <span class="duration">
-                                            per month
-                                        </span>
+                                            <span class="price">
+                                                $99
+                                            </span>
+                                            <span class="duration">
+                                                per month
+                                            </span>
                                 </div>
 
                                 <div class="plan-name">
@@ -688,12 +531,12 @@
                         <ul class="pricing">
                             <li class="plan-header">
                                 <div class="price-duration">
-                                        <span class="price">
-                                            $199
-                                        </span>
-                                        <span class="duration">
-                                            per month
-                                        </span>
+                                            <span class="price">
+                                                $199
+                                            </span>
+                                            <span class="duration">
+                                                per month
+                                            </span>
                                 </div>
 
                                 <div class="plan-name">
@@ -712,47 +555,10 @@
                 </div>
             </div>
         </div>
-    </section><!--/#pricing-->
+    </section>
+</#macro>
 
-    <section id="testimonial">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-8 col-sm-offset-2">
-
-                    <div id="carousel-testimonial" class="carousel slide text-center" data-ride="carousel">
-                        <!-- Wrapper for slides -->
-                        <div class="carousel-inner" role="listbox">
-                            <div class="item active">
-                                <p><img class="img-circle img-thumbnail" src="/resources/images/testimonial/01.jpg" alt=""></p>
-                                <h4>Louise S. Morgan</h4>
-                                <small>Treatment, storage, and disposal (TSD) worker</small>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut et dolore magna aliqua. Ut enim ad minim veniam</p>
-                            </div>
-                            <div class="item">
-                                <p><img class="img-circle img-thumbnail" src="/resources/images/testimonial/01.jpg" alt=""></p>
-                                <h4>Louise S. Morgan</h4>
-                                <small>Treatment, storage, and disposal (TSD) worker</small>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut et dolore magna aliqua. Ut enim ad minim veniam</p>
-                            </div>
-                        </div>
-
-                        <!-- Controls -->
-                        <div class="btns">
-                            <a class="btn btn-primary btn-sm" href="#carousel-testimonial" role="button" data-slide="prev">
-                                <span class="fa fa-angle-left" aria-hidden="true"></span>
-                                <span class="sr-only">Previous</span>
-                            </a>
-                            <a class="btn btn-primary btn-sm" href="#carousel-testimonial" role="button" data-slide="next">
-                                <span class="fa fa-angle-right" aria-hidden="true"></span>
-                                <span class="sr-only">Next</span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section><!--/#testimonial-->
-
+<#macro blog>
     <section id="blog">
         <div class="container">
             <div class="section-header">
@@ -842,205 +648,52 @@
 
         </div>
     </section>
+</#macro>
 
+<#macro contact>
     <section id="get-in-touch">
         <div class="container">
             <div class="section-header">
-                <h2 class="section-title text-center wow fadeInDown">Get in Touch</h2>
-                <p class="text-center wow fadeInDown">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut <br> et dolore magna aliqua. Ut enim ad minim veniam</p>
+                <h2 class="section-title text-center wow fadeInDown">${page.contact.title}</h2>
+                <p class="text-center wow fadeInDown">${page.contact.description}</p>
             </div>
         </div>
-    </section><!--/#get-in-touch-->
+    </section>
 
     <section id="contact">
-        <div id="google-map" style="height:650px" data-latitude="52.365629" data-longitude="4.871331"></div>
+        <div id="google-map" style="height:650px"
+             data-latitude="${page.contact.geolocation.@latitude}"
+             data-longitude="${page.contact.geolocation.@longitude}"></div>
+
         <div class="container-wrapper">
             <div class="container">
                 <div class="row">
                     <div class="col-sm-4 col-sm-offset-8">
                         <div class="contact-form">
-                            <h3>Contact Info</h3>
-
                             <address>
                                 <strong>Twitter, Inc.</strong><br>
-                                795 Folsom Ave, Suite 600<br>
-                                San Francisco, CA 94107<br>
-                                <abbr title="Phone">P:</abbr> (123) 456-7890
+                                ${page.contact.address}<br>
+                                ${page.contact.email}<br>
+                                ${page.contact.phone}
                             </address>
 
                             <form id="main-contact-form" name="contact-form" method="post" action="#">
                                 <div class="form-group">
-                                    <input type="text" name="name" class="form-control" placeholder="Name" required>
+                                    <input type="text" name="name" class="form-control" placeholder="${page.text.name}" required>
                                 </div>
                                 <div class="form-group">
-                                    <input type="email" name="email" class="form-control" placeholder="Email" required>
+                                    <input type="email" name="email" class="form-control" placeholder="${page.text.email}" required>
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" name="subject" class="form-control" placeholder="Subject" required>
+                                    <input type="text" name="subject" class="form-control" placeholder="${page.text.subject}" required>
                                 </div>
                                 <div class="form-group">
-                                    <textarea name="message" class="form-control" rows="8" placeholder="Message" required></textarea>
+                                    <textarea name="message" class="form-control" rows="8"
+                                              placeholder="${page.text.enterMessage}" required></textarea>
                                 </div>
-                                <button type="submit" class="btn btn-primary">Send Message</button>
+
+                                <button type="submit" class="btn btn-primary">${page.text.sendNow}</button>
                             </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section><!--/#bottom-->
-
-    <footer id="footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-6">
-                    &copy; 2014 Your Company. Designed by <a target="_blank" href="http://shapebootstrap.net/" title="Free Twitter Bootstrap WordPress Themes and HTML templates">ShapeBootstrap</a>
-                </div>
-                <div class="col-sm-6">
-                    <ul class="social-icons">
-                        <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                        <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                        <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                        <li><a href="#"><i class="fa fa-pinterest"></i></a></li>
-                        <li><a href="#"><i class="fa fa-dribbble"></i></a></li>
-                        <li><a href="#"><i class="fa fa-behance"></i></a></li>
-                        <li><a href="#"><i class="fa fa-flickr"></i></a></li>
-                        <li><a href="#"><i class="fa fa-youtube"></i></a></li>
-                        <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-                        <li><a href="#"><i class="fa fa-github"></i></a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </footer><!--/#footer-->
-
-    <script src="/resources/js/jquery.js"></script>
-    <script src="/resources/js/bootstrap.min.js"></script>
-    <script src="http://maps.google.com/maps/api/js?sensor=true"></script>
-    <script src="/resources/js/owl.carousel.min.js"></script>
-    <script src="/resources/js/mousescroll.js"></script>
-    <script src="/resources/js/smoothscroll.js"></script>
-    <script src="/resources/js/jquery.prettyPhoto.js"></script>
-    <script src="/resources/js/jquery.isotope.min.js"></script>
-    <script src="/resources/js/jquery.inview.min.js"></script>
-    <script src="/resources/js/wow.min.js"></script>
-    <script src="/resources/js/main.js"></script>
-</body>
-</html>
-
-<#macro header>
-    <header id="header">
-        <nav id="main-menu" class="navbar navbar-default navbar-fixed-top" role="banner">
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-
-                    <a class="navbar-brand" href="#">
-                        <img src="${page.resources.logo}" alt="logo">
-                    </a>
-                </div>
-
-                <div class="collapse navbar-collapse navbar-right">
-                    <ul class="nav navbar-nav">
-                        <li class="scroll active"><a href="#home">${page.text.home!"Home"}</a></li>
-                        <li class="scroll"><a href="#features">${page.text.features!"Features"}</a></li>
-                        <li class="scroll"><a href="#services">${page.text.services!"Services"}</a></li>
-                        <li class="scroll"><a href="#portfolio">${page.text.portfolio!"Portfolio"}</a></li>
-                        <li class="scroll"><a href="#about">${page.text.about!"About"}</a></li>
-                        <#if !teamDisabled>
-                        <li class="scroll"><a href="#meet-team">${page.text.team!"Team"}</a></li>
-                        </#if>
-                        <#if !pricingDisabled>
-                        <li class="scroll"><a href="#pricing">${page.text.pricing!"Pricing"}</a></li>
-                        </#if>
-                        <#if !blogDisabled>
-                        <li class="scroll"><a href="#blog">${page.text.blog!"Blog"}</a></li>
-                        </#if>
-                        <li class="scroll"><a href="#get-in-touch">${page.text.contact!"Contact"}</a></li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-
-    <section id="main-slider">
-        <div class="owl-carousel">
-            <#list page.carousel.slide as slide>
-            <div class="item" style="background-image: url(${slide.image});">
-                <div class="slider-inner">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div class="carousel-content">
-                                    <h2>${slide.title}</h2>
-                                    <p>${slide.description}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            </#list>
-        </div>
-    </section>
-</#macro>
-
-<#macro features>
-    <section id="features">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title text-center wow fadeInDown">Awesome Features</h2>
-                <p class="text-center wow fadeInDown">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut <br> et dolore magna aliqua. Ut enim ad minim veniam</p>
-            </div>
-
-            <div class="row">
-                <div class="col-sm-6 wow fadeInLeft">
-                    <img class="img-responsive" src="/resources/images/main-feature.png" alt="">
-                </div>
-
-                <div class="col-sm-6">
-                    <div class="media service-box wow fadeInRight">
-                        <div class="pull-left">
-                            <i class="fa fa-line-chart"></i>
-                        </div>
-                        <div class="media-body">
-                            <h4 class="media-heading">UX design</h4>
-                            <p>Backed by some of the biggest names in the industry, Firefox OS is an open platform that fosters greater</p>
-                        </div>
-                    </div>
-
-                    <div class="media service-box wow fadeInRight">
-                        <div class="pull-left">
-                            <i class="fa fa-cubes"></i>
-                        </div>
-                        <div class="media-body">
-                            <h4 class="media-heading">UI design</h4>
-                            <p>Backed by some of the biggest names in the industry, Firefox OS is an open platform that fosters greater</p>
-                        </div>
-                    </div>
-
-                    <div class="media service-box wow fadeInRight">
-                        <div class="pull-left">
-                            <i class="fa fa-pie-chart"></i>
-                        </div>
-                        <div class="media-body">
-                            <h4 class="media-heading">SEO Services</h4>
-                            <p>Backed by some of the biggest names in the industry, Firefox OS is an open platform that fosters greater</p>
-                        </div>
-                    </div>
-
-                    <div class="media service-box wow fadeInRight">
-                        <div class="pull-left">
-                            <i class="fa fa-pie-chart"></i>
-                        </div>
-                        <div class="media-body">
-                            <h4 class="media-heading">SEO Services</h4>
-                            <p>Backed by some of the biggest names in the industry, Firefox OS is an open platform that fosters greater</p>
                         </div>
                     </div>
                 </div>

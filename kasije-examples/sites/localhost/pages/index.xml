@@ -28,6 +28,8 @@
         <sendNow>Enviar ahora</sendNow>
         <address><![CDATA[Direcci&oacute;n]]></address>
         <phone><![CDATA[Tel&eacute;fono]]></phone>
+        <allWorks>All Works</allWorks>
+        <skills>Nuestras habilidades</skills>
     </text>
     <carousel>
         <slide>
@@ -42,38 +44,65 @@
         </slide>
     </carousel>
     <features>
-
+        <title>Awesome Features</title>
+        <description>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut et dolore magna aliqua. Ut enim ad minim veniam</description>
+        <image>/resources/images/main-feature.png</image>
+        <item>
+            <faIcon>fa-line-chart</faIcon>
+            <title>UX design</title>
+            <description>Backed by some of the biggest names in the industry, Firefox OS is an open platform that fosters greater</description>
+        </item>
+        <item>
+            <faIcon>fa-cubes</faIcon>
+            <title>UI design</title>
+            <description>Backed by some of the biggest names in the industry, Firefox OS is an open platform that fosters greater</description>
+        </item>
+        <item>
+            <faIcon>fa-pie-chart</faIcon>
+            <title>SEO Services</title>
+            <description>Backed by some of the biggest names in the industry, Firefox OS is an open platform that fosters greater</description>
+        </item>
+        <item>
+            <faIcon>fa-pie-chart</faIcon>
+            <title>SEO Others</title>
+            <description>Backed by some of the biggest names in the industry, Firefox OS is an open platform that fosters greater</description>
+        </item>
+        <banner>
+            <title>MULTI IS A CREATIVE HTML TEMPLATE</title>
+            <description>Bla bla bla</description>
+            <image>/resources/images/cta2/cta2-img.png</image>
+        </banner>
     </features>
     <services>
         <title>Nuestros Servicios</title>
         <description>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam</description>
         <item>
-            <faIcon>flask</faIcon>
+            <faIcon>fa-flask</faIcon>
             <title>Brand Identity</title>
             <description>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore</description>
         </item>
         <item>
-            <faIcon>umbrella</faIcon>
+            <faIcon>fa-umbrella</faIcon>
             <title>Creative Idea</title>
             <description>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore</description>
         </item>
         <item>
-            <faIcon>cloud</faIcon>
+            <faIcon>fa-cloud</faIcon>
             <title>Awesome Support</title>
             <description>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore</description>
         </item>
         <item>
-            <faIcon>coffee</faIcon>
+            <faIcon>fa-coffee</faIcon>
             <title>Professional Design</title>
             <description>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore</description>
         </item>
         <item>
-            <faIcon>bitbucket</faIcon>
+            <faIcon>fa-bitbucket</faIcon>
             <title>App Development</title>
             <description>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore</description>
         </item>
         <item>
-            <faIcon>gift</faIcon>
+            <faIcon>fa-gift</faIcon>
             <title>Clean Code</title>
             <description>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore</description>
         </item>
@@ -87,10 +116,39 @@
         <skill value="60">Programming</skill>
         <skill value="85">Fun</skill>
     </about>
+    <process>
+        <title>Our Process</title>
+        <description>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut </description>
+        <item>
+            <faIcon>fa-coffee</faIcon>
+            <title>MEET</title>
+        </item>
+        <item>
+            <faIcon>fa-bullhorn</faIcon>
+            <title>PLAN</title>
+        </item>
+        <item>
+            <faIcon>fa-image</faIcon>
+            <title>DESIGN</title>
+        </item>
+        <item>
+            <faIcon>fa-heart</faIcon>
+            <title>DEVELOP</title>
+        </item>
+        <item>
+            <faIcon>fa-shopping-cart</faIcon>
+            <title>TESTING</title>
+        </item>
+        <item>
+            <faIcon>fa-space-shuttle</faIcon>
+            <title>LAUNCH</title>
+        </item>
+    </process>
     <portfolio>
         <title>Our Portfolio</title>
         <description>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam</description>
         <item>
+            <category>creative</category>
             <image>/resources/images/portfolio/1.jpg</image>
             <title>Time Hours</title>
             <description>Design, Photography</description>
@@ -98,6 +156,7 @@
             <url>http://bridje.org</url>
         </item>
         <item>
+            <category>corporate</category>
             <image>/resources/images/portfolio/2.jpg</image>
             <title>Time Hours 2</title>
             <description>Design, Photography 2</description>
@@ -105,6 +164,7 @@
             <url>http://bridje.org</url>
         </item>
         <item>
+            <category>portfolio</category>
             <image>/resources/images/portfolio/3.jpg</image>
             <title>Time Hours 3</title>
             <description>Design, Photography 3</description>
@@ -112,6 +172,7 @@
             <url>http://bridje.org</url>
         </item>
         <item>
+            <category>creative</category>
             <image>/resources/images/portfolio/4.jpg</image>
             <title>Time Hours 4</title>
             <description>Design, Photography 4</description>
@@ -119,6 +180,7 @@
             <url>http://bridje.org</url>
         </item>
         <item>
+            <category>corporate</category>
             <image>/resources/images/portfolio/5.jpg</image>
             <title>Time Hours 5</title>
             <description>Design, Photography 5</description>
@@ -126,6 +188,7 @@
             <url>http://bridje.org</url>
         </item>
         <item>
+            <category>portfolio</category>
             <image>/resources/images/portfolio/6.jpg</image>
             <title>Time Hours 6</title>
             <description>Design, Photography 6</description>
@@ -133,6 +196,7 @@
             <url>http://bridje.org</url>
         </item>
         <item>
+            <category>creative</category>
             <image>/resources/images/portfolio/7.jpg</image>
             <title>Time Hours 7</title>
             <description>Design, Photography 7</description>
@@ -140,6 +204,7 @@
             <url>http://bridje.org</url>
         </item>
         <item>
+            <category>corporate</category>
             <image>/resources/images/portfolio/8.jpg</image>
             <title>Time Hours 8</title>
             <description>Design, Photography 8</description>
@@ -218,9 +283,9 @@
         </item>
     </tips>
     <contact>
+        <title><![CDATA[Cont&aacute;ctanos]]></title>
+        <description>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut</description>
         <geolocation latitude="-0.160257" longitude="-78.478172" zoom="15" apiKey="AIzaSyC21Pz0EBD7qjt4xqO-8KFok_uXLqjTUkQ" />
-        <title>Contact Us</title>
-        <description>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam</description>
         <address>Shyris y Rio Coca</address>
         <phone>(+593) 220-0000</phone>
         <email>info@touwolf.com</email>
