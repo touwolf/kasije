@@ -31,10 +31,10 @@
     <![endif]-->
 
     <link rel="shortcut icon" href="/resources/images/ico/favicon.ico">
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/resources/images/ico/apple-touch-icon-144-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/resources/images/ico/apple-touch-icon-114-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/resources/images/ico/apple-touch-icon-72-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" href="/resources/images/ico/apple-touch-icon-57-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/resources/images/ico/icon-144.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/resources/images/ico/icon-114.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/resources/images/ico/icon-72.png">
+    <link rel="apple-touch-icon-precomposed" href="/resources/images/ico/icon-57.png">
 </head>
 
 <body id="home" class="homepage">
@@ -63,12 +63,12 @@
     <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script src="http://maps.google.com/maps/api/js?key=${page.contact.geolocation.@apiKey}"></script>
-    <script src="/resources/js/owl.carousel.min.js"></script>
+    <script src="/resources/js/owl.carousel.js"></script>
     <script src="/resources/js/mousescroll.js"></script>
     <script src="/resources/js/smoothscroll.js"></script>
     <script src="/resources/js/jquery.prettyPhoto.js"></script>
-    <script src="/resources/js/jquery.isotope.min.js"></script>
-    <script src="/resources/js/jquery.inview.min.js"></script>
+    <script src="/resources/js/jquery.isotope.js"></script>
+    <script src="/resources/js/jquery.inview.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
     <script src="/resources/js/main.js"></script>
     <#if page.resources??>
