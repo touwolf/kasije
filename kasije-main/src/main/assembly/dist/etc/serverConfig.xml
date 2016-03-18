@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <serverConfig>
     <connectors>
-        <connectorConfig>
+        <connector>
             <protocol>http</protocol>
             <port>8080</port>
             <keyStorePath></keyStorePath>
@@ -9,7 +9,7 @@
             <keyManagerPassword></keyManagerPassword>
             <trustStorePath></trustStorePath>
             <trustStorePassword></trustStorePassword>
-        </connectorConfig>
+        </connector>
     </connectors>
     <sessionExp></sessionExp>
 </serverConfig>

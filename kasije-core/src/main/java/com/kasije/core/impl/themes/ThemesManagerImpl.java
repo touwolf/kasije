@@ -17,6 +17,7 @@
 package com.kasije.core.impl.themes;
 
 import com.kasije.core.ThemesManager;
+import com.kasije.core.WebSite;
 import com.kasije.core.WebSiteTheme;
 import com.kasije.core.tpl.TemplateEngine;
 import java.util.Map;
@@ -39,14 +40,15 @@ public class ThemesManagerImpl implements ThemesManager
     {
         themesMap = new ConcurrentHashMap<>();
     }
-    
+
     @Override
-    public WebSiteTheme findTheme(String themeName)
+    public WebSiteTheme findTheme(WebSite webSite)
     {
+        String themeName = webSite.getTheme().getName();
         WebSiteTheme theme = themesMap.get(themeName);
         if(theme == null)
         {
-            theme = new WebSiteThemeImpl(themeName, tplEngines);
+            theme = new WebSiteThemeImpl(webSite, tplEngines);
             themesMap.put(themeName, theme);
         }
         return theme;

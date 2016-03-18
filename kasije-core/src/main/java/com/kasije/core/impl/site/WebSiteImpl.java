@@ -20,6 +20,7 @@ import com.kasije.core.WebFile;
 import com.kasije.core.WebPage;
 import com.kasije.core.WebSite;
 import com.kasije.core.config.SiteConfig;
+import com.kasije.core.config.ThemeConfig;
 import com.kasije.core.config.sites.Alias;
 import com.kasije.core.impl.files.WebFileImpl;
 import com.kasije.core.impl.page.WebPageImpl;
@@ -64,9 +65,9 @@ class WebSiteImpl implements WebSite
     }
 
     @Override
-    public String getTheme()
+    public ThemeConfig getTheme()
     {
-        return config.getTheme();
+        return config.getThemeConfig();
     }
 
     @Override

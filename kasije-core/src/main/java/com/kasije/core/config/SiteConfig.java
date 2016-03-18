@@ -4,7 +4,6 @@ import com.kasije.core.config.sites.Alias;
 import java.util.LinkedList;
 import java.util.List;
 import javax.xml.bind.annotation.*;
-import org.apache.commons.lang.StringUtils;
 import org.bridje.cfg.Configuration;
 import org.bridje.cfg.adapter.XmlConfigAdapter;
 
@@ -19,7 +18,8 @@ public class SiteConfig
     })
     private List<Alias> alias;
 
-    private String theme;
+    @XmlElement(name = "theme", type = ThemeConfig.class)
+    private ThemeConfig themeConfig;
 
     public List<Alias> getAlias()
     {
@@ -36,18 +36,19 @@ public class SiteConfig
         this.alias = alias;
     }
 
-    public String getTheme()
+    public ThemeConfig getThemeConfig()
     {
-        if (StringUtils.isBlank(theme))
+        if (themeConfig == null)
         {
-            theme = "default";
+            themeConfig = new ThemeConfig();
+            themeConfig.setName("default");
         }
 
-        return theme;
+        return themeConfig;
     }
 
-    public void setTheme(String theme)
+    public void setThemeConfig(ThemeConfig themeConfig)
     {
-        this.theme = theme;
+        this.themeConfig = themeConfig;
     }
 }

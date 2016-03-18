@@ -17,11 +17,14 @@
 package com.kasije.core.impl.themes;
 
 import com.kasije.core.RequestContext;
+import com.kasije.core.WebSite;
 import com.kasije.core.WebSiteTheme;
+import com.kasije.core.config.ThemeConfig;
 import com.kasije.core.tpl.TemplateContext;
 import com.kasije.core.tpl.TemplateEngine;
 import java.io.File;
 import java.io.IOException;
+import org.apache.commons.lang.StringUtils;
 
 /**
  *
@@ -34,11 +37,11 @@ public class WebSiteThemeImpl implements WebSiteTheme
 
     private final File file;
 
-    public WebSiteThemeImpl(String name, TemplateEngine[] tplEngines)
+    public WebSiteThemeImpl(WebSite webSite, TemplateEngine[] tplEngines)
     {
-        this.name = name;
+        this.name = webSite.getTheme().getName();
         this.tplEngines = tplEngines;
-        this.file = new File("./sites/themes/" + name);
+        this.file = findThemeFile(webSite);
     }
 
     @Override
@@ -46,7 +49,7 @@ public class WebSiteThemeImpl implements WebSiteTheme
     {
         return name;
     }
-    
+
     @Override
     public File getFile()
     {
@@ -65,5 +68,34 @@ public class WebSiteThemeImpl implements WebSiteTheme
             }
         }
         return false;
+    }
+
+    private File findThemeFile(WebSite webSite)
+    {
+        ThemeConfig themeConfig = webSite.getTheme();
+        String name = themeConfig.getName();
+
+        if (StringUtils.isNotBlank(themeConfig.getPath()))
+        {
+            File file = new File(themeConfig.getPath() + "/" + name);
+            if (file.exists() && file.isDirectory())
+            {
+                return file;
+            }
+        }
+
+        File file = new File("./sites/themes/" + name);
+        if (file.exists() && file.isDirectory())
+        {
+            return file;
+        }
+
+        file = new File(webSite.getFile().getParent(), "themes/" + name);
+        if (file.exists())
+        {
+            return file;
+        }
+
+        return null;
     }
 }

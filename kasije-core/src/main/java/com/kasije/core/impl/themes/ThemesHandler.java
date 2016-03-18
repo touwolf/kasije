@@ -36,10 +36,10 @@ class ThemesHandler implements RequestHandler
 {
     @InjectNext
     private RequestHandler handler;
-    
+
     @Inject
     private ThemesManager themesManag;
-    
+
     @Override
     public boolean handle(RequestContext reqCtx) throws IOException
     {
@@ -49,7 +49,7 @@ class ThemesHandler implements RequestHandler
             WebSite webSite = reqCtx.get(WebSite.class);
             if(webSite != null)
             {
-                WebSiteTheme theme = themesManag.findTheme(webSite.getTheme());
+                WebSiteTheme theme = themesManag.findTheme(webSite);
                 if(theme != null)
                 {
                     reqCtx.put(WebSiteTheme.class, theme);

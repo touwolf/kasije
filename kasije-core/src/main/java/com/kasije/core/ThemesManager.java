@@ -21,5 +21,5 @@ package com.kasije.core;
  */
 public interface ThemesManager
 {
-    WebSiteTheme findTheme(String themeName);
+    WebSiteTheme findTheme(WebSite webSite);
 }
