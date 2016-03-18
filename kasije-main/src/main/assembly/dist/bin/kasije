@@ -2,11 +2,11 @@
 case $1 in
         start)
             nohup java -server \
-                -Xms265m \
-                -Xmx3000m \
-                -jar ./lib/kasije-main.jar $@ 2>&1 &
+                        -Xms265m \
+                        -Xmx3000m \
+                        -jar ./lib/kasije-main.jar start >> ./logs/start.log 2>&1 &
         ;;
-        *)
-             java -jar ./lib/kasije-main.jar $@
+        stop)
+             java -jar ./lib/kasije-main.jar stop
         ;;
 esac

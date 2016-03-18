@@ -16,6 +16,11 @@
     <description>kasije Main</description>
     <url>http://www.kasije.org</url>
 
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <rpm.install.basedir>/usr/local/touwolf/kasije</rpm.install.basedir>
+    </properties>
+
     <build>
         <plugins>
             <plugin>
@@ -35,6 +40,7 @@
             </plugin>
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.6</version>
                 <configuration>
                     <descriptors>
                         <descriptor>src/main/assembly/dist.xml</descriptor>
@@ -98,4 +104,123 @@
             <version>3.1.0</version>
         </dependency>
     </dependencies>
+
+    <profiles>
+        <profile>
+            <id>rpm-kasije</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+                <os>
+                    <name>Linux</name>
+                </os>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-assembly-plugin</artifactId>
+                        <version>2.6</version>
+                        <configuration>
+                            <descriptors>
+                                <descriptor>src/main/assembly/dist.xml</descriptor>
+                            </descriptors>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>make-assembly</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>single</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>rpm-maven-plugin</artifactId>
+                        <version>2.1.4</version>
+                        <executions>
+                            <execution>
+                                <id>rpm-properties</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>version</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>generate-rpm</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>attached-rpm</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <distribution>Kasije</distribution>
+                            <group>Applications/Productivity</group>
+                            <projversion>${project.version}</projversion>
+                            <defaultDirmode>444</defaultDirmode>
+                            <defaultFilemode>444</defaultFilemode>
+                            <defaultUsername>root</defaultUsername>
+                            <defaultGroupname>root</defaultGroupname>
+                            <preinstallScriptlet>
+                                <script>echo "Instalando Kasije..."</script>
+                            </preinstallScriptlet>
+                            <postinstallScriptlet>
+                                <script>echo "Instalacion de Kasije completada."</script>
+                            </postinstallScriptlet>
+                            <mappings>
+                                <mapping>
+                                    <directory>${rpm.install.basedir}/logs</directory>
+                                    <configuration>true</configuration>
+                                    <filemode>666</filemode>
+                                    <sources>
+                                        <source>
+                                            <location>target/${project.artifactId}-${project.version}-dist/logs</location>
+                                        </source>
+                                    </sources>
+                                </mapping>
+                                <mapping>
+                                    <directory>${rpm.install.basedir}/etc</directory>
+                                    <configuration>noreplace</configuration>
+                                    <filemode>666</filemode>
+                                    <sources>
+                                        <source>
+                                            <location>target/${project.artifactId}-${project.version}-dist/etc</location>
+                                        </source>
+                                    </sources>
+                                </mapping>
+                                <mapping>
+                                    <directory>${rpm.install.basedir}/bin</directory>
+                                    <filemode>555</filemode>
+                                    <sources>
+                                        <source>
+                                            <location>target/${project.artifactId}-${project.version}-dist/bin</location>
+                                        </source>
+                                    </sources>
+                                </mapping>
+                                <mapping>
+                                    <directory>${rpm.install.basedir}/lib</directory>
+                                    <sources>
+                                        <source>
+                                            <location>target/${project.artifactId}-${project.version}-dist/lib</location>
+                                        </source>
+                                    </sources>
+                                </mapping>
+                                <mapping>
+                                    <directory>${rpm.install.basedir}/sites</directory>
+                                    <configuration>noreplace</configuration>
+                                    <filemode>666</filemode>
+                                    <sources>
+                                        <source>
+                                            <location>target/${project.artifactId}-${project.version}-dist/sites</location>
+                                        </source>
+                                    </sources>
+                                </mapping>
+                            </mappings>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
