@@ -22,6 +22,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.kasije.core.config.AdminConfig;
 import com.kasije.core.config.RouterConfig;
 import com.kasije.core.config.ServerConfig;
 import com.kasije.core.config.SiteConfig;
@@ -47,6 +48,8 @@ public class ConfigCache
     private RouterConfig routerConfig;
 
     private ServerConfig serverConfig;
+
+    private AdminConfig adminConfig;
 
     public RouterConfig getRouterConfig()
     {
@@ -102,5 +105,23 @@ public class ConfigCache
         }
 
         return siteConfig == null ? new SiteConfig() : siteConfig;
+    }
+
+    public AdminConfig getAdminConfig(String absolutePath)
+    {
+        try
+        {
+            if (null == adminConfig)
+            {
+                ConfigRepositoryContext configContext = configService.createRepoContext(absolutePath + "/etc/");
+                adminConfig = configContext.findConfig(AdminConfig.class);
+            }
+        }
+        catch (Exception ex)
+        {
+            LOG.log(Level.SEVERE, ex.getMessage(), ex);
+        }
+
+        return adminConfig;
     }
 }

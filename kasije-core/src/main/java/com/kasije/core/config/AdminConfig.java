@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.kasije.admin.config;
+package com.kasije.core.config;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

@@ -18,11 +18,11 @@ package com.kasije.admin;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.kasije.admin.config.AdminConfig;
+import com.kasije.core.WebSiteRouter;
+import com.kasije.core.config.AdminConfig;
 import com.kasije.core.RequestContext;
 import com.kasije.core.RequestHandler;
 import com.kasije.core.WebSite;
-import com.kasije.core.WebSiteRouter;
 import com.kasije.core.impl.ConfigCache;
 import java.io.*;
 import java.util.ArrayList;
@@ -47,6 +47,9 @@ public class ResourcesHandler implements RequestHandler
 
     @Inject
     private WebSiteRouter router;
+
+    @Inject
+    private ConfigCache config;
 
     @InjectNext
     private RequestHandler handler;
@@ -105,7 +108,7 @@ public class ResourcesHandler implements RequestHandler
     private WebSite findAdminSite(WebSite site) throws IOException
     {
         String sitePath = site.getFile().getAbsolutePath();
-        AdminConfig adminConfig = ConfigCache.findConfig(sitePath + "/etc/", AdminConfig.class);
+        AdminConfig adminConfig = config.getAdminConfig(sitePath);
         if (adminConfig == null)
         {
             return null;
