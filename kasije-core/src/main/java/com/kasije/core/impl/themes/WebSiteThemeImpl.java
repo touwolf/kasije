@@ -84,13 +84,25 @@ public class WebSiteThemeImpl implements WebSiteTheme
             }
         }
 
-        File file = new File("./sites/themes/" + name);
+        File file = new File("./themes/" + name);
         if (file.exists() && file.isDirectory())
         {
             return file;
         }
 
         file = new File(webSite.getFile().getParent(), "themes/" + name);
+        if (file.exists())
+        {
+            return file;
+        }
+
+        file = new File(webSite.getFile().getParent(), name);
+        if (file.exists())
+        {
+            return file;
+        }
+
+        file = new File(webSite.getFile(), name);
         if (file.exists())
         {
             return file;
