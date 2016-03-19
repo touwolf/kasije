@@ -102,6 +102,12 @@ public class WebSiteThemeImpl implements WebSiteTheme
             return file;
         }
 
+        file = new File(webSite.getFile(), "themes/" + name);
+        if (file.exists())
+        {
+            return file;
+        }
+
         file = new File(webSite.getFile(), name);
         if (file.exists())
         {
