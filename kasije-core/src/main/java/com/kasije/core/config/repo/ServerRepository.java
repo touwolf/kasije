@@ -4,7 +4,6 @@ import org.bridje.cfg.ConfigRepository;
 import org.bridje.ioc.Component;
 
 import java.io.*;
-import java.net.URL;
 
 @Component
 public class ServerRepository implements ConfigRepository
