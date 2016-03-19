@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.bridje.ioc.Component;
+import org.bridje.ioc.Inject;
 import org.bridje.ioc.Priority;
 
 @Component
@@ -32,33 +33,17 @@ public class WebSiteVirtualImpl implements WebSiteVirtual
 {
     private static final Logger LOG = Logger.getLogger(WebSiteVirtualImpl.class.getName());
 
-    private RouterConfig config;
+    @Inject
+    private ConfigCache config;
 
     @Override
     public String findRealSiteName(String serverName) throws IOException
     {
-        Virtual virtual = getConfig().getVirtuals().stream()
+        Virtual virtual = config.getRouterConfig().getVirtuals().stream()
                 .filter(r -> serverName.equals(r.getUri()))
                 .findAny()
                 .orElse(null);
 
         return null == virtual ? serverName : virtual.getReal();
-    }
-
-    public RouterConfig getConfig()
-    {
-        try
-        {
-            if (null == config)
-            {
-                config = ConfigCache.findConfig("server", RouterConfig.class);
-            }
-        }
-        catch (IOException ex)
-        {
-            LOG.log(Level.SEVERE, ex.getMessage(), ex);
-        }
-
-        return config;
     }
 }

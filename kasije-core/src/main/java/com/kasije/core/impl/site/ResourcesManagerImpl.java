@@ -37,7 +37,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.io.IOUtils;
 import org.bridje.ioc.Component;
+import org.bridje.ioc.Inject;
 import org.mozilla.javascript.EvaluatorException;
+
+import javax.annotation.PostConstruct;
 
 /**
  *
@@ -47,6 +50,9 @@ public class ResourcesManagerImpl implements ResourcesManager
 {
     private static final Logger LOG = Logger.getLogger(ResourcesManagerImpl.class.getName());
 
+    @Inject
+    private ConfigCache config;
+
     private static final String SASS_SUFFIX = ".scss";
 
     private static final String CSS_SUFFIX = ".css";
@@ -54,19 +60,6 @@ public class ResourcesManagerImpl implements ResourcesManager
     private static final String JS_SUFFIX = ".js";
 
     private static final String MIN_SUFFIX = ".min";
-
-    private ServerConfig serverConfig;
-
-    public ResourcesManagerImpl()
-    {
-        try
-        {
-            serverConfig = ConfigCache.findConfig("server", ServerConfig.class);
-        }
-        catch (IOException e)
-        {
-        }
-    }
 
     @Override
     public String getMime(String resourceName)
@@ -151,7 +144,8 @@ public class ResourcesManagerImpl implements ResourcesManager
 
     private boolean allowMinify(String sourceName)
     {
-        if (serverConfig != null && Objects.equals(Boolean.TRUE, serverConfig.getDevelopment()))
+        Boolean development = config.getServerConfig().getDevelopment();
+        if (development)
         {
             return false;
         }

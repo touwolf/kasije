@@ -17,30 +17,90 @@
 package com.kasije.core.impl;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import com.kasije.core.config.RouterConfig;
+import com.kasije.core.config.ServerConfig;
+import com.kasije.core.config.SiteConfig;
 import org.bridje.cfg.ConfigRepositoryContext;
 import org.bridje.cfg.ConfigService;
+import org.bridje.ioc.Component;
+import org.bridje.ioc.Inject;
 import org.bridje.ioc.Ioc;
 
 /**
  *
  */
+@Component
 public class ConfigCache
 {
-    private static ConfigService configService;
+    private static final Logger LOG = Logger.getLogger(ConfigCache.class.getName());
 
-    private static ConfigService getConfigService()
+    @Inject
+    private ConfigService configService;
+
+    private Map<String, SiteConfig> siteConfigs = new HashMap<>();
+
+    private RouterConfig routerConfig;
+
+    private ServerConfig serverConfig;
+
+    public RouterConfig getRouterConfig()
     {
-        if (configService == null)
+        try
         {
-            configService = Ioc.context().find(ConfigService.class);
+            if (null == routerConfig)
+            {
+                ConfigRepositoryContext configContext = configService.createRepoContext("server");
+                routerConfig = configContext.findConfig(RouterConfig.class);
+            }
+        }
+        catch (Exception ex)
+        {
+            LOG.log(Level.SEVERE, ex.getMessage(), ex);
         }
 
-        return configService;
+        return routerConfig;
     }
 
-    public static <T> T findConfig(String path, Class<T> configClass) throws IOException
+    public ServerConfig getServerConfig()
     {
-        ConfigRepositoryContext configContext = getConfigService().createRepoContext(path);
-        return configContext.findConfig(configClass);
+        try
+        {
+            if (null == serverConfig)
+            {
+                ConfigRepositoryContext configContext = configService.createRepoContext("server");
+                serverConfig = configContext.findConfig(ServerConfig.class);
+            }
+        }
+        catch (Exception ex)
+        {
+            LOG.log(Level.SEVERE, ex.getMessage(), ex);
+        }
+
+        return serverConfig;
+    }
+
+    public SiteConfig getSiteConfig(String absolutePath)
+    {
+        SiteConfig siteConfig = siteConfigs.get(absolutePath);
+        try
+        {
+            if(null == siteConfig)
+            {
+                ConfigRepositoryContext configContext = configService.createRepoContext(absolutePath + "/etc/");
+                siteConfig = configContext.findConfig(SiteConfig.class);
+                siteConfigs.put(absolutePath, siteConfig);
+            }
+        }
+        catch (Exception ex)
+        {
+            LOG.log(Level.SEVERE, ex.getMessage(), ex);
+        }
+
+        return siteConfig == null ? new SiteConfig() : siteConfig;
     }
 }

@@ -29,6 +29,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.lang.StringUtils;
 import org.bridje.ioc.Component;
+import org.bridje.ioc.Inject;
 import org.bridje.ioc.Priority;
 
 @Component
@@ -37,14 +38,13 @@ public class WebSiteRouterImpl implements WebSiteRouter
 {
     private static final Logger LOG = Logger.getLogger(WebSiteRouterImpl.class.getName());
 
-    private RouterConfig config;
-
-    private Map<String, SiteConfig> siteConfigs = new HashMap<>();
+    @Inject
+    private ConfigCache config;
 
     @Override
     public WebSite findWebSite(String serverName) throws IOException
     {
-        Router router = getConfig().getRouters().stream()
+        Router router = config.getRouterConfig().getRouters().stream()
                 .filter(r -> serverName.equals(r.getUri()))
                 .findAny()
                 .orElse(null);
@@ -58,47 +58,7 @@ public class WebSiteRouterImpl implements WebSiteRouter
             relativePath = router.getPath();
         }
 
-        SiteConfig siteConfig = getSiteConfig(relativePath + serverName);
+        SiteConfig siteConfig = config.getSiteConfig(relativePath + serverName);
         return new WebSiteImpl(relativePath + serverName, siteConfig);
-    }
-
-    public RouterConfig getConfig()
-    {
-        try
-        {
-            if (null == config)
-            {
-                config = ConfigCache.findConfig("server", RouterConfig.class);
-            }
-        }
-        catch (IOException ex)
-        {
-            LOG.log(Level.SEVERE, ex.getMessage(), ex);
-        }
-
-        return config;
-    }
-
-    private SiteConfig getSiteConfig(String absolutePath)
-    {
-        SiteConfig siteConfig = siteConfigs.get(absolutePath);
-        try
-        {
-            if(null == siteConfig)
-            {
-                siteConfig = ConfigCache.findConfig(absolutePath + "/etc/", SiteConfig.class);
-                siteConfigs.put(absolutePath, siteConfig);
-            }
-        }
-        catch (Exception ex)
-        {
-            LOG.log(Level.SEVERE, ex.getMessage(), ex);
-        }
-
-        return siteConfig == null ? new SiteConfig() : siteConfig;
-    }
-
-    public void setConfig(RouterConfig config) {
-        this.config = config;
     }
 }

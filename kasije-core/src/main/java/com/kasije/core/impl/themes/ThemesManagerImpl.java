@@ -34,7 +34,7 @@ public class ThemesManagerImpl implements ThemesManager
     @Inject
     private TemplateEngine[] tplEngines;
 
-    private final Map<String,WebSiteTheme> themesMap;
+    private final Map<String, WebSiteTheme> themesMap;
 
     public ThemesManagerImpl()
     {
