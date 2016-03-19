@@ -1,4 +1,4 @@
-package com.kasije.core.config.sites;
+package com.kasije.core.config.sites.model;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

@@ -19,7 +19,7 @@ package com.kasije.core.impl.themes;
 import com.kasije.core.RequestContext;
 import com.kasije.core.WebSite;
 import com.kasije.core.WebSiteTheme;
-import com.kasije.core.config.ThemeConfig;
+import com.kasije.core.config.sites.model.Theme;
 import com.kasije.core.tpl.TemplateContext;
 import com.kasije.core.tpl.TemplateEngine;
 import java.io.File;
@@ -72,7 +72,7 @@ public class WebSiteThemeImpl implements WebSiteTheme
 
     private File findThemeFile(WebSite webSite)
     {
-        ThemeConfig themeConfig = webSite.getTheme();
+        Theme themeConfig = webSite.getTheme();
         String name = themeConfig.getName();
 
         if (StringUtils.isNotBlank(themeConfig.getPath()))

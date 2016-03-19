@@ -17,11 +17,9 @@
 package com.kasije.core.impl.site;
 
 import com.kasije.core.WebSiteVirtual;
-import com.kasije.core.impl.ConfigCache;
-import com.kasije.core.config.RouterConfig;
-import com.kasije.core.config.server.Virtual;
+import com.kasije.core.config.ConfigProvider;
+import com.kasije.core.config.server.model.Virtual;
 import java.io.IOException;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.bridje.ioc.Component;
 import org.bridje.ioc.Inject;
@@ -34,7 +32,7 @@ public class WebSiteVirtualImpl implements WebSiteVirtual
     private static final Logger LOG = Logger.getLogger(WebSiteVirtualImpl.class.getName());
 
     @Inject
-    private ConfigCache config;
+    private ConfigProvider config;
 
     @Override
     public String findRealSiteName(String serverName) throws IOException

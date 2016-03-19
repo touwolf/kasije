@@ -14,31 +14,28 @@
  * limitations under the License.
  */
 
-package com.kasije.core.impl;
+package com.kasije.core.config;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.kasije.core.config.AdminConfig;
-import com.kasije.core.config.RouterConfig;
-import com.kasije.core.config.ServerConfig;
-import com.kasije.core.config.SiteConfig;
+import com.kasije.core.config.server.RouterConfig;
+import com.kasije.core.config.server.ServerConfig;
+import com.kasije.core.config.sites.SiteConfig;
 import org.bridje.cfg.ConfigRepositoryContext;
 import org.bridje.cfg.ConfigService;
 import org.bridje.ioc.Component;
 import org.bridje.ioc.Inject;
-import org.bridje.ioc.Ioc;
 
 /**
  *
  */
 @Component
-public class ConfigCache
+public class ConfigProvider
 {
-    private static final Logger LOG = Logger.getLogger(ConfigCache.class.getName());
+    private static final Logger LOG = Logger.getLogger(ConfigProvider.class.getName());
 
     @Inject
     private ConfigService configService;

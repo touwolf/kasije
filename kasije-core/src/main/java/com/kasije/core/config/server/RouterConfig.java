@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package com.kasije.core.config;
+package com.kasije.core.config.server;
 
 import java.util.LinkedList;
 import java.util.List;
 import javax.xml.bind.annotation.*;
 
-import com.kasije.core.config.server.Router;
-import com.kasije.core.config.server.Virtual;
+import com.kasije.core.config.server.model.Router;
+import com.kasije.core.config.server.model.Virtual;
 import org.bridje.cfg.Configuration;
 import org.bridje.cfg.adapter.XmlConfigAdapter;
 

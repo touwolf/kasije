@@ -4,7 +4,7 @@ import com.kasije.core.RequestContext;
 import com.kasije.core.RequestHandler;
 import com.kasije.core.WebPageRef;
 import com.kasije.core.WebSite;
-import com.kasije.core.config.sites.Alias;
+import com.kasije.core.config.sites.model.Alias;
 import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import org.bridje.ioc.Component;

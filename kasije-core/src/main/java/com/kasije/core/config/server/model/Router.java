@@ -1,17 +1,17 @@
-package com.kasije.core.config.server;
+package com.kasije.core.config.server.model;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Virtual
+public class Router
 {
     @XmlAttribute
     private String uri;
 
     @XmlAttribute
-    private String real;
+    private String path;
 
     public String getUri()
     {
@@ -22,11 +22,11 @@ public class Virtual
         this.uri = uri;
     }
 
-    public String getReal() {
-        return real;
+    public String getPath() {
+        return path;
     }
 
-    public void setReal(String real) {
-        this.real = real;
+    public void setPath(String path) {
+        this.path = path;
     }
 }

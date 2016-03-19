@@ -20,8 +20,7 @@ import com.google.javascript.jscomp.CompilationLevel;
 import com.google.javascript.jscomp.CompilerOptions;
 import com.google.javascript.jscomp.SourceFile;
 import com.kasije.core.ResourcesManager;
-import com.kasije.core.impl.ConfigCache;
-import com.kasije.core.config.ServerConfig;
+import com.kasije.core.config.ConfigProvider;
 import com.yahoo.platform.yui.compressor.CssCompressor;
 import io.bit3.jsass.CompilationException;
 import io.bit3.jsass.Compiler;
@@ -32,15 +31,12 @@ import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.io.IOUtils;
 import org.bridje.ioc.Component;
 import org.bridje.ioc.Inject;
 import org.mozilla.javascript.EvaluatorException;
-
-import javax.annotation.PostConstruct;
 
 /**
  *
@@ -51,7 +47,7 @@ public class ResourcesManagerImpl implements ResourcesManager
     private static final Logger LOG = Logger.getLogger(ResourcesManagerImpl.class.getName());
 
     @Inject
-    private ConfigCache config;
+    private ConfigProvider config;
 
     private static final String SASS_SUFFIX = ".scss";
 

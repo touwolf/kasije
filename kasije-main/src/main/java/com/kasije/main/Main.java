@@ -16,12 +16,10 @@
 
 package com.kasije.main;
 
-import com.kasije.core.config.server.Connector;
-import com.kasije.core.config.ServerConfig;
-import com.kasije.core.impl.ConfigCache;
+import com.kasije.core.config.server.model.Connector;
+import com.kasije.core.config.server.ServerConfig;
+import com.kasije.core.config.ConfigProvider;
 import org.apache.commons.lang.StringUtils;
-import org.bridje.cfg.ConfigRepositoryContext;
-import org.bridje.cfg.ConfigService;
 import org.bridje.ioc.Ioc;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
@@ -46,7 +44,7 @@ public class Main
         servletHandler.addServletWithMapping(servletHolder, "/*");
         server.setHandler(servletHandler);
 
-        ConfigCache configCache = Ioc.context().find(ConfigCache.class);
+        ConfigProvider configCache = Ioc.context().find(ConfigProvider.class);
         ServerConfig config = configCache.getServerConfig();
         if(null == config || null == config.getConnectors() || config.getConnectors().isEmpty())
         {

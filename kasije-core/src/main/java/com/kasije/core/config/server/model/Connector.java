@@ -1,4 +1,4 @@
-package com.kasije.core.config.server;
+package com.kasije.core.config.server.model;
 
 public class Connector
 {

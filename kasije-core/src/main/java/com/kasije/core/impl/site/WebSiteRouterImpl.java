@@ -18,14 +18,10 @@ package com.kasije.core.impl.site;
 
 import com.kasije.core.WebSite;
 import com.kasije.core.WebSiteRouter;
-import com.kasije.core.impl.ConfigCache;
-import com.kasije.core.config.RouterConfig;
-import com.kasije.core.config.SiteConfig;
-import com.kasije.core.config.server.Router;
+import com.kasije.core.config.ConfigProvider;
+import com.kasije.core.config.sites.SiteConfig;
+import com.kasije.core.config.server.model.Router;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.lang.StringUtils;
 import org.bridje.ioc.Component;
@@ -39,7 +35,7 @@ public class WebSiteRouterImpl implements WebSiteRouter
     private static final Logger LOG = Logger.getLogger(WebSiteRouterImpl.class.getName());
 
     @Inject
-    private ConfigCache config;
+    private ConfigProvider config;
 
     @Override
     public WebSite findWebSite(String serverName) throws IOException

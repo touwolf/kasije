@@ -16,8 +16,8 @@
 
 package com.kasije.core;
 
-import com.kasije.core.config.ThemeConfig;
-import com.kasije.core.config.sites.Alias;
+import com.kasije.core.config.sites.model.Theme;
+import com.kasije.core.config.sites.model.Alias;
 import java.io.File;
 
 /**
@@ -29,7 +29,7 @@ public interface WebSite
 
     File getFile();
 
-    ThemeConfig getTheme();
+    Theme getTheme();
 
     Alias findAlias(String path);
 

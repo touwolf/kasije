@@ -19,9 +19,9 @@ package com.kasije.core.impl.site;
 import com.kasije.core.WebFile;
 import com.kasije.core.WebPage;
 import com.kasije.core.WebSite;
-import com.kasije.core.config.SiteConfig;
-import com.kasije.core.config.ThemeConfig;
-import com.kasije.core.config.sites.Alias;
+import com.kasije.core.config.sites.SiteConfig;
+import com.kasije.core.config.sites.model.Theme;
+import com.kasije.core.config.sites.model.Alias;
 import com.kasije.core.impl.files.WebFileImpl;
 import com.kasije.core.impl.page.WebPageImpl;
 import java.io.File;
@@ -65,9 +65,9 @@ class WebSiteImpl implements WebSite
     }
 
     @Override
-    public ThemeConfig getTheme()
+    public Theme getTheme()
     {
-        return config.getThemeConfig();
+        return config.getTheme();
     }
 
     @Override

@@ -1,6 +1,6 @@
-package com.kasije.core.config;
+package com.kasije.core.config.server;
 
-import com.kasije.core.config.server.Connector;
+import com.kasije.core.config.server.model.Connector;
 import org.bridje.cfg.Configuration;
 import org.bridje.cfg.adapter.XmlConfigAdapter;
 

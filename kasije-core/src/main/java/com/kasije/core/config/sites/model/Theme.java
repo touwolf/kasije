@@ -1,10 +1,10 @@
-package com.kasije.core.config;
+package com.kasije.core.config.sites.model;
 
 import javax.xml.bind.annotation.*;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "theme")
-public class ThemeConfig
+public class Theme
 {
     @XmlValue
     private String name;

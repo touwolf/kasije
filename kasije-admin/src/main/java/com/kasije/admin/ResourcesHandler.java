@@ -23,7 +23,7 @@ import com.kasije.core.config.AdminConfig;
 import com.kasije.core.RequestContext;
 import com.kasije.core.RequestHandler;
 import com.kasije.core.WebSite;
-import com.kasije.core.impl.ConfigCache;
+import com.kasije.core.config.ConfigProvider;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -49,7 +49,7 @@ public class ResourcesHandler implements RequestHandler
     private WebSiteRouter router;
 
     @Inject
-    private ConfigCache config;
+    private ConfigProvider config;
 
     @InjectNext
     private RequestHandler handler;
