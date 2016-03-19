@@ -3,4 +3,4 @@ jdk:
   - oraclejdk8
 
 before_install:
-  - sudo apt-get install alien
+  - sudo apt-get install rpm
