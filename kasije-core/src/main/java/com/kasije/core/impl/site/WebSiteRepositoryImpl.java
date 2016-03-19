@@ -24,7 +24,7 @@ public class WebSiteRepositoryImpl implements WebSiteRepository
     private final Map<String, WebSite> mapWebSite = new HashMap<>();
 
     @Override
-    public WebSite find(String siteName) throws IOException
+    public WebSite find(RequestContext reqCtx, String siteName) throws IOException
     {
         /* it's cache */
         WebSite webSite = mapWebSite.get(siteName);
@@ -41,19 +41,5 @@ public class WebSiteRepositoryImpl implements WebSiteRepository
             return webSite;
         }
         return null;
-    }
-
-    @Override
-    public boolean exists(String siteName)
-    {
-        try
-        {
-            return find(siteName) != null;
-        }
-        catch (Exception e)
-        {
-            LOG.log(Level.SEVERE, e.getMessage(), e);
-            return false;
-        }
     }
 }
