@@ -44,8 +44,8 @@ public class Main
         servletHandler.addServletWithMapping(servletHolder, "/*");
         server.setHandler(servletHandler);
 
-        ConfigProvider configCache = Ioc.context().find(ConfigProvider.class);
-        ServerConfig config = configCache.getServerConfig();
+        ConfigProvider configProv = Ioc.context().find(ConfigProvider.class);
+        ServerConfig config = configProv.getServerConfig();
         if(null == config || null == config.getConnectors() || config.getConnectors().isEmpty())
         {
             server.addConnector(createConnector(server, null));

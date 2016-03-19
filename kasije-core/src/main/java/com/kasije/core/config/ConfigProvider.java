@@ -40,13 +40,13 @@ public class ConfigProvider
     @Inject
     private ConfigService configService;
 
-    private Map<String, SiteConfig> siteConfigs = new HashMap<>();
+    private ServerConfig serverConfig;
 
     private RouterConfig routerConfig;
 
-    private ServerConfig serverConfig;
+    private Map<String, Object> configs = new HashMap<>();
 
-    private AdminConfig adminConfig;
+    private Map<String, SiteConfig> siteConfigs = new HashMap<>();
 
     public RouterConfig getRouterConfig()
     {
@@ -104,14 +104,17 @@ public class ConfigProvider
         return siteConfig == null ? new SiteConfig() : siteConfig;
     }
 
-    public AdminConfig getAdminConfig(String absolutePath)
+    public <T> T getConfig(Class<T> classConfig, String path)
     {
+        String key = classConfig.getName() + path;
+        T config = (T)configs.get(key);
         try
         {
-            if (null == adminConfig)
+            if(null == config)
             {
-                ConfigRepositoryContext configContext = configService.createRepoContext(absolutePath + "/etc/");
-                adminConfig = configContext.findConfig(AdminConfig.class);
+                ConfigRepositoryContext configContext = configService.createRepoContext(path);
+                config = configContext.findConfig(classConfig);
+                configs.put(key, config);
             }
         }
         catch (Exception ex)
@@ -119,6 +122,6 @@ public class ConfigProvider
             LOG.log(Level.SEVERE, ex.getMessage(), ex);
         }
 
-        return adminConfig;
+        return config;
     }
 }

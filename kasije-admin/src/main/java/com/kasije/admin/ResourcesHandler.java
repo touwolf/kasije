@@ -19,7 +19,6 @@ package com.kasije.admin;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.kasije.core.WebSiteRouter;
-import com.kasije.core.config.AdminConfig;
 import com.kasije.core.RequestContext;
 import com.kasije.core.RequestHandler;
 import com.kasije.core.WebSite;
@@ -108,7 +107,7 @@ public class ResourcesHandler implements RequestHandler
     private WebSite findAdminSite(WebSite site) throws IOException
     {
         String sitePath = site.getFile().getAbsolutePath();
-        AdminConfig adminConfig = config.getAdminConfig(sitePath);
+        AdminConfig adminConfig = config.getConfig(AdminConfig.class, sitePath + "/etc/");
         if (adminConfig == null)
         {
             return null;
