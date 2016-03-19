@@ -19,7 +19,7 @@ public class ServerRepository implements ConfigRepository
     public Reader findConfig(String configName) throws IOException
     {
 
-        File configFile = new File("sites/etc/" + configName);
+        File configFile = new File("etc/" + configName);
         if(configFile.exists())
         {
             InputStream inputStream = new FileInputStream(configFile);
