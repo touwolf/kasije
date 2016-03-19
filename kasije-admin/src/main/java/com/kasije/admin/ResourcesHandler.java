@@ -23,7 +23,7 @@ import com.kasije.core.RequestContext;
 import com.kasije.core.RequestHandler;
 import com.kasije.core.WebSite;
 import com.kasije.core.WebSiteRouter;
-import com.kasije.core.config.Helper;
+import com.kasije.core.impl.ConfigCache;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -105,7 +105,7 @@ public class ResourcesHandler implements RequestHandler
     private WebSite findAdminSite(WebSite site) throws IOException
     {
         String sitePath = site.getFile().getAbsolutePath();
-        AdminConfig adminConfig = Helper.findConfig(sitePath + "/etc/", AdminConfig.class);
+        AdminConfig adminConfig = ConfigCache.findConfig(sitePath + "/etc/", AdminConfig.class);
         if (adminConfig == null)
         {
             return null;

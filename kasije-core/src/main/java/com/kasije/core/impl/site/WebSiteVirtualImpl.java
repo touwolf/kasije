@@ -17,7 +17,7 @@
 package com.kasije.core.impl.site;
 
 import com.kasije.core.WebSiteVirtual;
-import com.kasije.core.config.Helper;
+import com.kasije.core.impl.ConfigCache;
 import com.kasije.core.config.RouterConfig;
 import com.kasije.core.config.server.Virtual;
 import java.io.IOException;
@@ -51,7 +51,7 @@ public class WebSiteVirtualImpl implements WebSiteVirtual
         {
             if (null == config)
             {
-                config = Helper.findConfig("server", RouterConfig.class);
+                config = ConfigCache.findConfig("server", RouterConfig.class);
             }
         }
         catch (IOException ex)

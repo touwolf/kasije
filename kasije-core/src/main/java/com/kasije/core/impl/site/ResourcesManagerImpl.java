@@ -20,7 +20,7 @@ import com.google.javascript.jscomp.CompilationLevel;
 import com.google.javascript.jscomp.CompilerOptions;
 import com.google.javascript.jscomp.SourceFile;
 import com.kasije.core.ResourcesManager;
-import com.kasije.core.config.Helper;
+import com.kasije.core.impl.ConfigCache;
 import com.kasije.core.config.ServerConfig;
 import com.yahoo.platform.yui.compressor.CssCompressor;
 import io.bit3.jsass.CompilationException;
@@ -61,7 +61,7 @@ public class ResourcesManagerImpl implements ResourcesManager
     {
         try
         {
-            serverConfig = Helper.findConfig("server", ServerConfig.class);
+            serverConfig = ConfigCache.findConfig("server", ServerConfig.class);
         }
         catch (IOException e)
         {

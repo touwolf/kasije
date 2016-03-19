@@ -18,7 +18,7 @@ package com.kasije.core.impl.site;
 
 import com.kasije.core.WebSite;
 import com.kasije.core.WebSiteRouter;
-import com.kasije.core.config.Helper;
+import com.kasije.core.impl.ConfigCache;
 import com.kasije.core.config.RouterConfig;
 import com.kasije.core.config.SiteConfig;
 import com.kasije.core.config.server.Router;
@@ -68,7 +68,7 @@ public class WebSiteRouterImpl implements WebSiteRouter
         {
             if (null == config)
             {
-                config = Helper.findConfig("server", RouterConfig.class);
+                config = ConfigCache.findConfig("server", RouterConfig.class);
             }
         }
         catch (IOException ex)
@@ -86,7 +86,7 @@ public class WebSiteRouterImpl implements WebSiteRouter
         {
             if(null == siteConfig)
             {
-                siteConfig = Helper.findConfig(absolutePath + "/etc/", SiteConfig.class);
+                siteConfig = ConfigCache.findConfig(absolutePath + "/etc/", SiteConfig.class);
                 siteConfigs.put(absolutePath, siteConfig);
             }
         }

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.kasije.core.config;
+package com.kasije.core.impl;
 
 import java.io.IOException;
 import org.bridje.cfg.ConfigRepositoryContext;
@@ -24,7 +24,7 @@ import org.bridje.ioc.Ioc;
 /**
  *
  */
-public class Helper
+public class ConfigCache
 {
     private static ConfigService configService;
 
