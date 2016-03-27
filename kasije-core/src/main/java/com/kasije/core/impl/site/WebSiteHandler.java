@@ -58,6 +58,7 @@ class WebSiteHandler implements RequestHandler
                 reqCtx.put(WebSite.class, webSite);
             }
         }
+
         return handler.handle(reqCtx);
     }
 
@@ -71,6 +72,7 @@ class WebSiteHandler implements RequestHandler
         else
         {
             HttpServletRequest req = reqCtx.get(HttpServletRequest.class);
+
             return req.getServerName();
         }
     }

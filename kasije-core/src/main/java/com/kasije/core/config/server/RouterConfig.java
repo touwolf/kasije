@@ -44,6 +44,9 @@ public class RouterConfig
     })
     private List<Virtual> virtuals;
 
+    @XmlElement(name = "admin", type = AdminConfig.class)
+    private AdminConfig adminConfig;
+
     public List<Router> getRouters()
     {
         if(null == routers)
@@ -70,5 +73,15 @@ public class RouterConfig
 
     public void setVirtuals(List<Virtual> virtuals) {
         this.virtuals = virtuals;
+    }
+
+    public AdminConfig getAdminConfig()
+    {
+        return adminConfig;
+    }
+
+    public void setAdminConfig(AdminConfig adminConfig)
+    {
+        this.adminConfig = adminConfig;
     }
 }

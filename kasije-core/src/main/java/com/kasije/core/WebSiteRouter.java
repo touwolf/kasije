@@ -8,4 +8,8 @@ import java.io.IOException;
 public interface WebSiteRouter
 {
     WebSite findWebSite(String serverName) throws IOException;
+
+    WebSite findAdminWebSite(String serverName, String pathInfo) throws IOException;
+
+    String findPathInfo(WebSite site, String pathInfo);
 }

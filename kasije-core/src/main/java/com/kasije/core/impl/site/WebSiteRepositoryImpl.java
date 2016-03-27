@@ -2,12 +2,11 @@ package com.kasije.core.impl.site;
 
 import com.kasije.core.*;
 import java.io.IOException;
-import org.bridje.ioc.Component;
-
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.http.HttpServletRequest;
+import org.bridje.ioc.Component;
 import org.bridje.ioc.Inject;
 
 @Component
@@ -27,19 +26,31 @@ public class WebSiteRepositoryImpl implements WebSiteRepository
     public WebSite find(RequestContext reqCtx, String siteName) throws IOException
     {
         /* it's cache */
-        WebSite webSite = mapWebSite.get(siteName);
-        if(null != webSite)
+        if (mapWebSite.containsKey(siteName))
         {
-            return webSite;
+            WebSite cache = mapWebSite.get(siteName);
+            if (null != cache)
+            {
+                return cache;
+            }
         }
 
+        HttpServletRequest req = reqCtx.get(HttpServletRequest.class);
         siteName = siteVirtual.findRealSiteName(siteName);
-        webSite = siteRouter.findWebSite(siteName);
+
+        WebSite adminWebSite = siteRouter.findAdminWebSite(siteName, req.getPathInfo());
+        if (adminWebSite != null)
+        {
+            mapWebSite.put(adminWebSite.getName(), adminWebSite);
+            return adminWebSite;
+        }
+
+        WebSite webSite = siteRouter.findWebSite(siteName);
         if(null != webSite)
         {
-            mapWebSite.put(siteName, webSite);
-            return webSite;
+            mapWebSite.put(webSite.getName(), webSite);
         }
-        return null;
+
+        return webSite;
     }
 }

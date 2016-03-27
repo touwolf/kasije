@@ -40,6 +40,8 @@ class WebSiteImpl implements WebSite
 
     private SiteConfig config;
 
+    private boolean admin = false;
+
     public WebSiteImpl(String absolutePath, SiteConfig config)
     {
         this.siteFolder = new File(absolutePath);
@@ -99,5 +101,16 @@ class WebSiteImpl implements WebSite
             .filter(a -> path.equals(a.getPath()))
             .findFirst()
             .orElse(null);
+    }
+
+    @Override
+    public boolean isAdmin()
+    {
+        return admin;
+    }
+
+    public void setAdmin(boolean admin)
+    {
+        this.admin = admin;
     }
 }

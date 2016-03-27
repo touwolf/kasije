@@ -17,11 +17,9 @@
 package com.kasije.core.impl.page;
 
 import com.kasije.core.*;
-
 import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import org.bridje.ioc.Component;
-import org.bridje.ioc.Inject;
 import org.bridje.ioc.InjectNext;
 import org.bridje.ioc.Priority;
 
@@ -59,6 +57,7 @@ class WebPageHandler implements RequestHandler
                 }
             }
         }
+
         return handler.handle(reqCtx);
     }
 

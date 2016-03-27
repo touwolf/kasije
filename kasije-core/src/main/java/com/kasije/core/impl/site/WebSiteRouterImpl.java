@@ -19,8 +19,10 @@ package com.kasije.core.impl.site;
 import com.kasije.core.WebSite;
 import com.kasije.core.WebSiteRouter;
 import com.kasije.core.config.ConfigProvider;
+import com.kasije.core.config.server.AdminConfig;
 import com.kasije.core.config.sites.SiteConfig;
 import com.kasije.core.config.server.model.Router;
+import java.io.File;
 import java.io.IOException;
 import java.util.logging.Logger;
 import org.apache.commons.lang.StringUtils;
@@ -32,6 +34,8 @@ import org.bridje.ioc.Priority;
 @Priority(value = Integer.MAX_VALUE)
 public class WebSiteRouterImpl implements WebSiteRouter
 {
+    private static final String ADMIN_PREFIX = "/admin";
+
     private static final Logger LOG = Logger.getLogger(WebSiteRouterImpl.class.getName());
 
     @Inject
@@ -45,16 +49,66 @@ public class WebSiteRouterImpl implements WebSiteRouter
                 .findAny()
                 .orElse(null);
 
-         /* by default in the site is into de ./sites/ */
+        /* by default in the site is into de ./sites/ */
         String relativePath = "./sites/";
 
-        /* i try to resolved the location where it is hosting by configuration */
-        if(null != router && StringUtils.isNotBlank(router.getPath()))
+        /* try to resolved the location where it is hosting by configuration */
+        if (null != router && StringUtils.isNotBlank(router.getPath()))
         {
             relativePath = router.getPath();
         }
 
-        SiteConfig siteConfig = config.getSiteConfig(relativePath + serverName);
-        return new WebSiteImpl(relativePath + serverName, siteConfig);
+        String path = relativePath + "/" + serverName;
+
+        SiteConfig siteConfig = config.getSiteConfig(path);
+        return new WebSiteImpl(path, siteConfig);
+    }
+
+    @Override
+    public WebSite findAdminWebSite(String serverName, String pathInfo) throws IOException
+    {
+        if (pathInfo.startsWith(ADMIN_PREFIX))
+        {
+            WebSite adminSite = findAdminSite();
+            if (adminSite != null)
+            {
+                return adminSite;
+            }
+        }
+
+        return null;
+    }
+
+    private WebSite findAdminSite()
+    {
+        AdminConfig adminConfig = config.getRouterConfig().getAdminConfig();
+        if (adminConfig == null)
+        {
+            return null;
+        }
+
+        String path = adminConfig.getPath() + "/" + adminConfig.getName();
+        File file = new File(path);
+        if (!file.exists() || !file.canRead())
+        {
+            return null;
+        }
+
+        SiteConfig siteConfig = config.getSiteConfig(path);
+        WebSiteImpl webSite = new WebSiteImpl(path, siteConfig);
+        webSite.setAdmin(true);
+
+        return webSite;
+    }
+
+    @Override
+    public String findPathInfo(WebSite site, String pathInfo)
+    {
+        if (site.isAdmin() && pathInfo.startsWith(ADMIN_PREFIX))
+        {
+            pathInfo = pathInfo.substring(ADMIN_PREFIX.length());
+        }
+
+        return pathInfo;
     }
 }

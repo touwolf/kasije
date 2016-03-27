@@ -56,6 +56,7 @@ class ThemesHandler implements RequestHandler
                 }
             }
         }
+
         return handler.handle(reqCtx);
     }
 }

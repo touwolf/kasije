@@ -36,4 +36,6 @@ public interface WebSite
     WebPage findPage(String pagePath);
 
     WebFile findFile(String filePath);
+
+    boolean isAdmin();
 }

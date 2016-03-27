@@ -18,12 +18,15 @@ package com.kasije.admin;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.kasije.core.WebSiteRouter;
 import com.kasije.core.RequestContext;
 import com.kasije.core.RequestHandler;
 import com.kasije.core.WebSite;
+import com.kasije.core.WebSiteRouter;
 import com.kasije.core.config.ConfigProvider;
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -106,14 +109,15 @@ public class ResourcesHandler implements RequestHandler
 
     private WebSite findAdminSite(WebSite site) throws IOException
     {
-        String sitePath = site.getFile().getAbsolutePath();
+        /*String sitePath = site.getFile().getAbsolutePath();
         AdminConfig adminConfig = config.getConfig(AdminConfig.class, sitePath + "/etc/");
         if (adminConfig == null)
         {
             return null;
         }
 
-        return router.findWebSite(adminConfig.getSite());
+        return router.findWebSite(adminConfig.getSite());*/
+        return null;
     }
 
     private List<Resource> handlePagesResponse(WebSite webSite) throws IOException

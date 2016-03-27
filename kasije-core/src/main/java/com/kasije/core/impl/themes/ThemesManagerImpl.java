@@ -51,6 +51,7 @@ public class ThemesManagerImpl implements ThemesManager
             theme = new WebSiteThemeImpl(webSite, tplEngines);
             themesMap.put(themeName, theme);
         }
+
         return theme;
     }
 }

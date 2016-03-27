@@ -16,13 +16,11 @@
 
 package com.kasije.core.impl;
 
-import com.kasije.core.RequestContext;
-import com.kasije.core.RequestHandler;
-import com.kasije.core.WebPageRef;
+import com.kasije.core.*;
 import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import org.bridje.ioc.Component;
+import org.bridje.ioc.Inject;
 import org.bridje.ioc.InjectNext;
 import org.bridje.ioc.Priority;
 
@@ -35,7 +33,10 @@ class HomeHandler implements RequestHandler
 {
     @InjectNext
     private RequestHandler handler;
-    
+
+    @Inject
+    private WebSiteRouter router;
+
     @Override
     public boolean handle(RequestContext reqCtx) throws IOException
     {
@@ -43,14 +44,17 @@ class HomeHandler implements RequestHandler
         if(ref == null)
         {
             String pathInfo = reqCtx.get(HttpServletRequest.class).getPathInfo();
-            if(pathInfo.equalsIgnoreCase("/"))
+            WebSite site = reqCtx.get(WebSite.class);
+            pathInfo = router.findPathInfo(site, pathInfo);
+
+            if (pathInfo.equalsIgnoreCase("/") || pathInfo.isEmpty())
             {
                 ref = new WebPageRef();
                 ref.setPage("/index");
                 reqCtx.put(WebPageRef.class, ref);
             }
         }
+
         return handler.handle(reqCtx);
     }
-    
 }

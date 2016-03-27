@@ -40,6 +40,9 @@ public class ResourcesHandler implements RequestHandler
     @InjectNext
     private RequestHandler handler;
 
+    @Inject
+    private WebSiteRouter router;
+
     @Override
     public boolean handle(RequestContext reqCtx) throws IOException
     {
@@ -49,19 +52,21 @@ public class ResourcesHandler implements RequestHandler
             return false;
         }
 
-        if(req.getPathInfo().startsWith("/resources"))
+        WebSite site = reqCtx.get(WebSite.class);
+        String pathInfo = site != null ? router.findPathInfo(site, req.getPathInfo()) : req.getPathInfo();
+
+        if (pathInfo.startsWith("/resources"))
         {
-            String pathInfo = req.getPathInfo();
             String[] resPathArr = pathInfo.split("/");
             String[] realPathArr = Arrays.copyOfRange(resPathArr, 2, resPathArr.length);
             String realPath = String.join("/", realPathArr);
 
             String resourcesRelativePath = "resources/";//TODO: config
 
-            File resFile = new File(reqCtx.get(WebSiteTheme.class).getFile(), resourcesRelativePath + realPath);
+            File themeFile = reqCtx.get(WebSiteTheme.class).getFile();
+            File resFile = new File(themeFile, resourcesRelativePath + realPath);
             if (!resFile.exists() || !resFile.isFile())
             {
-                WebSite site = reqCtx.get(WebSite.class);
                 if(site != null)
                 {
                     resourcesRelativePath = "resources/";//TODO: config

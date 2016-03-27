@@ -15,7 +15,7 @@ public class ServerConfig
     @XmlElementWrapper(name = "connectors")
     @XmlElements(
     {
-            @XmlElement(name = "connector", type = Connector.class)
+        @XmlElement(name = "connector", type = Connector.class)
     })
     private List<Connector> connectors;
 
