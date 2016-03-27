@@ -44,9 +44,9 @@ public class ConfigProvider
 
     private RouterConfig routerConfig;
 
-    private Map<String, Object> configs = new HashMap<>();
+    private final Map<String, Object> configs = new HashMap<>();
 
-    private Map<String, SiteConfig> siteConfigs = new HashMap<>();
+    private final Map<String, SiteConfig> siteConfigs = new HashMap<>();
 
     public RouterConfig getRouterConfig()
     {
@@ -107,7 +107,13 @@ public class ConfigProvider
     public <T> T getConfig(Class<T> classConfig, String path)
     {
         String key = classConfig.getName() + path;
-        T config = (T)configs.get(key);
+        Object configObj = configs.get(key);
+        T config = null;
+        if (configObj != null && classConfig.isAssignableFrom(configObj.getClass()))
+        {
+            config = classConfig.cast(configObj);
+        }
+
         try
         {
             if(null == config)

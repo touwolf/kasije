@@ -26,7 +26,7 @@ import org.bridje.ioc.Component;
 @Component
 public class FreemarkerTemplateEngine implements TemplateEngine
 {
-    private final Map<File, TemplateContext> contextMap = new HashMap();
+    private final Map<File, TemplateContext> contextMap = new HashMap<>();
 
     @Override
     public TemplateContext createContext(File path)

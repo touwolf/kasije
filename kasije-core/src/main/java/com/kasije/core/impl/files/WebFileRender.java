@@ -35,22 +35,18 @@ class WebFileRender implements RequestHandler
 {
     @InjectNext
     private RequestHandler handler;
-    
+
     @Override
     public boolean handle(RequestContext reqCtx) throws IOException
     {
         WebFile webFile = reqCtx.get(WebFile.class);
-        if(webFile != null)
+        if (webFile != null)
         {
             HttpServletResponse resp = reqCtx.get(HttpServletResponse.class);
             IOUtils.copy(new FileInputStream(new File(webFile.getSite().getFile().getAbsolutePath() + "/" + webFile.getRelativePath())), resp.getOutputStream());
             return true;
         }
 
-        if(handler == null)
-        {
-            return false;
-        }
-        return handler.handle(reqCtx);
+        return handler != null && handler.handle(reqCtx);
     }
 }

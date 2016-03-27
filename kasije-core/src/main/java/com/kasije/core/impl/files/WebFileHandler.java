@@ -57,6 +57,7 @@ class WebFileHandler implements RequestHandler
                 }
             }
         }
+
         return handler.handle(reqCtx);
     }
 

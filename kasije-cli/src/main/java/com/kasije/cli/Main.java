@@ -6,7 +6,7 @@ package com.kasije.cli;
  *
  * Then you can use this cli like $kasije [options] [params]
  */
-public class Main
+class Main
 {
     public static void main(String[] args)
     {

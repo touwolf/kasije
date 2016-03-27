@@ -10,7 +10,7 @@ import java.util.*;
  */
 public class KasijeCli
 {
-    private List<KasijeCliUtility> utilities = new LinkedList<>();
+    private final List<KasijeCliUtility> utilities = new LinkedList<>();
 
     private String helpCommand;
 
@@ -24,7 +24,7 @@ public class KasijeCli
         utilities.add(utility);
     }
 
-    public void parseInput(String input)
+    private void parseInput(String input)
     {
         String[] split = input.split(" ");
         if (split.length == 0)
@@ -69,14 +69,14 @@ public class KasijeCli
         kasijeCli.setHelpCommand("help");
 
         BufferedReader console = new BufferedReader(new InputStreamReader(System.in));
-        while (true)
+        while (true)//FIXME: this while not ends without throws Exception
         {
             try
             {
                 String input = console.readLine();
                 kasijeCli.parseInput(input);
-
-            } catch (IOException e)
+            }
+            catch (IOException e)
             {
                 e.printStackTrace();
             }
@@ -164,12 +164,12 @@ public class KasijeCli
         }
     }
 
-    public String getHelpCommand()
+    private String getHelpCommand()
     {
         return helpCommand;
     }
 
-    public void setHelpCommand(String helpCommand)
+    private void setHelpCommand(String helpCommand)
     {
         this.helpCommand = helpCommand;
     }
@@ -340,7 +340,7 @@ public class KasijeCli
     {
         private String name;
 
-        private KasijeCliOptionStyle kasijeCliOptionStyle;
+        private final KasijeCliOptionStyle kasijeCliOptionStyle;
 
         public KasijeCliOption(String name, KasijeCliOptionStyle kasijeCliOptionStyle)
         {

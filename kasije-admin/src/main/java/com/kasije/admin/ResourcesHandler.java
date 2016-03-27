@@ -21,8 +21,7 @@ import com.google.gson.GsonBuilder;
 import com.kasije.core.RequestContext;
 import com.kasije.core.RequestHandler;
 import com.kasije.core.WebSite;
-import com.kasije.core.WebSiteRouter;
-import com.kasije.core.config.ConfigProvider;
+import com.kasije.core.WebSiteRepository;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -45,13 +44,10 @@ import org.bridje.ioc.Priority;
 @Priority(Integer.MIN_VALUE + 275)
 public class ResourcesHandler implements RequestHandler
 {
-    private static Gson GSON = new GsonBuilder().create();
+    private static final Gson GSON = new GsonBuilder().create();
 
     @Inject
-    private WebSiteRouter router;
-
-    @Inject
-    private ConfigProvider config;
+    private WebSiteRepository siteRepo;
 
     @InjectNext
     private RequestHandler handler;
@@ -67,16 +63,15 @@ public class ResourcesHandler implements RequestHandler
 
         if(req.getPathInfo().startsWith("/admin"))
         {
-
             String pathInfo = req.getPathInfo();
             String[] resPathArr = pathInfo.split("/");
             String[] realPathArr = Arrays.copyOfRange(resPathArr, 2, resPathArr.length);
-            String realPath = String.join("/", realPathArr);
+            String realPath = String.join("/", (CharSequence[]) realPathArr);
 
             if (isAuthorized(reqCtx, realPath))
             {
-                WebSite adminSite = findAdminSite(reqCtx.get(WebSite.class));
-                if (adminSite != null)
+                WebSite adminSite = siteRepo.find(reqCtx, req.getServerName(), false);
+                if (adminSite != null && !adminSite.isAdmin())
                 {
                     List<Resource> resources = null;
 
@@ -105,19 +100,6 @@ public class ResourcesHandler implements RequestHandler
         }
 
         return handler.handle(reqCtx);
-    }
-
-    private WebSite findAdminSite(WebSite site) throws IOException
-    {
-        /*String sitePath = site.getFile().getAbsolutePath();
-        AdminConfig adminConfig = config.getConfig(AdminConfig.class, sitePath + "/etc/");
-        if (adminConfig == null)
-        {
-            return null;
-        }
-
-        return router.findWebSite(adminConfig.getSite());*/
-        return null;
     }
 
     private List<Resource> handlePagesResponse(WebSite webSite) throws IOException

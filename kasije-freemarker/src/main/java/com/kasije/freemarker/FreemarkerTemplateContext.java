@@ -33,7 +33,7 @@ public class FreemarkerTemplateContext implements TemplateContext
 {
     private static final Logger LOG = Logger.getLogger(FreemarkerTemplateContext.class.getName());
 
-    public final static Version VERSION = Configuration.VERSION_2_3_23;
+    private final static Version VERSION = Configuration.VERSION_2_3_23;
 
     private final Configuration config;
 

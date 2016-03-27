@@ -1,7 +1,6 @@
 package com.kasije.core.impl.site;
 
 import com.kasije.core.*;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -23,7 +22,7 @@ public class WebSiteRepositoryImpl implements WebSiteRepository
     private final Map<String, WebSite> mapWebSite = new HashMap<>();
 
     @Override
-    public WebSite find(RequestContext reqCtx, String siteName) throws IOException
+    public WebSite find(RequestContext reqCtx, String siteName, boolean acceptAdmin)
     {
         /* it's cache */
         if (mapWebSite.containsKey(siteName))
@@ -38,11 +37,14 @@ public class WebSiteRepositoryImpl implements WebSiteRepository
         HttpServletRequest req = reqCtx.get(HttpServletRequest.class);
         siteName = siteVirtual.findRealSiteName(siteName);
 
-        WebSite adminWebSite = siteRouter.findAdminWebSite(siteName, req.getPathInfo());
-        if (adminWebSite != null)
+        if (acceptAdmin)
         {
-            mapWebSite.put(adminWebSite.getName(), adminWebSite);
-            return adminWebSite;
+            WebSite adminWebSite = siteRouter.findAdminWebSite(req.getPathInfo());
+            if (adminWebSite != null)
+            {
+                mapWebSite.put(adminWebSite.getName(), adminWebSite);
+                return adminWebSite;
+            }
         }
 
         WebSite webSite = siteRouter.findWebSite(siteName);

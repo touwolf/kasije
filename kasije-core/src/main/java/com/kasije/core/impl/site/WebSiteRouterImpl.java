@@ -20,10 +20,9 @@ import com.kasije.core.WebSite;
 import com.kasije.core.WebSiteRouter;
 import com.kasije.core.config.ConfigProvider;
 import com.kasije.core.config.server.AdminConfig;
-import com.kasije.core.config.sites.SiteConfig;
 import com.kasije.core.config.server.model.Router;
+import com.kasije.core.config.sites.SiteConfig;
 import java.io.File;
-import java.io.IOException;
 import java.util.logging.Logger;
 import org.apache.commons.lang.StringUtils;
 import org.bridje.ioc.Component;
@@ -42,7 +41,7 @@ public class WebSiteRouterImpl implements WebSiteRouter
     private ConfigProvider config;
 
     @Override
-    public WebSite findWebSite(String serverName) throws IOException
+    public WebSite findWebSite(String serverName)
     {
         Router router = config.getRouterConfig().getRouters().stream()
                 .filter(r -> serverName.equals(r.getUri()))
@@ -50,7 +49,7 @@ public class WebSiteRouterImpl implements WebSiteRouter
                 .orElse(null);
 
         /* by default in the site is into de ./sites/ */
-        String relativePath = "./sites/";
+        String relativePath = "./sites";
 
         /* try to resolved the location where it is hosting by configuration */
         if (null != router && StringUtils.isNotBlank(router.getPath()))
@@ -65,7 +64,7 @@ public class WebSiteRouterImpl implements WebSiteRouter
     }
 
     @Override
-    public WebSite findAdminWebSite(String serverName, String pathInfo) throws IOException
+    public WebSite findAdminWebSite(String pathInfo)
     {
         if (pathInfo.startsWith(ADMIN_PREFIX))
         {

@@ -38,7 +38,7 @@ class WebPageRender implements RequestHandler
     @Override
     public boolean handle(RequestContext reqCtx) throws IOException
     {
-        if(reqCtx.get(WebPage.class) != null)
+        if (reqCtx.get(WebPage.class) != null)
         {
             WebSiteTheme webSiteTheme = reqCtx.get(WebSiteTheme.class);
             if (webSiteTheme != null)
@@ -47,11 +47,7 @@ class WebPageRender implements RequestHandler
             }
         }
 
-        if(handler == null)
-        {
-            return false;
-        }
-        return handler.handle(reqCtx);
+        return handler != null && handler.handle(reqCtx);
     }
 }
 

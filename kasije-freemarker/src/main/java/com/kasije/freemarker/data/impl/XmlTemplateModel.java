@@ -37,7 +37,7 @@ public class XmlTemplateModel implements TemplateHashModel, TemplateModelBuilder
         nodeModel = null;
     }
 
-    public XmlTemplateModel(NodeModel nodeModel)
+    private XmlTemplateModel(NodeModel nodeModel)
     {
         this.nodeModel = nodeModel;
     }

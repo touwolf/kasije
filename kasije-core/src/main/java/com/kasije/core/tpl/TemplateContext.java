@@ -24,5 +24,5 @@ import java.io.IOException;
  */
 public interface TemplateContext
 {
-    public boolean render(RequestContext reqCtx) throws IOException;
+    boolean render(RequestContext reqCtx) throws IOException;
 }

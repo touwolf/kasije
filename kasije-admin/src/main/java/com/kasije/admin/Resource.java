@@ -19,7 +19,7 @@ package com.kasije.admin;
 /**
  *
  */
-public class Resource
+class Resource
 {
     private String name;
 

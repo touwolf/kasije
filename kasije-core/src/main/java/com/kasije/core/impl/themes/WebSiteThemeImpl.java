@@ -67,6 +67,7 @@ public class WebSiteThemeImpl implements WebSiteTheme
                 return true;
             }
         }
+
         return false;
     }
 

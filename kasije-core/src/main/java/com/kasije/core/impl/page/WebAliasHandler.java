@@ -37,12 +37,9 @@ public class WebAliasHandler implements RequestHandler
         WebPageRef ref = reqCtx.get(WebPageRef.class);
         if(ref == null)
         {
-            if(null != alias)
-            {
-                ref = new WebPageRef();
-                ref.setPage(alias.getRealPath());
-                reqCtx.put(WebPageRef.class, ref);
-            }
+            ref = new WebPageRef();
+            ref.setPage(alias.getRealPath());
+            reqCtx.put(WebPageRef.class, ref);
         }
 
         return handler.handle(reqCtx);

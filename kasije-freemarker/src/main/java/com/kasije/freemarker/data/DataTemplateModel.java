@@ -46,7 +46,7 @@ public class DataTemplateModel implements TemplateHashModel
         return model;
     }
 
-    private List<TemplateHashModel> models = new ArrayList<>();
+    private final List<TemplateHashModel> models = new ArrayList<>();
 
     @Override
     public TemplateModel get(String key) throws TemplateModelException

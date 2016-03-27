@@ -28,7 +28,6 @@ import io.bit3.jsass.Options;
 import io.bit3.jsass.Output;
 import java.io.*;
 import java.nio.charset.Charset;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
@@ -61,7 +60,7 @@ public class ResourcesManagerImpl implements ResourcesManager
     public String getMime(String resourceName)
     {
         String ext = getExtension(resourceName);
-        if (ext == null || ext.isEmpty())
+        if (ext.isEmpty())
         {
             return "text/plain";
         }
@@ -141,12 +140,8 @@ public class ResourcesManagerImpl implements ResourcesManager
     private boolean allowMinify(String sourceName)
     {
         Boolean development = config.getServerConfig().getDevelopment();
-        if (development)
-        {
-            return false;
-        }
+        return !development && (sourceName.endsWith(CSS_SUFFIX) || sourceName.endsWith(JS_SUFFIX));
 
-        return sourceName.endsWith(CSS_SUFFIX) || sourceName.endsWith(JS_SUFFIX);
     }
 
     private File cssFromSass(File source) throws IOException
@@ -263,7 +258,7 @@ public class ResourcesManagerImpl implements ResourcesManager
         SourceFile input = SourceFile.fromInputStream(sourceName, in, Charset.forName("UTF-8"));
 
         com.google.javascript.jscomp.Compiler compiler = new com.google.javascript.jscomp.Compiler();
-        compiler.compile(Collections.EMPTY_LIST, Arrays.asList(input), options);
+        compiler.compile(Collections.EMPTY_LIST, Collections.singletonList(input), options);
 
         if (compiler.hasErrors())
         {

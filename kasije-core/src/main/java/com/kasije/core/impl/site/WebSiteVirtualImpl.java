@@ -19,7 +19,6 @@ package com.kasije.core.impl.site;
 import com.kasije.core.WebSiteVirtual;
 import com.kasije.core.config.ConfigProvider;
 import com.kasije.core.config.server.model.Virtual;
-import java.io.IOException;
 import java.util.logging.Logger;
 import org.bridje.ioc.Component;
 import org.bridje.ioc.Inject;
@@ -35,7 +34,7 @@ public class WebSiteVirtualImpl implements WebSiteVirtual
     private ConfigProvider config;
 
     @Override
-    public String findRealSiteName(String serverName) throws IOException
+    public String findRealSiteName(String serverName)
     {
         Virtual virtual = config.getRouterConfig().getVirtuals().stream()
                 .filter(r -> serverName.equals(r.getUri()))

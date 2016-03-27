@@ -175,10 +175,10 @@
                             <defaultUsername>root</defaultUsername>
                             <defaultGroupname>root</defaultGroupname>
                             <preinstallScriptlet>
-                                <script>echo "Instalando Kasije..."</script>
+                                <script>echo "Installing Kasije..."</script>
                             </preinstallScriptlet>
                             <postinstallScriptlet>
-                                <script>echo "Instalacion de Kasije completada."</script>
+                                <script>echo "Kasije installation completed."</script>
                             </postinstallScriptlet>
                             <mappings>
                                 <mapping>

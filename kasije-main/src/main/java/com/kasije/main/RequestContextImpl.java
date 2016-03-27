@@ -31,11 +31,20 @@ final class RequestContextImpl implements RequestContext
     {
         this.dataMap = new HashMap<>();
     }
-    
+
     @Override
     public <T> T get(Class<T> cls)
     {
-        return (T)dataMap.get(cls);
+        if (dataMap.containsKey(cls))
+        {
+            Object obj = dataMap.get(cls);
+            if (obj != null && cls.isAssignableFrom(obj.getClass()))
+            {
+                return cls.cast(obj);
+            }
+        }
+
+        return null;
     }
 
     @Override

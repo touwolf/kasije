@@ -59,7 +59,7 @@ public class ResourcesHandler implements RequestHandler
         {
             String[] resPathArr = pathInfo.split("/");
             String[] realPathArr = Arrays.copyOfRange(resPathArr, 2, resPathArr.length);
-            String realPath = String.join("/", realPathArr);
+            String realPath = String.join("/", (CharSequence[]) realPathArr);
 
             String resourcesRelativePath = "resources/";//TODO: config
 

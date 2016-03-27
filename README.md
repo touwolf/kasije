@@ -11,11 +11,11 @@ Kasije lightweight cms, evolve the productivity.
 
 ### Features
 
-Efficiently develop multiple websites from a single location with shared resources and templates. Define the content of text files in various formats (XML, JSON, YAML, etc.) and update it at any time. Themes can be edited in multiple templating engines (freemarker, velocity, etc.).
+Efficiently develop multiple websites from a single location with shared resources and templates. Define the content of text files in various formats (XML, JSON, YAML, etc.) and update it at any time. Themes can be edited in multiple template engines (freemarker, velocity, etc.).
 
-**Preprocessing and compression of static resources**
+**Pre-processing and compression of static resources**
 
-Static resources that require preprocessing (Sass, typescript, CoffeeScript, etc) are processed without your intervention, all you need to do is include them as they are, and Kasije will process them appropriately by their extension. Also the resources that support compression (JS and CSS) are compressed by the system and cached until they return to be modified. (All this features are used on this site you are reading ;)
+Static resources that require pre-processing (Sass, typescript, CoffeeScript, etc) are processed without your intervention, all you need to do is include them as they are, and Kasije will process them appropriately by their extension. Also the resources that support compression (JS and CSS) are compressed by the system and cached until they return to be modified. (All this features are used on this site you are reading ;)
 
 **Separation of content and presentation**
 
@@ -27,7 +27,7 @@ Virtual Host refers to running multiples websites on a single physical server, w
 
 **Extensible by plugins**
 
-The CMS supports the implementation of plugins to extend its core features, provide more options for working with templates (engines alternatives to freemarker or velocity), support formats for content editing (alternatives to XML or Json) and support other resource kinds preprocessing.
+The CMS supports the implementation of plugins to extend its core features, provide more options for working with templates (engines alternatives to freemarker or velocity), support formats for content editing (alternatives to XML or Json) and support other resource kinds pre-processing.
 
 **Command line interface**   
  
@@ -37,7 +37,7 @@ Kasije has multiple command line tools integrated to facilitate the work on the 
 
 Kasije depends on the following projects:
 
- - [Bridje]: A project providing Java API for building Fast, Roboust Java Aplications with Maven.
+ - [Bridje]: A project providing Java API for building Fast, Robust Java Applications with Maven.
  - [Jetty]: Jetty provides a Web server and javax.servlet container.
  - [Freemarker]: Apache FreeMarker is a template engine: a Java library to generate text output.
  - [Google Closure]: The Closure Compiler is a tool for making JavaScript download and run faster.
@@ -108,7 +108,7 @@ Kasije is a Java based framework for the web. Its implementations relies in othe
 
 Kasije is developed using the chain of responsibility pattern, in order to make it easy for other users to extend or add features. Each request is processed through the chain where a group of handles performs specific actions adding information to the final result.
 
-To extend the system, simply add handlers with the desired functionalities implementing the following interface:
+To extend the system, simply add handlers with the desired features implementing the following interface:
 ```java
 public interface RequestHandler
 {
