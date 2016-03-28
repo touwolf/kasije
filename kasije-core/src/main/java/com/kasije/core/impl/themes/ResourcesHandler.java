@@ -77,8 +77,8 @@ public class ResourcesHandler implements RequestHandler
             if (resFile.exists() && resFile.isFile())
             {
                 HttpServletResponse resp = reqCtx.get(HttpServletResponse.class);
-                resMgr.processResource(resFile, resp.getOutputStream());
                 resp.setContentType(resMgr.getMime(realPath));
+                resMgr.processResource(resFile, resp.getOutputStream());
 
                 return true;
             }
