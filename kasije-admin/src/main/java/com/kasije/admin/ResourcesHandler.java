@@ -22,13 +22,8 @@ import com.kasije.core.RequestContext;
 import com.kasije.core.RequestHandler;
 import com.kasije.core.WebSite;
 import com.kasije.core.WebSiteRepository;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.io.*;
+import java.util.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.io.IOUtils;
@@ -74,12 +69,20 @@ public class ResourcesHandler implements RequestHandler
                 if (adminSite != null && !adminSite.isAdmin())
                 {
                     List<Resource> resources = null;
-
-                    switch (realPath)
+                    File pagesFolder = new File(adminSite.getFile().getAbsoluteFile(), "pages");
+                    if (!pagesFolder.exists() || !pagesFolder.isDirectory() || !pagesFolder.canRead())
                     {
-                        case "pages":
-                            resources = handlePagesResponse(adminSite);
-                            break;
+                        return handler.handle(reqCtx);
+                    }
+
+                    if ("pages".equalsIgnoreCase(realPath))
+                    {
+                        resources = handlePagesResponse(pagesFolder);
+                    }
+                    else if (realPath.startsWith("save-page"))
+                    {
+                        Map<String, String[]> params = req.getParameterMap();
+                        resources = handleSavePageResponse(pagesFolder, realPath.substring("save-page/".length()), params);
                     }
 
                     if (resources != null)
@@ -102,14 +105,8 @@ public class ResourcesHandler implements RequestHandler
         return handler.handle(reqCtx);
     }
 
-    private List<Resource> handlePagesResponse(WebSite webSite) throws IOException
+    private List<Resource> handlePagesResponse(File pagesFolder) throws IOException
     {
-        File pagesFolder = new File(webSite.getFile().getAbsoluteFile(), "pages");
-        if (!pagesFolder.exists() || !pagesFolder.isDirectory() || !pagesFolder.canRead())
-        {
-            return null;
-        }
-
         File[] pages = pagesFolder.listFiles(file ->
         {
             return file.getName().endsWith(".xml");
@@ -126,6 +123,27 @@ public class ResourcesHandler implements RequestHandler
         }
 
         return resources;
+    }
+
+    private List<Resource> handleSavePageResponse(File pagesFolder, String pageName, Map<String, String[]> params) throws IOException
+    {
+        if (!params.containsKey("text"))
+        {
+            throw new IOException("Not valid request!");
+        }
+
+        File pageFile = new File(pagesFolder, pageName);
+        if (!pageFile.exists() || !pageFile.canWrite())
+        {
+            throw new IOException("Can not write file: " + pageName);
+        }
+
+        FileOutputStream fileOutStream = new FileOutputStream(pageFile);
+
+        String text = params.get("text")[0];
+        IOUtils.write(text, fileOutStream);
+
+        return Collections.emptyList();
     }
 
     private boolean isAuthorized(RequestContext reqCtx, String path)
