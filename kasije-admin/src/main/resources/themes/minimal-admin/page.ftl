@@ -60,6 +60,7 @@
     <script src="/admin/resources/js/screenfull.js"></script>
     <script src="/admin/resources/js/jquery.nicescroll.js"></script><#--TODO: replace by CDN -->
     <script src="https://cdn.jsdelivr.net/ace/1.2.3/min/ace.js"></script>
+    <script src="https://cdn.jsdelivr.net/ace/1.2.3/min/ext-language_tools.js"></script>
     <script src="/admin/resources/js/custom.js"></script>
     <script src="/admin/resources/js/app.js"></script>
 </body>

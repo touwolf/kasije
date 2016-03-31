@@ -150,10 +150,37 @@
 
                     $('#editor-file-name').html(file.name);
 
-                    self.current.editor = self.current.editor || win.ace.edit(ws.find('.ace-editor')[0]);
+                    if (!self.current.editor)
+                    {
+                        self.current.editor = win.ace.edit(ws.find('.ace-editor')[0]);
+                        self.current.editor.setOptions({ enableBasicAutocompletion: true });
+                        self.current.editor.commands.addCommand({
+                            name: 'save',
+                            bindKey: {win: 'Ctrl-S',  mac: 'Command-S'},
+                            exec: function(editor) 
+                            {
+                                self.fire('save-current-file');
+                            },
+                            readOnly: false
+                        });
+                        self.current.editor.commands.addCommand({
+                            name: 'undo',
+                            bindKey: {win: 'Ctrl-Z',  mac: 'Command-Z'},
+                            exec: function(editor) 
+                            {
+                                self.fire('reset-current-file');
+                            },
+                            readOnly: false
+                        });
+                    }
+
                     self.current.editor.getSession().setMode('ace/mode/' + file.type);
                     self.current.editor.setValue(file.text);
                     self.current.editor.gotoLine(1);
+                    setTimeout(function()
+                    {
+                        self.current.editor.session.getUndoManager().reset();
+                    }, 50);
 
                     self.current.file = file;
                 });
@@ -172,6 +199,8 @@
         {
             return;
         }
+
+        console.log('saving...')
 
         var self = this;
         self.current.file.text = self.current.editor.getValue();
@@ -203,8 +232,11 @@
             return;
         }
 
-        this.current.editor.setValue(this.current.file.origText);
-        this.current.file.text = this.current.file.origText;
+        var undoMgr = this.current.editor.session.getUndoManager();
+        if (undoMgr.hasUndo())
+        {
+            undoMgr.undo();
+        }
     });
 
     //Init components on jQuery load
