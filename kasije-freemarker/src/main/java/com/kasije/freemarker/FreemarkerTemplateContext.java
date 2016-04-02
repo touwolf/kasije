@@ -20,7 +20,9 @@ import com.kasije.core.RequestContext;
 import com.kasije.core.WebPage;
 import com.kasije.core.WebSite;
 import com.kasije.core.tpl.TemplateContext;
-import com.kasije.freemarker.data.DataTemplateModel;
+import com.kasije.core.tpl.TemplateData;
+import com.kasije.core.tpl.TemplateDataBuilder;
+import com.kasije.freemarker.model.TemplateDataModel;
 import freemarker.template.*;
 import java.io.File;
 import java.io.IOException;
@@ -67,14 +69,16 @@ public class FreemarkerTemplateContext implements TemplateContext
             return false;
         }
 
-        Template template = config.getTemplate("page.ftl");
+        Template template = config.getTemplate("page.ftl");//TODO: improve this wiring
         PrintWriter writer = reqCtx.get(HttpServletResponse.class).getWriter();
 
-        DataTemplateModel dataModel = DataTemplateModel.getDataModel(webSite.getFile(), webPage.getRelativePath());
+        TemplateData data = TemplateDataBuilder.parse(reqCtx, webSite, webPage);
+        ObjectWrapper wrapper = new DefaultObjectWrapper(VERSION);
+        TemplateDataModel dataModel = new TemplateDataModel(data, wrapper);
 
         try
         {
-            template.process(dataModel, writer, new DefaultObjectWrapper(VERSION));
+            template.process(dataModel, writer, wrapper);
             return true;
         }
         catch (TemplateException e)
