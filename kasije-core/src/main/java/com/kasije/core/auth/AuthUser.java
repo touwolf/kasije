@@ -16,6 +16,11 @@
 
 package com.kasije.core.auth;
 
+import com.kasije.core.tpl.TemplateData;
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 /**
  *
  */
@@ -67,5 +72,45 @@ public class AuthUser
     public void setAuthVendor(AuthVendor authVendor)
     {
         this.authVendor = authVendor;
+    }
+
+    public TemplateData toTemplateData()
+    {
+        TemplateData data = new TemplateData();
+        data.setName("__user");
+        data.setText(name);
+        data.setAttribute("name", name);
+        data.setAttribute("email", email);
+        data.setAttribute("gravatarHash", md5Hex(email));
+
+        return data;
+    }
+
+    private static String md5Hex (String message)
+    {
+        try
+        {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+
+            return hex (md.digest(message.getBytes("CP1252")));
+        }
+        catch (NoSuchAlgorithmException  | UnsupportedEncodingException e) {}
+
+        return null;
+    }
+
+    private static String hex(byte[] array)
+    {
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < array.length; ++i)
+        {
+            String hex = Integer
+                    .toHexString((array[i] & 0xFF) | 0x100)
+                    .substring(1, 3);
+
+            sb.append(hex);
+        }
+
+        return sb.toString();
     }
 }

@@ -32,8 +32,11 @@ public class TemplateDataBuilder
 {
     public static TemplateData parse(RequestContext reqCtx, WebSite site, WebPage page)
     {
-        AuthUser user = reqCtx.get(AuthUser.class);
-        //TODO: put user on data
+        AuthUser user = null;
+        if (site.isAdmin())
+        {
+            user = reqCtx.get(AuthUser.class);
+        }
 
         File parent = site.getFile();
         String path = page.getRelativePath();
@@ -41,19 +44,19 @@ public class TemplateDataBuilder
         File file = new File(parent, getPathWithExt(path, "xml"));
         if (file.exists() && file.canRead())
         {
-            return parseXML(file);
+            return parseXML(file, user);
         }
 
         file = new File(parent, getPathWithExt(path, "json"));
         if (file.exists() && file.canRead())
         {
-            return parseJSON(file);
+            return parseJSON(file, user);
         }
 
         return null;
     }
 
-    private static TemplateData parseXML(File file)
+    private static TemplateData parseXML(File file, AuthUser user)
     {
         try
         {
@@ -64,7 +67,13 @@ public class TemplateDataBuilder
             Element docElement = doc.getDocumentElement();
             docElement.normalize();
 
-            return parseXMLElement(doc.getDocumentElement());
+            TemplateData data = parseXMLElement(doc.getDocumentElement());
+            if (data != null && user != null)
+            {
+                data.addChild(user.toTemplateData());
+            }
+
+            return data;
         }
         catch (Exception e)
         {
@@ -106,7 +115,7 @@ public class TemplateDataBuilder
         return data;
     }
 
-    private static TemplateData parseJSON(File file)
+    private static TemplateData parseJSON(File file, AuthUser user)
     {
         //TODO
         return null;

@@ -73,6 +73,20 @@
         </section>
         <@clearfix />
     </div>
+
+    <div class="drop-men">
+        <ul class=" nav_1">
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle dropdown-at" data-toggle="dropdown">
+                    <span class="name-caret">${page.__user.@name} (${page.__user.@email})</span>
+                    <img src="http://www.gravatar.com/avatar/${page.__user.@gravatarHash}?s=60"
+                         onerror="this.src='/admin/resources/images/user.jpg'"/>
+                </a>
+            </li>
+
+        </ul>
+    </div>
+
     <@clearfix />
 </#macro>
 
