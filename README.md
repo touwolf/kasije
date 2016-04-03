@@ -121,13 +121,16 @@ public interface RequestHandler
 
 Kasije serves a variety of components and content. Among the current available functionalities are to serve sites, static resources, themes and templates.
 
-By simple configurations the service can be tailored, such as adjusting a site route, an alias or the servlet protocol. For example, the following snippet shows how to configure the route for the www.kasije.com site:
+By simple configurations the service can be tailored, such as adjusting a site route, an alias or the servlet protocol. For example, the following snippet shows how to configure the route and a virtual alias for the www.kasije.com site:
 
 ```xml
 <routerConfig>
    <routers>
-       <!--router uri="www.kasije.com" path="/var/www/"></router-->
-   </routers>
+        <router uri="www.kasije.com" path="/var/www"></router>
+    </routers>
+    <virtuals>
+        <virtual uri="www.kasije-alias.com" real="www.kasije.com"></virtual>
+    </virtuals>
 </routerConfig>
 ```
 To configure an alias, for example, see the code below:
