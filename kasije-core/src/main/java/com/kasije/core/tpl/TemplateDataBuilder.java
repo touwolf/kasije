@@ -19,6 +19,7 @@ package com.kasije.core.tpl;
 import com.kasije.core.RequestContext;
 import com.kasije.core.WebPage;
 import com.kasije.core.WebSite;
+import com.kasije.core.auth.AuthUser;
 import java.io.File;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -31,7 +32,8 @@ public class TemplateDataBuilder
 {
     public static TemplateData parse(RequestContext reqCtx, WebSite site, WebPage page)
     {
-        //TODO: get log user from reqCtx, to put roles on data if site is admin
+        AuthUser user = reqCtx.get(AuthUser.class);
+        //TODO: put user on data
 
         File parent = site.getFile();
         String path = page.getRelativePath();
