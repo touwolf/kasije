@@ -23,16 +23,20 @@ import java.util.List;
 /**
  *
  */
-public class TemplateDataModel implements TemplateHashModel, TemplateScalarModel
+public class TemplateDataModel implements TemplateHashModel, TemplateScalarModel, TemplateSequenceModel,
+                                          TemplateCollectionModel, TemplateModelIterator
 {
     private final TemplateData data;
 
     private final ObjectWrapper wrapper;
 
+    private boolean hasIterated;
+
     public TemplateDataModel(TemplateData data, ObjectWrapper wrapper)
     {
         this.data = data;
         this.wrapper = wrapper;
+        hasIterated = false;
     }
 
     @Override
@@ -59,6 +63,7 @@ public class TemplateDataModel implements TemplateHashModel, TemplateScalarModel
             return new TemplateListModel(children, wrapper);
         }
 
+        //TODO: check if exception should be throw
         return null;
     }
 
@@ -72,5 +77,41 @@ public class TemplateDataModel implements TemplateHashModel, TemplateScalarModel
     public String getAsString() throws TemplateModelException
     {
         return data.getText();
+    }
+
+    @Override
+    public TemplateModel get(int index) throws TemplateModelException
+    {
+        return this;
+    }
+
+    @Override
+    public int size() throws TemplateModelException
+    {
+        return 1;
+    }
+
+    @Override
+    public TemplateModelIterator iterator() throws TemplateModelException
+    {
+        return this;
+    }
+
+    @Override
+    public TemplateModel next() throws TemplateModelException
+    {
+        if (hasIterated)
+        {
+            throw new TemplateModelException("No more elements");
+        }
+
+        hasIterated = true;
+        return this;
+    }
+
+    @Override
+    public boolean hasNext() throws TemplateModelException
+    {
+        return !hasIterated;
     }
 }
