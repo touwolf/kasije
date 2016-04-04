@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
-    <title>Admin</title>
+    <title>${page.@title}</title>
 
     <link href="/admin/resources/css/bootstrap.css" rel='stylesheet' type='text/css'/><#--TODO: replace by CDN -->
     <link href="/admin/resources/css/style.css" rel='stylesheet' type='text/css'/>
@@ -12,6 +12,38 @@
     <link href="/admin/resources/css/custom.css" rel="stylesheet">
 </head>
 <body>
+    <#if !(page.__user??) || !hasRole("admin")>
+        <@unauthContent />
+    <#else>
+        <@userContent />
+    </#if>
+
+    <script src="/admin/resources/js/jquery.js"></script><#--TODO: replace by CDN -->
+    <script src="/admin/resources/js/bootstrap.js"></script><#--TODO: replace by CDN -->
+    <script src="/admin/resources/js/jquery.metisMenu.js"></script><#--TODO: replace by CDN -->
+    <script src="/admin/resources/js/jquery.slimscroll.js"></script><#--TODO: replace by CDN -->
+    <script src="/admin/resources/js/screenfull.js"></script>
+    <script src="/admin/resources/js/jquery.nicescroll.js"></script><#--TODO: replace by CDN -->
+    <script src="https://cdn.jsdelivr.net/ace/1.2.3/min/ace.js"></script>
+    <script src="https://cdn.jsdelivr.net/ace/1.2.3/min/ext-language_tools.js"></script>
+    <script src="/admin/resources/js/custom.js"></script>
+    <script src="/admin/resources/js/app.js"></script>
+</body>
+</html>
+
+<#macro unauthContent>
+    <div id="wrapper">
+        <div class="four">
+            <img src="/admin/resources/images/401.png" alt="" />
+            <p>Unauthorized!</p>
+            <a href="/" class="hvr-shutter-in-horizontal">Back to site</a>
+        </div>
+
+        <@footer />
+    </div>
+</#macro>
+
+<#macro userContent>
     <div id="wrapper">
         <nav class="navbar-default navbar-static-top" role="navigation">
             <div class="navbar-header">
@@ -34,37 +66,23 @@
             <div class="content-main">
                 <div class="banner">
                     <h2>
-                        <a href="index.html">Site</a>
+                        <#list page.breadcrumb as breadcrumb>
+                        <#if breadcrumb?index != 0>
                         <i class="fa fa-angle-right"></i>
-                        <span>Pages</span>
+                        </#if>
+                        <span>${breadcrumb}</span>
+                        </#list>
                     </h2>
                 </div>
 
                 <@content />
             </div>
 
-            <div class="copy">
-                <h4>
-                    <img src="/admin/resources/touwolf-ico-144.png" alt=""/>
-                    Powered by <a href="http://www.touwolf.com" target="_blank">Touwolf</a>
-                </h4>
-            </div>
+            <@footer />
         </div>
     </div>
     <@clearfix />
-
-    <script src="/admin/resources/js/jquery.js"></script><#--TODO: replace by CDN -->
-    <script src="/admin/resources/js/bootstrap.js"></script><#--TODO: replace by CDN -->
-    <script src="/admin/resources/js/jquery.metisMenu.js"></script><#--TODO: replace by CDN -->
-    <script src="/admin/resources/js/jquery.slimscroll.js"></script><#--TODO: replace by CDN -->
-    <script src="/admin/resources/js/screenfull.js"></script>
-    <script src="/admin/resources/js/jquery.nicescroll.js"></script><#--TODO: replace by CDN -->
-    <script src="https://cdn.jsdelivr.net/ace/1.2.3/min/ace.js"></script>
-    <script src="https://cdn.jsdelivr.net/ace/1.2.3/min/ext-language_tools.js"></script>
-    <script src="/admin/resources/js/custom.js"></script>
-    <script src="/admin/resources/js/app.js"></script>
-</body>
-</html>
+</#macro>
 
 <#macro topMenu>
     <div class="full-left">
@@ -95,12 +113,13 @@
         <div class="sidebar-nav navbar-collapse">
             <ul class="nav" id="side-menu">
                 <li>
-                    <a href="index.html" class=" hvr-bounce-to-right">
-                        <i class="fa fa-dashboard nav_icon "></i>
-                        <span class="nav-label">Dashboards</span>
+                    <a href="/admin" class=" hvr-bounce-to-right">
+                        <i class="fa fa-home nav_icon "></i>
+                        <span class="nav-label">Home</span>
                     </a>
                 </li>
 
+                <#if hasRole("pages")>
                 <li>
                     <a href="#" class=" hvr-bounce-to-right">
                         <i class="fa fa-edit nav_icon"></i>
@@ -109,27 +128,94 @@
                     </a>
                     <ul class="nav nav-second-level">
                         <li>
-                            <a href="graphs.html" class=" hvr-bounce-to-right">
+                            <a href="/admin/site-pages" class=" hvr-bounce-to-right">
                                 <i class="fa fa-code nav_icon"></i>Pages
                             </a>
                         </li>
                     </ul>
                 </li>
+                </#if>
             </ul>
         </div>
     </div>
 </#macro>
 
 <#macro content>
+    <#if page.@id == "site-pages" && hasRole("pages")>
+        <@pagesContent />
+    <#else>
+        <@homeContent />
+    </#if>
+</#macro>
+
+<#macro homeContent>
+    <div class="content-bottom">
+        <div class="col-md-6 post-top">
+            <div class="post-bottom">
+                <div class="post-bottom-1">
+                    <a href="#"><i class="fa fa-facebook"></i></a>
+                    <p>15k <label>Likes</label></p>
+                </div>
+                <div class="post-bottom-2">
+                    <a href="#"><i class="fa fa-twitter"></i></a>
+                    <p>20M <label>Followers</label></p>
+                </div>
+                <@clearfix />
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="weather">
+                <div class="weather-top">
+                    <div class="weather-top-left">
+                        <div class="degree">
+                            <figure class="icons">
+                                <canvas id="partly-cloudy-day" width="64" height="64">
+                                </canvas>
+                            </figure>
+                            <span>37<sup>o</sup></span>
+                            <@clearfix />
+                        </div>
+                        <script src="/admin/resources/js/skycons.js"></script>
+                        <p>
+                            ${.now?string["EEEE"]}
+                            <#assign dayNumber = .now?string["dd"] />
+                            <label>${dayNumber}</label>
+                            <#if dayNumber == "01" || dayNumber == "21" || dayNumber == "31">
+                            <sup>st</sup>
+                            <#elseif dayNumber == "02" || dayNumber == "22">
+                            <sup>nd</sup>
+                            <#elseif dayNumber == "03" || dayNumber == "23">
+                            <sup>rd</sup>
+                            <#else>
+                            <sup>th</sup>
+                            </#if>
+                            ${.now?string["MMMM"]}
+                        </p>
+                    </div>
+
+                    <div class="weather-top-right">
+                        <p><i class="fa fa-map-marker"></i>Quito</p>
+                        <label>Ecuador</label>
+                    </div>
+                    <@clearfix />
+                </div>
+            </div>
+        </div>
+        <@clearfix />
+    </div>
+</#macro>
+
+<#macro pagesContent>
     <div class="inbox-mail">
         <div class="col-md-4 compose">
             <div class="input-group input-group-in">
                 <input type="text" name="search" class="form-control2 input-search" placeholder="Search...">
-                <span class="input-group-btn">
-                    <button class="btn btn-success" type="button">
-                        <i class="fa fa-search"></i>
-                    </button>
-                </span>
+                    <span class="input-group-btn">
+                        <button class="btn btn-success" type="button">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </span>
             </div>
 
             <h2>Pages</h2>
@@ -183,6 +269,29 @@
     </div>
 </#macro>
 
+<#macro footer>
+    <div class="copy">
+        <h4>
+            <img src="/admin/resources/touwolf-ico-144.png" alt=""/>
+            Powered by <a href="http://www.touwolf.com" target="_blank">Touwolf</a>
+        </h4>
+    </div>
+</#macro>
+
 <#macro clearfix>
     <div class="clearfix"></div>
 </#macro>
+
+<#function hasRole role>
+    <#if !(page.__user.role??)>
+        <#return false />
+    </#if>
+
+    <#list page.__user.role as r>
+        <#if role == r>
+            <#return true />
+        </#if>
+    </#list>
+
+    <#return false />
+</#function>

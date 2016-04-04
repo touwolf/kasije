@@ -20,6 +20,8 @@ import com.kasije.core.tpl.TemplateData;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  *
@@ -82,6 +84,16 @@ public class AuthUser
         data.setAttribute("name", name);
         data.setAttribute("email", email);
         data.setAttribute("gravatarHash", md5Hex(email));
+
+        List<String> roles = Arrays.asList("admin", "pages");//TODO: from storage
+        roles.forEach(role ->
+        {
+            TemplateData roleData = new TemplateData();
+            roleData.setName("role");
+            roleData.setText(role);
+
+            data.addChild(roleData);
+        });
 
         return data;
     }

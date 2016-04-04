@@ -22,6 +22,7 @@ import com.kasije.core.RequestContext;
 import com.kasije.core.RequestHandler;
 import com.kasije.core.WebSite;
 import com.kasije.core.WebSiteRepository;
+import com.kasije.core.auth.AuthUser;
 import java.io.*;
 import java.util.*;
 import javax.servlet.http.HttpServletRequest;
@@ -109,7 +110,7 @@ public class ResourcesHandler implements RequestHandler
     {
         File[] pages = pagesFolder.listFiles(file ->
         {
-            return file.getName().endsWith(".xml");
+            return file.getName().endsWith(".xml");//FIXME: only XML?
         });
 
         List<Resource> resources = new ArrayList<>(pages.length);
@@ -118,7 +119,11 @@ public class ResourcesHandler implements RequestHandler
             List<String> lines = IOUtils.readLines(new FileInputStream(page));
             String content = String.join("\n", lines);
 
-            Resource resource = new Resource(page.getName(), "xml", content);
+            String name = page.getName();
+            int lastDotIndex = name.lastIndexOf(".");
+            String ext = name.substring(lastDotIndex + 1);
+
+            Resource resource = new Resource(name, ext, content);
             resources.add(resource);
         }
 
@@ -148,6 +153,12 @@ public class ResourcesHandler implements RequestHandler
 
     private boolean isAuthorized(RequestContext reqCtx, String path)
     {
-        return true;//TODO
+        WebSite site = reqCtx.get(WebSite.class);
+        if (site == null || !site.isAdmin())
+        {
+            return false;
+        }
+
+        return reqCtx.get(AuthUser.class) != null;
     }
 }

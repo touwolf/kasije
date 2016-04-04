@@ -33,7 +33,7 @@ import org.bridje.ioc.Priority;
  *
  */
 @Component
-@Priority(Integer.MIN_VALUE + 800)
+@Priority(Integer.MIN_VALUE + 270)
 public class AuthUserHandler implements RequestHandler
 {
     @InjectNext

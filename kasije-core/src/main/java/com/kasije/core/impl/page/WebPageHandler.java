@@ -43,7 +43,7 @@ class WebPageHandler implements RequestHandler
 
         /* was it handled */
         WebPage webPage = reqCtx.get(WebPage.class);
-        if(null == webPage)
+        if (null == webPage)
         {
             WebSite site = reqCtx.get(WebSite.class);
             if(null != site)
@@ -51,7 +51,7 @@ class WebPageHandler implements RequestHandler
                 String pageName = findPageName(reqCtx);
                 /* find the page using the router */
                 webPage = site.findPage(pageName);
-                if(null != webPage)
+                if (null != webPage)
                 {
                     reqCtx.put(WebPage.class, webPage);
                 }

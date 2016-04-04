@@ -1,20 +1,18 @@
-Cache de sitios y paginas
-    - Algun componente debe tener todos los sitios y paginas en memoria (opcionalmente) para mas rapidez al cargar.
-    - Este servicio podria verificar si los ficheros cambiaron en disco para actualizarlos o eliminarlos segun corresponda.
-    - Poder habilitar y deshabilitar el cache
-
-Pasar variables estandares a las paginas como informacion del servidor
-
-Distribucion
-    - Implementar mecanismo de detener el servidor
-    - Escribir scripts de iniciar y detener el servidor (start.sh/stop.sh).
-    - Generar rpm y/o deb, o (.tar.gz).
-Implementar CLI
+- Configurable cache for pages (based on last update to content or theme)
+- Configurable time cache for facebook users
+- Pass extra variables to pages
+- Improve rpm distribution
+- Improve server scripts (start, restart, stop)
+- CLI
     $ kasije create 'my_site'
     $ kasije create 'my_site' engine=freemarker comp=xml
     $ cd 'my_site'
     $ kasije generate 'new_page'
     $ kasije start
     $ kasije start port=1337
-PreProcesamiento de recursos
-    - Compilar JS (TypeScript, CoffeScript)
+- JS compilation (TypeScript, CoffeScript, ECMASCRIPT 6)
+- Scripts by CDN on Admin template
+- Loading view on admin pages (also on JS ajax queries)
+- Support more formats than XML to pages (eg: JSON)
+- Define where to store auths config to admin pages
+- Define resources to load on admin pages (CSS, JS), not unnecessary resources, leave common resources out

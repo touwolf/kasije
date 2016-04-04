@@ -58,10 +58,8 @@ public class FacebookAuthProvider implements AuthUserProvider
 
     private AuthUser fetchFacebookUser(String accessToken)
     {
-        String version = "v2.5";//FIXME: from config
-
         //TODO: this takes too long, maybe cache the accesstoken for a configurable time
-        FacebookClient client = new DefaultFacebookClient(accessToken, Version.getVersionFromString(version));
+        FacebookClient client = new DefaultFacebookClient(accessToken, Version.VERSION_2_5);
         User user = client.fetchObject("me", User.class, Parameter.with("fields", "name,email"));
         if (user != null)
         {
