@@ -159,6 +159,12 @@ public class ResourcesHandler implements RequestHandler
             return false;
         }
 
-        return reqCtx.get(AuthUser.class) != null;
+        AuthUser authUser = reqCtx.get(AuthUser.class);
+        if (authUser == null)
+        {
+            return false;
+        }
+
+        return authUser.getRoles() != null && authUser.getRoles().contains("admin");
     }
 }

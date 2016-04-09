@@ -26,8 +26,7 @@ public class SitesRepository implements ConfigRepository
     @Override
     public Reader findConfig(String configName) throws IOException
     {
-
-        File configFile = new File(filePath + configName);
+        File configFile = new File(filePath, configName);
         if(configFile.exists())
         {
             InputStream inputStream = new FileInputStream(configFile);

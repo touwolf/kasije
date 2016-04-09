@@ -16,12 +16,16 @@
 
 package com.kasije.admin;
 
+import com.kasije.admin.config.AuthConfig;
+import com.kasije.admin.config.AuthUserConfig;
 import com.kasije.core.auth.AuthUser;
 import com.kasije.admin.auth.AuthUserProvider;
 import com.kasije.core.RequestContext;
 import com.kasije.core.RequestHandler;
 import com.kasije.core.WebSite;
+import com.kasije.core.config.ConfigProvider;
 import java.io.IOException;
+import java.util.Arrays;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import org.bridje.ioc.Component;
@@ -42,6 +46,9 @@ public class AuthUserHandler implements RequestHandler
     @Inject
     private AuthUserProvider[] providers;
 
+    @Inject
+    private ConfigProvider configProvider;
+
     @Override
     public boolean handle(RequestContext reqCtx) throws IOException
     {
@@ -56,6 +63,17 @@ public class AuthUserHandler implements RequestHandler
                     AuthUser user = provider.fetchUser(cookies);
                     if (user != null)
                     {
+                        String path = site.getFile().getAbsolutePath() + "/etc";
+                        AuthConfig authConfig = configProvider.getConfig(AuthConfig.class, path);
+                        if (authConfig != null)
+                        {
+                            AuthUserConfig userConfig = authConfig.findUserConfig(user.getEmail());
+                            if (userConfig != null)
+                            {
+                                user.setRoles(Arrays.asList(userConfig.getRoles().split(",")));
+                            }
+                        }
+
                         reqCtx.put(AuthUser.class, user);
                         break;
                     }
