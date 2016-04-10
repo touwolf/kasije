@@ -25,6 +25,8 @@ import com.kasije.core.WebSiteRepository;
 import com.kasije.core.auth.AuthUser;
 import java.io.*;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.io.IOUtils;
@@ -124,6 +126,8 @@ public class ResourcesHandler implements RequestHandler
             String ext = name.substring(lastDotIndex + 1);
 
             Resource resource = new Resource(name, ext, content);
+            resource.setTags(findTags(ext, lines));
+
             resources.add(resource);
         }
 
@@ -166,5 +170,52 @@ public class ResourcesHandler implements RequestHandler
         }
 
         return authUser.getRoles() != null && authUser.getRoles().contains("admin");
+    }
+
+    private List<String> findTags(String ext, List<String> lines)
+    {
+        if ("xml".equalsIgnoreCase(ext))
+        {
+            Pattern tagPattern = Pattern.compile("\\w+");
+
+            List<String> tags = new LinkedList<>();
+            lines.parallelStream().forEach(line ->
+            {
+                int startIndex = line.indexOf("<");
+                if (startIndex < 0)
+                {
+                    return;
+                }
+
+                int spaceIndex = line.indexOf(" ", startIndex);
+                if (spaceIndex < 0)
+                {
+                    spaceIndex = line.length();
+                }
+
+                int closeIndex = line.indexOf(">", startIndex);
+                if (closeIndex < 0)
+                {
+                    closeIndex = line.length();
+                }
+
+                int endIndex = Math.min(spaceIndex, closeIndex);
+                String tag = line.substring(startIndex + 1, endIndex);
+
+                if (!tags.contains(tag))
+                {
+                    Matcher matcher = tagPattern.matcher(tag);
+
+                    if (matcher.matches())
+                    {
+                        tags.add(tag);
+                    }
+                }
+            });
+
+            return tags;
+        }
+
+        return null;
     }
 }

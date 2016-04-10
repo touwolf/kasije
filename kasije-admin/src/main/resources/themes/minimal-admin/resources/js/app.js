@@ -153,11 +153,32 @@
                     if (!self.current.editor)
                     {
                         self.current.editor = win.ace.edit(ws.find('.ace-editor')[0]);
-                        self.current.editor.setOptions({ enableBasicAutocompletion: true });
+
+                        self.current.editor.setOptions({enableBasicAutocompletion: true});
+                        if (file.tags)
+                        {
+                            self.current.editor.completers = [{
+                                getCompletions: function(editor, session, pos, prefix, callback)
+                                {
+                                    var map = file.tags.map(function(word)
+                                    {
+                                        return {
+                                            caption: word,
+                                            value: word,
+                                            meta: "static"
+                                        };
+                                    });
+
+                                    callback(null, map);
+
+                                }
+                            }];
+                        }
+
                         self.current.editor.commands.addCommand({
                             name: 'save',
                             bindKey: {win: 'Ctrl-S',  mac: 'Command-S'},
-                            exec: function(editor) 
+                            exec: function(editor)
                             {
                                 self.fire('save-current-file');
                             },
@@ -166,7 +187,7 @@
                         self.current.editor.commands.addCommand({
                             name: 'undo',
                             bindKey: {win: 'Ctrl-Z',  mac: 'Command-Z'},
-                            exec: function(editor) 
+                            exec: function(editor)
                             {
                                 self.fire('reset-current-file');
                             },

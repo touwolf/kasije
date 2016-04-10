@@ -16,6 +16,8 @@
 
 package com.kasije.admin;
 
+import java.util.List;
+
 /**
  *
  */
@@ -26,6 +28,8 @@ class Resource
     private String type;
 
     private String text;
+
+    private List<String> tags;
 
     public Resource()
     {
@@ -66,5 +70,15 @@ class Resource
     public void setText(String text)
     {
         this.text = text;
+    }
+
+    public List<String> getTags()
+    {
+        return tags;
+    }
+
+    public void setTags(List<String> tags)
+    {
+        this.tags = tags;
     }
 }
