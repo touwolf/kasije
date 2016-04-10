@@ -72,6 +72,22 @@
 
     win.Component = Component;
 
+    var loadingEl = $('#loadingoverlay');
+    win.showLoading = function()
+    {
+        if (loadingEl.length && !loadingEl.hasClass('loadingoverlay'))
+        {
+            loadingEl.addClass('loadingoverlay');
+        }
+    };
+    win.hideLoading = function()
+    {
+        if (loadingEl.length && loadingEl.hasClass('loadingoverlay'))
+        {
+            loadingEl.removeClass('loadingoverlay');
+        }
+    };
+
     //Init components on jQuery load
     $(function()
     {
@@ -80,5 +96,6 @@
             var component = components[index];
             component.init.call(component);
         }
+        win.hideLoading();
     });
 })(window, jQuery);

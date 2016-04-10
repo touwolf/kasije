@@ -41,6 +41,8 @@
         current: null,
         init: function()
         {
+            win.showLoading();
+
             var self = this;
             self.element = $('.site-pages-list');
 
@@ -150,10 +152,13 @@
 
                     self.current.file = file;
                 });
+
+                win.hideLoading();
             });
 
             jqXHR.fail(function(data)
             {
+                win.hideLoading();
                 console.error(arguments);//TODO
             });
         }
@@ -166,6 +171,7 @@
             return;
         }
 
+        win.showLoading();
         console.log('saving...')
 
         var self = this;
@@ -181,12 +187,14 @@
 
         jqXHR.done(function(data)
         {
+            win.hideLoading();
             console.log('ok');
             self.current.file.origText = self.current.file.text;
         });
 
         jqXHR.fail(function(data)
         {
+            win.hideLoading();
             console.error(arguments);//TODO
         });
     });

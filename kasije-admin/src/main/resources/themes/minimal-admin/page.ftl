@@ -17,6 +17,7 @@
     <#else>
         <@userContent />
     </#if>
+    <div id="loadingoverlay" class="loadingoverlay"></div>
 
     <script src="/admin/resources/js/jquery.js"></script><#--TODO: replace by CDN -->
     <script src="/admin/resources/js/bootstrap.js"></script><#--TODO: replace by CDN -->

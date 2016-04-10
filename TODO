@@ -12,6 +12,5 @@
     $ kasije start port=1337
 - JS compilation (TypeScript, CoffeScript, ECMASCRIPT 6)
 - Scripts by CDN on Admin template
-- Loading view on admin pages (also on JS ajax queries)
 - Support more formats than XML to pages (eg: JSON)
 - Function to compress JS or CSS from templates

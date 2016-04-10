@@ -90,16 +90,23 @@ public class ResourcesHandler implements RequestHandler
 
                     if (resources != null)
                     {
-                        HttpServletResponse resp = reqCtx.get(HttpServletResponse.class);
-                        resp.setStatus(200);
-                        resp.setContentType("text/json");
+                        try
+                        {
+                            String jsonResources = GSON.toJson(resources);
 
-                        String jsonResources = GSON.toJson(resources);
+                            HttpServletResponse resp = reqCtx.get(HttpServletResponse.class);
+                            resp.setStatus(200);
+                            resp.setContentType("text/json");
 
-                        PrintWriter writer = resp.getWriter();
-                        writer.println(jsonResources);
+                            PrintWriter writer = resp.getWriter();
+                            writer.println(jsonResources);
 
-                        return true;
+                            return true;
+                        }
+                        catch(Exception ex)
+                        {
+                            return false;
+                        }
                     }
                 }
             }
@@ -202,7 +209,7 @@ public class ResourcesHandler implements RequestHandler
                 int endIndex = Math.min(spaceIndex, closeIndex);
                 String tag = line.substring(startIndex + 1, endIndex);
 
-                if (!tags.contains(tag))
+                if (!tag.isEmpty() && !tags.contains(tag))
                 {
                     Matcher matcher = tagPattern.matcher(tag);
 
