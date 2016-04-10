@@ -23,6 +23,10 @@ import com.kasije.core.tpl.TemplateContext;
 import com.kasije.core.tpl.TemplateData;
 import com.kasije.core.tpl.TemplateDataBuilder;
 import com.kasije.freemarker.model.TemplateDataModel;
+import freemarker.cache.ClassTemplateLoader;
+import freemarker.cache.FileTemplateLoader;
+import freemarker.cache.MultiTemplateLoader;
+import freemarker.cache.TemplateLoader;
 import freemarker.template.*;
 import java.io.File;
 import java.io.IOException;
@@ -44,9 +48,18 @@ public class FreemarkerTemplateContext implements TemplateContext
         config = new Configuration(VERSION);
         config.setDefaultEncoding("UTF-8");
         config.setTemplateExceptionHandler(TemplateExceptionHandler.IGNORE_HANDLER);
+
         try
         {
-            config.setDirectoryForTemplateLoading(path);
+            //Web site location resources
+            FileTemplateLoader fileLoader = new FileTemplateLoader(path);
+            //Core common resources
+            ClassTemplateLoader classLoader = new ClassTemplateLoader(WebSite.class, "/");
+
+            config.setTemplateLoader(new MultiTemplateLoader(new TemplateLoader[]
+            {
+                fileLoader, classLoader
+            }));
         }
         catch (IOException ex)
         {
