@@ -2,4 +2,9 @@
 <page title="Kasije Admin" id="site-pages">
     <breadcrumb>Site</breadcrumb>
     <breadcrumb>Pages</breadcrumb>
+    <resources>
+        <js>https://cdn.jsdelivr.net/ace/1.2.3/min/ace</js>
+        <js>https://cdn.jsdelivr.net/ace/1.2.3/min/ext-language_tools</js>
+        <js>/admin/resources/js/pages/sitepages</js>
+    </resources>
 </page>

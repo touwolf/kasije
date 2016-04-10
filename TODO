@@ -14,5 +14,4 @@
 - Scripts by CDN on Admin template
 - Loading view on admin pages (also on JS ajax queries)
 - Support more formats than XML to pages (eg: JSON)
-- Define resources to load on admin pages (CSS, JS), not unnecessary resources, leave common resources out
 - Function to compress JS or CSS from templates

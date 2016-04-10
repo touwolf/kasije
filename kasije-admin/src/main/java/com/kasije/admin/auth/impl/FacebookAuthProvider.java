@@ -23,6 +23,7 @@ import com.restfb.DefaultFacebookClient;
 import com.restfb.FacebookClient;
 import com.restfb.Parameter;
 import com.restfb.Version;
+import com.restfb.exception.FacebookException;
 import com.restfb.types.User;
 import javax.servlet.http.Cookie;
 import org.bridje.ioc.Component;
@@ -58,18 +59,24 @@ public class FacebookAuthProvider implements AuthUserProvider
 
     private AuthUser fetchFacebookUser(String accessToken)
     {
-        //TODO: this takes too long, maybe cache the accesstoken for a configurable time
+        //TODO: this takes too long, maybe cache the access token for a configurable time
         FacebookClient client = new DefaultFacebookClient(accessToken, Version.VERSION_2_5);
-        User user = client.fetchObject("me", User.class, Parameter.with("fields", "name,email"));
-        if (user != null)
+        try
         {
-            AuthUser authUser = new AuthUser();
-            authUser.setName(user.getName());
-            authUser.setEmail(user.getEmail());
-            authUser.setAuthVendor(AuthVendor.FACEBOOK);
-            authUser.setSession(accessToken);
+            User user = client.fetchObject("me", User.class, Parameter.with("fields", "name,email"));
+            if (user != null)
+            {
+                AuthUser authUser = new AuthUser();
+                authUser.setName(user.getName());
+                authUser.setEmail(user.getEmail());
+                authUser.setAuthVendor(AuthVendor.FACEBOOK);
+                authUser.setSession(accessToken);
 
-            return authUser;
+                return authUser;
+            }
+        }
+        catch (FacebookException ex)
+        {
         }
 
         return null;
