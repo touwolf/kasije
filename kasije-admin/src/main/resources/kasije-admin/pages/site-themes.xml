@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page title="Kasije Admin" id="site-themes">
+    <breadcrumb>Site</breadcrumb>
+    <breadcrumb>Themes</breadcrumb>
+    <resources>
+        <js>https://cdn.jsdelivr.net/ace/1.2.3/min/ace</js>
+        <js>https://cdn.jsdelivr.net/ace/1.2.3/min/ext-language_tools</js>
+        <js>/admin/resources/js/pages/sitethemes</js>
+    </resources>
+</page>
