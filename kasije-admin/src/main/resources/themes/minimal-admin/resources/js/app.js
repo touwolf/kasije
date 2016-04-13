@@ -20,6 +20,7 @@
     var components = {};
     var componentsCount = 0;
 
+    // Generic component
     var Component = function(config)
     {
         config = config || {};
@@ -72,6 +73,152 @@
 
     win.Component = Component;
 
+    //Editor component
+    var EditorComponent = function(config)
+    {
+        config.element = null;
+        config.files = null;
+        config.current = null;
+
+        var preInit = config.init || function() {};
+
+        config.init = function()
+        {
+            win.showLoading();
+
+            var self = this;
+            self.element = $(config.elementSelector);
+
+            var jqXHR = $.ajax({
+                method: 'POST',
+                url: config.fetchURL
+            });
+
+            jqXHR.done(function(data)
+            {
+                self.files = {};
+
+                var faIcons = {
+                    css: 'css3'
+                };
+
+                for (var index in data)
+                {
+                    var name = data[index].name;
+                    var faIcon = faIcons[data[index].type] || 'code';
+
+                    var iElement = '<i class="fa fa-' + faIcon + '"></i>';
+                    var aElement = '<a href="#">' + iElement + name + '</a>';
+                    var liCls = (index == 0) ? 'active' : '';
+                    var liElement = '<li class="' + liCls + '" id="' + name + '">' + aElement + '</li>';
+
+                    self.element.append(liElement);
+                    self.files[name] = data[index];
+                    self.files[name].origText = self.files[name].text;
+                }
+
+                self.element.find('li').on('click', function(event)
+                {
+                    var file = self.files[event.currentTarget.id];
+                    if (!file)
+                    {
+                        self.current = null;
+                        return;
+                    }
+
+                    var ws = $(config.editorWSelector);
+                    ws.find('.not-enabled').removeClass('not-enabled');
+
+                    if (self.current)
+                    {
+                        if (file.name === self.current.file.name)
+                        {
+                            return;
+                        }
+
+                        self.files[self.current.file.name].text = self.current.editor.getValue();
+                    }
+                    else
+                    {
+                        self.current = {};
+                    }
+
+                    $(config.fileNameSelector).html(file.name);
+
+                    if (!self.current.editor)
+                    {
+                        self.current.editor = win.ace.edit(ws.find('.ace-editor')[0]);
+
+                        self.current.editor.setOptions({enableBasicAutocompletion: true});
+                        if (file.tags)
+                        {
+                            self.current.editor.completers = [{
+                                getCompletions: function(editor, session, pos, prefix, callback)
+                                {
+                                    var map = file.tags.map(function(word)
+                                    {
+                                        return {
+                                            caption: word,
+                                            value: word,
+                                            meta: "static"
+                                        };
+                                    });
+
+                                    callback(null, map);
+
+                                }
+                            }];
+                        }
+
+                        self.current.editor.commands.addCommand({
+                            name: 'save',
+                            bindKey: {win: 'Ctrl-S',  mac: 'Command-S'},
+                            exec: function(editor)
+                            {
+                                self.fire('save-current-file');
+                            },
+                            readOnly: false
+                        });
+                        self.current.editor.commands.addCommand({
+                            name: 'undo',
+                            bindKey: {win: 'Ctrl-Z',  mac: 'Command-Z'},
+                            exec: function(editor)
+                            {
+                                self.fire('reset-current-file');
+                            },
+                            readOnly: false
+                        });
+                    }
+
+                    self.current.editor.getSession().setMode('ace/mode/' + file.type);
+                    self.current.editor.setValue(file.text);
+                    self.current.editor.gotoLine(1);
+                    setTimeout(function()
+                    {
+                        self.current.editor.session.getUndoManager().reset();
+                    }, 50);
+
+                    self.current.file = file;
+                });
+
+                win.hideLoading();
+            });
+
+            jqXHR.fail(function(data)
+            {
+                win.hideLoading();
+                console.error(arguments);//TODO
+            });
+
+            preInit.call(self);
+        };
+
+        return new Component(config);
+    };
+
+    win.EditorComponent = EditorComponent;
+
+    //Loading
     var loadingEl = $('#loadingoverlay');
     win.showLoading = function()
     {

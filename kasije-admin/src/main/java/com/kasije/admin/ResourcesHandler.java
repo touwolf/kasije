@@ -18,15 +18,13 @@ package com.kasije.admin;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.kasije.core.RequestContext;
-import com.kasije.core.RequestHandler;
-import com.kasije.core.WebSite;
-import com.kasije.core.WebSiteRepository;
+import com.kasije.core.*;
 import com.kasije.core.auth.AuthUser;
 import java.io.*;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.io.IOUtils;
@@ -46,6 +44,9 @@ public class ResourcesHandler implements RequestHandler
 
     @Inject
     private WebSiteRepository siteRepo;
+
+    @Inject
+    private ThemesManager themesManager;
 
     @InjectNext
     private RequestHandler handler;
@@ -82,10 +83,19 @@ public class ResourcesHandler implements RequestHandler
                     {
                         resources = handlePagesResponse(pagesFolder);
                     }
+                    else if ("themes".equalsIgnoreCase(realPath))
+                    {
+                        resources = handleThemesResponse(adminSite);
+                    }
                     else if (realPath.startsWith("save-page"))
                     {
                         Map<String, String[]> params = req.getParameterMap();
                         resources = handleSavePageResponse(pagesFolder, realPath.substring("save-page/".length()), params);
+                    }
+                    else if (realPath.startsWith("save-theme-resource"))
+                    {
+                        //TODO
+                        resources = new LinkedList<>();
                     }
 
                     if (resources != null)
@@ -117,28 +127,93 @@ public class ResourcesHandler implements RequestHandler
 
     private List<Resource> handlePagesResponse(File pagesFolder) throws IOException
     {
-        File[] pages = pagesFolder.listFiles(file ->
+        List<File> pages = findFiles(pagesFolder, Arrays.asList("xml", "json"));
+
+        return pages
+                .parallelStream()
+                .map(file -> buildResource(file))
+                .filter(resource -> resource != null)
+                .collect(Collectors.toList());
+    }
+
+    private Resource buildResource(File file)
+    {
+        List<String> lines;
+        try
         {
-            return file.getName().endsWith(".xml");//FIXME: only XML?
-        });
-
-        List<Resource> resources = new ArrayList<>(pages.length);
-        for (File page : pages)
+            lines = IOUtils.readLines(new FileInputStream(file));
+        }
+        catch (IOException e)
         {
-            List<String> lines = IOUtils.readLines(new FileInputStream(page));
-            String content = String.join("\n", lines);
+            return null;
+        }
+        String content = String.join("\n", lines);
 
-            String name = page.getName();
-            int lastDotIndex = name.lastIndexOf(".");
-            String ext = name.substring(lastDotIndex + 1);
+        String name = file.getName();
+        int lastDotIndex = name.lastIndexOf(".");
+        String ext = name.substring(lastDotIndex + 1);
 
-            Resource resource = new Resource(name, ext, content);
-            resource.setTags(findTags(ext, lines));
+        Resource resource = new Resource(name, ext, content);
+        resource.setTags(findTags(ext, lines));
 
-            resources.add(resource);
+        return resource;
+    }
+
+    private List<Resource> handleThemesResponse(WebSite site) throws IOException
+    {
+        WebSiteTheme theme = themesManager.findTheme(site);
+        if (theme == null)
+        {
+            return Collections.EMPTY_LIST;
         }
 
-        return resources;
+        List<File> files = findFiles(theme.getFile(), Arrays.asList("ftl", "css"));
+
+        return files
+                .parallelStream()
+                .map(file -> buildResource(file))
+                .filter(resource -> resource != null)
+                .collect(Collectors.toList());
+    }
+
+    private List<File> findFiles(File parent, List<String> extensions)
+    {
+        if (!parent.exists() || !parent.canRead())
+        {
+            return Collections.EMPTY_LIST;
+        }
+
+        List<File> files = new LinkedList<>();
+
+        File[] children = parent.listFiles(file ->
+        {
+            return file.isDirectory();
+        });
+        for (File child : children)
+        {
+            files.addAll(findFiles(child, extensions));
+        }
+
+        children = parent.listFiles(file ->
+        {
+            String name = file.getName();
+            int dotIndex = name.lastIndexOf(".");
+            if (dotIndex < 2)
+            {
+                return false;
+            }
+
+            String extension = name.substring(dotIndex + 1);
+            if (name.endsWith(".min." + extension))
+            {
+                return false;
+            }
+
+            return extensions.contains(extension);
+        });
+        files.addAll(Arrays.asList(children));
+
+        return files;
     }
 
     private List<Resource> handleSavePageResponse(File pagesFolder, String pageName, Map<String, String[]> params) throws IOException

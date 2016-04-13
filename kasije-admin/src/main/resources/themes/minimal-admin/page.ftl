@@ -123,7 +123,7 @@
                     </a>
                 </li>
 
-                <#if hasRole("pages")>
+                <#if hasRole("pages") || hasRole("themes")>
                 <li>
                     <a href="#" class=" hvr-bounce-to-right">
                         <i class="fa fa-edit nav_icon"></i>
@@ -131,11 +131,20 @@
                         <span class="fa arrow"></span>
                     </a>
                     <ul class="nav nav-second-level">
+                        <#if hasRole("pages")>
                         <li>
                             <a href="/admin/site-pages" class=" hvr-bounce-to-right">
                                 <i class="fa fa-code nav_icon"></i>Pages
                             </a>
                         </li>
+                        </#if>
+                        <#if hasRole("themes")>
+                        <li>
+                            <a href="/admin/site-themes" class=" hvr-bounce-to-right">
+                                <i class="fa fa-image nav_icon"></i>Themes
+                            </a>
+                        </li>
+                        </#if>
                     </ul>
                 </li>
                 </#if>
@@ -147,6 +156,8 @@
 <#macro content>
     <#if page.@id == "site-pages" && hasRole("pages")>
         <@pagesContent />
+    <#elseif page.@id == "site-themes" && hasRole("themes")>
+        <@themesContent />
     <#else>
         <@homeContent />
     </#if>
@@ -273,10 +284,73 @@
     </div>
 </#macro>
 
+<#macro themesContent>
+    <div class="inbox-mail">
+        <div class="col-md-4 compose">
+            <div class="input-group input-group-in">
+                <input type="text" name="search" class="form-control2 input-search" placeholder="Search...">
+                <span class="input-group-btn">
+                    <button class="btn btn-success" type="button">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </span>
+            </div>
+
+            <h2>Theme resources</h2>
+            <nav class="nav-sidebar">
+                <ul class="nav tabs site-theme-list"></ul>
+            </nav>
+        </div>
+
+        <div class="col-md-8 tab-content tab-content-in">
+            <div class="tab-pane active text-style" id="tab2">
+                <div class="inbox-right">
+                    <div class="mailbox-content" id="editor-workspace">
+                        <div class="mail-toolbar clearfix not-enabled">
+                            <div class="float-left">
+                                <h3 id="editor-file-name"></h3>
+                            </div>
+
+                            <div class="float-right">
+                                <div class="dropdown">
+                                    <a href="#" title="" class="btn btn-default" data-toggle="dropdown"
+                                       aria-expanded="false">
+                                        <i class="fa fa-file-o icon_8"></i>
+                                        <i class="fa fa-chevron-down icon_8"></i>
+                                        <div class="ripple-wrapper"></div>
+                                    </a>
+
+                                    <ul class="dropdown-menu float-right">
+                                        <li>
+                                            <a href="#" title="" id="save-current-file">
+                                                <i class="fa fa-save icon_9"></i>
+                                                Save
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#" title="" id="reset-current-file">
+                                                <i class="fa fa-undo icon_9"></i>
+                                                Undo
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-control ace-editor not-enabled"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <@clearfix />
+    </div>
+</#macro>
+
 <#macro footer>
     <div class="copy">
         <h4>
-            <img src="/admin/resources/touwolf-ico-144.png" alt=""/>
+            <img src="/admin/resources/images/touwolf-ico-144.png" alt=""/>
             Powered by <a href="http://www.touwolf.com" target="_blank">Touwolf</a>
         </h4>
     </div>

@@ -31,10 +31,6 @@ class Resource
 
     private List<String> tags;
 
-    public Resource()
-    {
-    }
-
     public Resource(String name, String type, String text)
     {
         this.name = name;

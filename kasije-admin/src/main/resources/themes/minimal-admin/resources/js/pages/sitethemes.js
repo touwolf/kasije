@@ -34,134 +34,12 @@
         }
     });
 
-    var pageHandler = new win.Component({
+    var pageHandler = new win.EditorComponent({
         id: 'site-theme-list',
-        element: null,
-        files: null,
-        current: null,
-        init: function()
-        {
-            win.showLoading();
-
-            var self = this;
-            self.element = $('.site-theme-list');
-
-            var jqXHR = $.ajax({
-                method: 'POST',
-                url: '/admin/themes'
-            });
-
-            jqXHR.done(function(data)
-            {
-                self.files = {};
-
-                for (var index in data)
-                {
-                    var name = data[index].name;
-
-                    var iElement = '<i class="fa fa-code"></i>';
-                    var aElement = '<a href="#">' + iElement + name + '</a>';
-                    var liCls = (index == 0) ? 'active' : '';
-                    var liElement = '<li class="' + liCls + '" id="' + name + '">' + aElement + '</li>';
-
-                    self.element.append(liElement);
-                    self.files[name] = data[index];
-                    self.files[name].origText = self.files[name].text;
-                }
-
-                self.element.find('li').on('click', function(event)
-                {
-                    var file = self.files[event.currentTarget.id];
-                    if (!file)
-                    {
-                        self.current = null;
-                        return;
-                    }
-
-                    var ws = $('#editor-workspace');
-                    ws.find('.not-enabled').removeClass('not-enabled');
-
-                    if (self.current)
-                    {
-                        if (file.name === self.current.file.name)
-                        {
-                            return;
-                        }
-
-                        self.files[self.current.file.name].text = self.current.editor.getValue();
-                    }
-                    else
-                    {
-                        self.current = {};
-                    }
-
-                    $('#editor-file-name').html(file.name);
-
-                    if (!self.current.editor)
-                    {
-                        self.current.editor = win.ace.edit(ws.find('.ace-editor')[0]);
-
-                        self.current.editor.setOptions({enableBasicAutocompletion: true});
-                        if (file.tags)
-                        {
-                            self.current.editor.completers = [{
-                                getCompletions: function(editor, session, pos, prefix, callback)
-                                {
-                                    var map = file.tags.map(function(word)
-                                    {
-                                        return {
-                                            caption: word,
-                                            value: word,
-                                            meta: "static"
-                                        };
-                                    });
-
-                                    callback(null, map);
-
-                                }
-                            }];
-                        }
-
-                        self.current.editor.commands.addCommand({
-                            name: 'save',
-                            bindKey: {win: 'Ctrl-S',  mac: 'Command-S'},
-                            exec: function(editor)
-                            {
-                                self.fire('save-current-file');
-                            },
-                            readOnly: false
-                        });
-                        self.current.editor.commands.addCommand({
-                            name: 'undo',
-                            bindKey: {win: 'Ctrl-Z',  mac: 'Command-Z'},
-                            exec: function(editor)
-                            {
-                                self.fire('reset-current-file');
-                            },
-                            readOnly: false
-                        });
-                    }
-
-                    self.current.editor.getSession().setMode('ace/mode/' + file.type);
-                    self.current.editor.setValue(file.text);
-                    self.current.editor.gotoLine(1);
-                    setTimeout(function()
-                    {
-                        self.current.editor.session.getUndoManager().reset();
-                    }, 50);
-
-                    self.current.file = file;
-                });
-
-                win.hideLoading();
-            });
-
-            jqXHR.fail(function(data)
-            {
-                win.hideLoading();
-                console.error(arguments);//TODO
-            });
-        }
+        elementSelector: '.site-theme-list',
+        fetchURL: '/admin/themes',
+        editorWSelector: '#editor-workspace',
+        fileNameSelector: '#editor-file-name'
     });
 
     pageHandler.on('save-current-file', function()
@@ -179,7 +57,7 @@
 
         var jqXHR = $.ajax({
             method: 'POST',
-            url: '/admin/save-page/' + self.current.file.name,
+            url: '/admin/save-theme-resource/' + self.current.file.name,
             data: {
                 text: self.current.file.text
             }
