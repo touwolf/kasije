@@ -34,60 +34,12 @@
         }
     });
 
-    var pageHandler = new win.EditorComponent({
+    new win.EditorComponent({
         id: 'site-theme-list',
         elementSelector: '.site-theme-list',
         fetchURL: '/admin/themes',
         editorWSelector: '#editor-workspace',
-        fileNameSelector: '#editor-file-name'
-    });
-
-    pageHandler.on('save-current-file', function()
-    {
-        if (!this.current)
-        {
-            return;
-        }
-
-        win.showLoading();
-        console.log('saving...')
-
-        var self = this;
-        self.current.file.text = self.current.editor.getValue();
-
-        var jqXHR = $.ajax({
-            method: 'POST',
-            url: '/admin/save-theme-resource/' + self.current.file.path + self.current.file.name,
-            data: {
-                text: self.current.file.text
-            }
-        });
-
-        jqXHR.done(function(data)
-        {
-            win.hideLoading();
-            console.log('ok');
-            self.current.file.origText = self.current.file.text;
-        });
-
-        jqXHR.fail(function(data)
-        {
-            win.hideLoading();
-            console.error(arguments);//TODO
-        });
-    });
-
-    pageHandler.on('reset-current-file', function()
-    {
-        if (!this.current)
-        {
-            return;
-        }
-
-        var undoMgr = this.current.editor.session.getUndoManager();
-        if (undoMgr.hasUndo())
-        {
-            undoMgr.undo();
-        }
+        fileNameSelector: '#editor-file-name',
+        saveURL: '/admin/save-theme-resource/'
     });
 })(window, jQuery);
