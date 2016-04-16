@@ -94,8 +94,12 @@ public class ResourcesHandler implements RequestHandler
                     }
                     else if (realPath.startsWith("save-theme-resource"))
                     {
-                        //TODO
-                        resources = new LinkedList<>();
+                        WebSiteTheme theme = themesManager.findTheme(adminSite);
+                        if (theme != null)
+                        {
+                            Map<String, String[]> params = req.getParameterMap();
+                            resources = handleSaveThemeResponse(theme.getFile(), realPath.substring("save-theme-resource/".length()), params);
+                        }
                     }
 
                     if (resources != null)
@@ -131,12 +135,12 @@ public class ResourcesHandler implements RequestHandler
 
         return pages
                 .parallelStream()
-                .map(file -> buildResource(file))
+                .map(file -> buildResource(pagesFolder, file))
                 .filter(resource -> resource != null)
                 .collect(Collectors.toList());
     }
 
-    private Resource buildResource(File file)
+    private Resource buildResource(File baseFile, File file)
     {
         List<String> lines;
         try
@@ -153,7 +157,11 @@ public class ResourcesHandler implements RequestHandler
         int lastDotIndex = name.lastIndexOf(".");
         String ext = name.substring(lastDotIndex + 1);
 
-        Resource resource = new Resource(name, ext, content);
+        String path = file.getAbsolutePath();
+        path = path.substring(baseFile.getAbsolutePath().length());
+        path = path.substring(0, path.length() - name.length());
+
+        Resource resource = new Resource(path, name, ext, content);
         resource.setTags(findTags(ext, lines));
 
         return resource;
@@ -171,7 +179,7 @@ public class ResourcesHandler implements RequestHandler
 
         return files
                 .parallelStream()
-                .map(file -> buildResource(file))
+                .map(file -> buildResource(theme.getFile(), file))
                 .filter(resource -> resource != null)
                 .collect(Collectors.toList());
     }
@@ -220,16 +228,37 @@ public class ResourcesHandler implements RequestHandler
     {
         if (!params.containsKey("text"))
         {
-            throw new IOException("Not valid request!");
+            return null;
         }
 
         File pageFile = new File(pagesFolder, pageName);
         if (!pageFile.exists() || !pageFile.canWrite())
         {
-            throw new IOException("Can not write file: " + pageName);
+            return null;
         }
 
         FileOutputStream fileOutStream = new FileOutputStream(pageFile);
+
+        String text = params.get("text")[0];
+        IOUtils.write(text, fileOutStream);
+
+        return Collections.emptyList();
+    }
+
+    private List<Resource> handleSaveThemeResponse(File themeFolder, String resource, Map<String, String[]> params) throws IOException
+    {
+        if (!params.containsKey("text"))
+        {
+            return null;
+        }
+
+        File resourceFile = new File(themeFolder, resource);
+        if (!resourceFile.exists() || !resourceFile.canRead())
+        {
+            return null;
+        }
+
+        FileOutputStream fileOutStream = new FileOutputStream(resourceFile);
 
         String text = params.get("text")[0];
         IOUtils.write(text, fileOutStream);

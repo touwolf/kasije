@@ -17,7 +17,6 @@
     <#else>
         <@userContent />
     </#if>
-    <div id="loadingoverlay" class="loadingoverlay"></div>
 
     <script src="/admin/resources/js/jquery.js"></script><#--TODO: replace by CDN -->
     <script src="/admin/resources/js/bootstrap.js"></script><#--TODO: replace by CDN -->
@@ -26,11 +25,13 @@
     <script src="/admin/resources/js/screenfull.js"></script>
     <script src="/admin/resources/js/jquery.nicescroll.js"></script><#--TODO: replace by CDN -->
     <script src="/admin/resources/js/custom.js"></script>
+    <#if page.__user?? && hasRole("admin")>
     <script src="/admin/resources/js/app.js"></script>
     <#if page.resources?? && page.resources.js??>
     <#list page.resources.js as js>
     <script src="${js}.js"></script>
     </#list>
+    </#if>
     </#if>
 </body>
 </html>
@@ -86,6 +87,7 @@
         </div>
     </div>
     <@clearfix />
+    <div id="loadingoverlay" class="loadingoverlay"></div>
 </#macro>
 
 <#macro topMenu>

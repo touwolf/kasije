@@ -57,7 +57,7 @@
 
         var jqXHR = $.ajax({
             method: 'POST',
-            url: '/admin/save-page/' + self.current.file.name,
+            url: '/admin/save-page/' + self.current.file.path + self.current.file.name,
             data: {
                 text: self.current.file.text
             }
