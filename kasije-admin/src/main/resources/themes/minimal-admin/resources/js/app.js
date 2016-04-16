@@ -213,7 +213,58 @@
             preInit.call(self);
         };
 
-        return new Component(config);
+        var editorComp = new Component(config);
+
+        editorComp.on('save-current-file', function()
+        {
+            if (!this.current)
+            {
+                return;
+            }
+
+            win.showLoading();
+            console.log('saving...')
+
+            var self = this;
+            self.current.file.text = self.current.editor.getValue();
+
+            var jqXHR = $.ajax({
+                method: 'POST',
+                url: config.saveURL + self.current.file.path + self.current.file.name,
+                data: {
+                    text: self.current.file.text
+                }
+            });
+
+            jqXHR.done(function(data)
+            {
+                win.hideLoading();
+                console.log('ok');
+                self.current.file.origText = self.current.file.text;
+            });
+
+            jqXHR.fail(function(data)
+            {
+                win.hideLoading();
+                console.error(arguments);//TODO
+            });
+        });
+
+        editorComp.on('reset-current-file', function()
+        {
+            if (!this.current)
+            {
+                return;
+            }
+
+            var undoMgr = this.current.editor.session.getUndoManager();
+            if (undoMgr.hasUndo())
+            {
+                undoMgr.undo();
+            }
+        });
+
+        return editorComp;
     };
 
     win.EditorComponent = EditorComponent;
