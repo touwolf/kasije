@@ -6,9 +6,9 @@
 
     <title>${page.@title}</title>
 
-    <link href="/admin/resources/css/bootstrap.css" rel='stylesheet' type='text/css'/><#--TODO: replace by CDN -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="/admin/resources/css/style.css" rel='stylesheet' type='text/css'/>
-    <link href="/admin/resources/css/font-awesome.css" rel="stylesheet"><#--TODO: replace by CDN -->
     <link href="/admin/resources/css/custom.css" rel="stylesheet">
 </head>
 <body>
@@ -18,12 +18,12 @@
         <@userContent />
     </#if>
 
-    <script src="/admin/resources/js/jquery.js"></script><#--TODO: replace by CDN -->
-    <script src="/admin/resources/js/bootstrap.js"></script><#--TODO: replace by CDN -->
-    <script src="/admin/resources/js/jquery.metisMenu.js"></script><#--TODO: replace by CDN -->
-    <script src="/admin/resources/js/jquery.slimscroll.js"></script><#--TODO: replace by CDN -->
+    <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/metisMenu/2.5.0/metisMenu.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jQuery-slimScroll/1.3.7/jquery.slimscroll.min.js"></script>
     <script src="/admin/resources/js/screenfull.js"></script>
-    <script src="/admin/resources/js/jquery.nicescroll.js"></script><#--TODO: replace by CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.nicescroll/3.6.8-fix/jquery.nicescroll.min.js"></script>
     <script src="/admin/resources/js/custom.js"></script>
     <#if page.__user?? && hasRole("admin")>
     <script src="/admin/resources/js/app.js"></script>
