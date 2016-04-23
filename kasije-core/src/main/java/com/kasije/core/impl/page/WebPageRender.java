@@ -41,7 +41,7 @@ class WebPageRender implements RequestHandler
         if (reqCtx.get(WebPage.class) != null)
         {
             WebSiteTheme webSiteTheme = reqCtx.get(WebSiteTheme.class);
-            if (webSiteTheme != null)
+            if (webSiteTheme != null && webSiteTheme.getFile() != null)
             {
                 return webSiteTheme.render(reqCtx);
             }

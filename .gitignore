@@ -14,3 +14,4 @@ buildNumber.properties
 kasije-main/nbactions.xml
 kasije-main/sites/themes/default/resources/sass/sasstyles.css
 kasije-main/src/main/resources/etc/**
+kasije-admin/src/main/resources/kasije-admin/etc/

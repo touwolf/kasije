@@ -157,9 +157,9 @@
 
 <#macro content>
     <#if page.@id == "site-pages" && hasRole("pages")>
-        <@pagesContent />
+        <@filesContent title="Pages" listSelector="site-pages-list" />
     <#elseif page.@id == "site-themes" && hasRole("themes")>
-        <@themesContent />
+        <@filesContent title="Theme resources" listSelector="site-theme-list" />
     <#else>
         <@homeContent />
     </#if>
@@ -223,84 +223,21 @@
     </div>
 </#macro>
 
-<#macro pagesContent>
+<#macro filesContent title listSelector>
     <div class="inbox-mail">
         <div class="col-md-4 compose">
             <div class="input-group input-group-in">
-                <input type="text" name="search" class="form-control2 input-search" placeholder="Search...">
-                    <span class="input-group-btn">
-                        <button class="btn btn-success" type="button">
-                            <i class="fa fa-search"></i>
-                        </button>
-                    </span>
-            </div>
-
-            <h2>Pages</h2>
-            <nav class="nav-sidebar">
-                <ul class="nav tabs site-pages-list"></ul>
-            </nav>
-        </div>
-
-        <div class="col-md-8 tab-content tab-content-in">
-            <div class="tab-pane active text-style" id="tab2">
-                <div class="inbox-right">
-                    <div class="mailbox-content" id="editor-workspace">
-                        <div class="mail-toolbar clearfix not-enabled">
-                            <div class="float-left">
-                                <h3 id="editor-file-name"></h3>
-                            </div>
-
-                            <div class="float-right">
-                                <div class="dropdown">
-                                    <a href="#" title="" class="btn btn-default" data-toggle="dropdown"
-                                       aria-expanded="false">
-                                        <i class="fa fa-file-o icon_8"></i>
-                                        <i class="fa fa-chevron-down icon_8"></i>
-                                        <div class="ripple-wrapper"></div>
-                                    </a>
-
-                                    <ul class="dropdown-menu float-right">
-                                        <li>
-                                            <a href="#" title="" id="save-current-file">
-                                                <i class="fa fa-save icon_9"></i>
-                                                Save
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#" title="" id="reset-current-file">
-                                                <i class="fa fa-undo icon_9"></i>
-                                                Undo
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-control ace-editor not-enabled"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <@clearfix />
-    </div>
-</#macro>
-
-<#macro themesContent>
-    <div class="inbox-mail">
-        <div class="col-md-4 compose">
-            <div class="input-group input-group-in">
-                <input type="text" name="search" class="form-control2 input-search" placeholder="Search...">
-                <span class="input-group-btn">
+                <span class="">
                     <button class="btn btn-success" type="button">
-                        <i class="fa fa-search"></i>
+                        <i class="fa fa-plus"></i>
                     </button>
                 </span>
             </div>
 
-            <h2>Theme resources</h2>
+            <h2>${title}</h2>
+
             <nav class="nav-sidebar">
-                <ul class="nav tabs site-theme-list"></ul>
+                <ul class="nav tabs ${listSelector}"></ul>
             </nav>
         </div>
 
