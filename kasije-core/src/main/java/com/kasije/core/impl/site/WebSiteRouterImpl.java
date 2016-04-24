@@ -101,8 +101,9 @@ public class WebSiteRouterImpl implements WebSiteRouter
     }
 
     @Override
-    public String findPathInfo(WebSite site, String pathInfo)
+    public String findPathInfo(WebSite site, String pInfo)
     {
+        String pathInfo = pInfo;
         if (site.isAdmin() && pathInfo.startsWith(ADMIN_PREFIX))
         {
             pathInfo = pathInfo.substring(ADMIN_PREFIX.length());

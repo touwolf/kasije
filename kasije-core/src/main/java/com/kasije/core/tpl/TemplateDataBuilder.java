@@ -121,8 +121,9 @@ public class TemplateDataBuilder
         return null;
     }
 
-    private static String getPathWithExt(String path, String ext)
+    private static String getPathWithExt(String path, String extension)
     {
+        String ext = extension;
         if (path.endsWith("." + ext))
         {
             return path;

@@ -46,12 +46,10 @@ public class FacebookAuthProvider implements AuthUserProvider
 
         for (Cookie cookie : cookies)
         {
-            if (!COOKIE_ID.equals(cookie.getName()))
+            if (COOKIE_ID.equals(cookie.getName()))
             {
-                continue;
+                return fetchFacebookUser(cookie.getValue());
             }
-
-            return fetchFacebookUser(cookie.getValue());
         }
 
         return null;

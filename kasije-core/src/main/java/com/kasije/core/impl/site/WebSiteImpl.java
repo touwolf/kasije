@@ -73,8 +73,9 @@ class WebSiteImpl implements WebSite
     }
 
     @Override
-    public WebPage findPage(String pagePath)
+    public WebPage findPage(String pPath)
     {
+        String pagePath = pPath;
         if (!pagePath.startsWith("/"))
         {
             pagePath = "/" + pagePath;

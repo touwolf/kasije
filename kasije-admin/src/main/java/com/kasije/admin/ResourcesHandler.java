@@ -62,109 +62,126 @@ public class ResourcesHandler implements RequestHandler
             return false;
         }
 
-        if(req.getPathInfo().startsWith("/admin"))
+        if(!req.getPathInfo().startsWith("/admin"))
         {
-            String pathInfo = req.getPathInfo();
-            String[] resPathArr = pathInfo.split("/");
-            String[] realPathArr = Arrays.copyOfRange(resPathArr, 2, resPathArr.length);
-            String realPath = String.join("/", (CharSequence[]) realPathArr);
+            return handler.handle(reqCtx);
+        }
 
-            if (isAuthorized(reqCtx, realPath))
+        String pathInfo = req.getPathInfo();
+        String[] resPathArr = pathInfo.split("/");
+        String[] realPathArr = Arrays.copyOfRange(resPathArr, 2, resPathArr.length);
+        String realPath = String.join("/", (CharSequence[]) realPathArr);
+
+        if (!isAuthorized(reqCtx, realPath))
+        {
+            return false;
+        }
+
+        return doHandle(reqCtx, req, realPath);
+    }
+
+    private boolean doHandle(RequestContext reqCtx, HttpServletRequest req, String realPath) throws IOException
+    {
+        WebSite adminSite = siteRepo.find(reqCtx, req.getServerName(), false);
+        if (adminSite == null || adminSite.isAdmin())
+        {
+            return false;
+        }
+
+        File pagesFolder = new File(adminSite.getFile().getAbsoluteFile(), "pages");
+        if (!pagesFolder.exists() || !pagesFolder.isDirectory() || !pagesFolder.canRead())
+        {
+            return false;
+        }
+
+        if ("pages".equalsIgnoreCase(realPath))
+        {
+            return doHandleResponse(reqCtx, handlePagesResponse(pagesFolder));
+        }
+
+        if ("themes".equalsIgnoreCase(realPath))
+        {
+            return doHandleResponse(reqCtx, handleThemesResponse(adminSite));
+        }
+
+        if (realPath.startsWith("save-page"))
+        {
+            Map<String, String[]> params = req.getParameterMap();
+            List<Resource> resources = ResourcesHelper.handleSavePageResponse(pagesFolder, realPath.substring("save-page/".length()), params);
+            return doHandleResponse(reqCtx, resources);
+        }
+
+        if (realPath.startsWith("add-page"))
+        {
+            Map<String, String[]> params = req.getParameterMap();
+            try
             {
-                WebSite adminSite = siteRepo.find(reqCtx, req.getServerName(), false);
-                if (adminSite != null && !adminSite.isAdmin())
+                Resource resource = ResourcesHelper.createResource(pagesFolder, params);
+                if (resource != null)
                 {
-                    List<Resource> resources = null;
-                    File pagesFolder = new File(adminSite.getFile().getAbsoluteFile(), "pages");
-                    if (!pagesFolder.exists() || !pagesFolder.isDirectory() || !pagesFolder.canRead())
-                    {
-                        return handler.handle(reqCtx);
-                    }
+                    return doHandleResponse(reqCtx, Collections.singletonList(resource));
+                }
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
 
-                    if ("pages".equalsIgnoreCase(realPath))
-                    {
-                        resources = handlePagesResponse(pagesFolder);
-                    }
-                    else if ("themes".equalsIgnoreCase(realPath))
-                    {
-                        resources = handleThemesResponse(adminSite);
-                    }
-                    else if (realPath.startsWith("save-page"))
-                    {
-                        Map<String, String[]> params = req.getParameterMap();
-                        resources = ResourcesHelper.handleSavePageResponse(pagesFolder, realPath.substring("save-page/".length()), params);
-                    }
-                    else if (realPath.startsWith("add-page"))
-                    {
-                        Map<String, String[]> params = req.getParameterMap();
-                        try
-                        {
-                            Resource resource = ResourcesHelper.createResource(pagesFolder, params);
-                            if (resource != null)
-                            {
-                                resources = Collections.singletonList(resource);
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            return false;
-                        }
-                    }
-                    else if (realPath.startsWith("save-theme-resource"))
-                    {
-                        WebSiteTheme theme = themesManager.findTheme(adminSite);
-                        if (theme != null)
-                        {
-                            Map<String, String[]> params = req.getParameterMap();
-                            resources = ResourcesHelper.handleSaveThemeResponse(theme.getFile(), realPath.substring("save-theme-resource/".length()), params);
-                        }
-                    }
-                    else if (realPath.startsWith("add-resource"))
-                    {
-                        WebSiteTheme theme = themesManager.findTheme(adminSite);
-                        if (theme != null)
-                        {
-                            Map<String, String[]> params = req.getParameterMap();
-                            try
-                            {
-                                Resource resource = ResourcesHelper.createResource(theme.getFile(), params);
-                                if (resource != null)
-                                {
-                                    resources = Collections.singletonList(resource);
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                return false;
-                            }
-                        }
-                    }
+        if (realPath.startsWith("save-theme-resource"))
+        {
+            WebSiteTheme theme = themesManager.findTheme(adminSite);
+            if (theme != null)
+            {
+                Map<String, String[]> params = req.getParameterMap();
+                List<Resource> resources = ResourcesHelper.handleSaveThemeResponse(theme.getFile(), realPath.substring("save-theme-resource/".length()), params);
+                return doHandleResponse(reqCtx, resources);
+            }
+        }
 
-                    if (resources != null)
+        if (realPath.startsWith("add-resource"))
+        {
+            WebSiteTheme theme = themesManager.findTheme(adminSite);
+            if (theme != null)
+            {
+                Map<String, String[]> params = req.getParameterMap();
+                try
+                {
+                    Resource resource = ResourcesHelper.createResource(theme.getFile(), params);
+                    if (resource != null)
                     {
-                        try
-                        {
-                            String jsonResources = GSON.toJson(resources);
-
-                            HttpServletResponse resp = reqCtx.get(HttpServletResponse.class);
-                            resp.setStatus(200);
-                            resp.setContentType("text/json");
-
-                            PrintWriter writer = resp.getWriter();
-                            writer.println(jsonResources);
-
-                            return true;
-                        }
-                        catch(Exception ex)
-                        {
-                            return false;
-                        }
+                        return doHandleResponse(reqCtx, Collections.singletonList(resource));
                     }
+                }
+                catch (Exception ex)
+                {
+                    return false;
                 }
             }
         }
 
         return handler.handle(reqCtx);
+    }
+
+    private boolean doHandleResponse(RequestContext reqCtx, List<Resource> resources)
+    {
+        try
+        {
+            String jsonResources = GSON.toJson(resources);
+
+            HttpServletResponse resp = reqCtx.get(HttpServletResponse.class);
+            resp.setStatus(200);
+            resp.setContentType("text/json");
+
+            PrintWriter writer = resp.getWriter();
+            writer.println(jsonResources);
+
+            return true;
+        }
+        catch(Exception ex)
+        {
+            return false;
+        }
     }
 
     private List<Resource> handlePagesResponse(File pagesFolder) throws IOException

@@ -29,7 +29,10 @@
 
         for (var key in config)
         {
-            this[key] = config[key];
+            if ({}.hasOwnProperty.call(config, key))
+            {
+                this[key] = config[key];
+            }
         }
 
         this.prototype = Component.prototype;
@@ -54,6 +57,11 @@
 
         for (var id in components)
         {
+            if (!{}.hasOwnProperty.call(components, id))
+            {
+                continue;
+            }
+
             var component = components[id];
             if (component[eventId] && typeof(component[eventId]) === 'function')
             {
@@ -107,6 +115,66 @@
             var self = this;
             self.element = $(config.elementSelector);
 
+            var updateCurrent = function(file)
+            {
+                if (!self.current || file.name === self.current.file.name)
+                {
+                    return;
+                }
+
+                var previousFileId = self.current.file.name.split('.').join('_').toLowerCase();
+                self.files[previousFileId].text = self.current.editor.getValue();
+            };
+
+            var createEditor = function(file, ws)
+            {
+                if (self.current.editor)
+                {
+                    return;
+                }
+
+                self.current.editor = win.ace.edit(ws.find('.ace-editor')[0]);
+                self.current.editor.setOptions({enableBasicAutocompletion: true});
+                if (file.tags)
+                {
+                    self.current.editor.completers = [{
+                        getCompletions: function(editor, session, pos, prefix, callback)
+                        {
+                            var map = file.tags.map(function(word)
+                            {
+                                return {
+                                    caption: word,
+                                    value: word,
+                                    meta: "static"
+                                };
+                            });
+
+                            callback(null, map);
+
+                        }
+                    }];
+                }
+
+                self.current.editor.commands.addCommand({
+                    name: 'save',
+                    bindKey: {win: 'Ctrl-S',  mac: 'Command-S'},
+                    exec: function()
+                    {
+                        self.fire('save-current-file');
+                    },
+                    readOnly: false
+                });
+                self.current.editor.commands.addCommand({
+                    name: 'undo',
+                    bindKey: {win: 'Ctrl-Z',  mac: 'Command-Z'},
+                    exec: function(editor)
+                    {
+                        self.fire('reset-current-file');
+                    },
+                    readOnly: false
+                });
+            };
+
             // File selection
             var handleFileSelected = function(event)
             {
@@ -120,68 +188,13 @@
 
                 var ws = $(config.editorWSelector);
                 ws.find('.not-enabled').removeClass('not-enabled');
+                updateCurrent(file);
 
-                if (self.current)
-                {
-                    if (file.name === self.current.file.name)
-                    {
-                        return;
-                    }
-
-                    var previousFileId = self.current.file.name.split('.').join('_').toLowerCase();
-                    self.files[previousFileId].text = self.current.editor.getValue();
-                }
-                else
-                {
-                    self.current = {};
-                }
+                self.current = self.current || {};
 
                 $(config.fileNameSelector).html(file.path + file.name);
 
-                if (!self.current.editor)
-                {
-                    self.current.editor = win.ace.edit(ws.find('.ace-editor')[0]);
-
-                    self.current.editor.setOptions({enableBasicAutocompletion: true});
-                    if (file.tags)
-                    {
-                        self.current.editor.completers = [{
-                            getCompletions: function(editor, session, pos, prefix, callback)
-                            {
-                                var map = file.tags.map(function(word)
-                                {
-                                    return {
-                                        caption: word,
-                                        value: word,
-                                        meta: "static"
-                                    };
-                                });
-
-                                callback(null, map);
-
-                            }
-                        }];
-                    }
-
-                    self.current.editor.commands.addCommand({
-                        name: 'save',
-                        bindKey: {win: 'Ctrl-S',  mac: 'Command-S'},
-                        exec: function(editor)
-                        {
-                            self.fire('save-current-file');
-                        },
-                        readOnly: false
-                    });
-                    self.current.editor.commands.addCommand({
-                        name: 'undo',
-                        bindKey: {win: 'Ctrl-Z',  mac: 'Command-Z'},
-                        exec: function(editor)
-                        {
-                            self.fire('reset-current-file');
-                        },
-                        readOnly: false
-                    });
-                }
+                createEditor(file, ws);
 
                 self.current.editor.getSession().setMode('ace/mode/' + file.type);
                 self.current.editor.setValue(file.text);
@@ -231,14 +244,17 @@
 
                 for (var index in data)
                 {
-                    addFileToList(data[index]);
+                    if ({}.hasOwnProperty.call(data, index))
+                    {
+                        addFileToList(data[index]);
+                    }
                 }
 
                 win.hideLoading();
                 $('.load-enabled').removeClass('not-enabled');
             });
 
-            jqXHR.fail(function(data)
+            jqXHR.fail(function()
             {
                 win.hideLoading();
                 $('.load-enabled').removeClass('not-enabled');
@@ -250,7 +266,7 @@
             var addFileBtn = $('#addFile');
             var modalDiv = addFileBtn.closest('div.modal-dialog');
             var modalForm = modalDiv.find('form');
-            addFileBtn.on('click', function(event)
+            addFileBtn.on('click', function()
             {
                 if (!isValidForm(modalForm))
                 {

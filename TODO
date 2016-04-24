@@ -1,5 +1,6 @@
 # GENERAL
 
+- Get Codacy level A (https://www.codacy.com/app/miche-atucha/kasije/dashboard)
 - Configurable cache for pages (based on last update to content or theme)
 - Configurable time cache for facebook users
 - Pass extra variables to pages
@@ -22,8 +23,8 @@
 
 # ADMIN
 
-- Edit configurations.
-- Edit javascripts.
 - Remove files.
-- Upload files.
+- Edit javascripts.
 - View images as gallery.
+- Upload files and images.
+- Edit configurations.

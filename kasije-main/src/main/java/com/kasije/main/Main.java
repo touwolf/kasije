@@ -62,8 +62,9 @@ public class Main
         server.join();
     }
 
-    private static org.eclipse.jetty.server.Connector createConnector(Server server, Connector connectorConfig)
+    private static org.eclipse.jetty.server.Connector createConnector(Server server, Connector connConfig)
     {
+        Connector connectorConfig = connConfig;
         if (connectorConfig == null)
         {
             connectorConfig = new Connector();

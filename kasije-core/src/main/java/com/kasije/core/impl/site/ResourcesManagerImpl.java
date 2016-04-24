@@ -92,15 +92,18 @@ public class ResourcesManagerImpl implements ResourcesManager
             {
                 return "image/ico";
             }
+            default:
+            {
+                return "text/plain";
+            }
         }
-
-        return "text/plain";
     }
 
     @Override
-    public void processResource(File source, OutputStream outStream) throws IOException
+    public void processResource(File src, OutputStream outStream) throws IOException
     {
-        String sourceName = source.getName();
+        String sourceName = src.getName();
+        File source = src;
 
         if (sourceName.endsWith(SASS_SUFFIX))
         {

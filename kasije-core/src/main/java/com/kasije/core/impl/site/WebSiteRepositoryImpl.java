@@ -22,8 +22,9 @@ public class WebSiteRepositoryImpl implements WebSiteRepository
     private final Map<String, WebSite> mapWebSite = new HashMap<>();
 
     @Override
-    public WebSite find(RequestContext reqCtx, String siteName, boolean acceptAdmin)
+    public WebSite find(RequestContext reqCtx, String sName, boolean acceptAdmin)
     {
+        String siteName = sName;
         /* it's cache */
         if (mapWebSite.containsKey(siteName))
         {

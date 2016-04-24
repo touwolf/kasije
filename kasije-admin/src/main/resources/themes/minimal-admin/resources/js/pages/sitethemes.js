@@ -16,25 +16,25 @@
 
 (function(win, $)
 {
-    new win.Component({
+    win.Component({
         id: 'current-theme-actions',
         init: function()
         {
             var self = this;
 
-            $('#save-current-file').on('click', function(event)
+            $('#save-current-file').on('click', function()
             {
                 self.fire('save-current-file');
             });
 
-            $('#reset-current-file').on('click', function(event)
+            $('#reset-current-file').on('click', function()
             {
                 self.fire('reset-current-file');
             });
         }
     });
 
-    new win.EditorComponent({
+    win.EditorComponent({
         id: 'site-theme-list',
         elementSelector: '.site-theme-list',
         fetchURL: '/admin/themes',

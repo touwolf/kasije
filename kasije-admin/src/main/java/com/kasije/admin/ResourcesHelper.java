@@ -24,6 +24,7 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.commons.io.IOUtils;
+import static java.awt.SystemColor.text;
 
 /**
  *
@@ -182,12 +183,8 @@ public class ResourcesHelper
 
     public static Resource createResource(File parent, Map<String, String[]> params) throws Exception
     {
-        if (!params.containsKey("fileName") || !params.containsKey("fileType"))
-        {
-            throw new Exception("Cannot create resource.");
-        }
-
-        if (parent == null || !parent.exists() || !parent.canWrite())
+        if (!params.containsKey("fileName") || !params.containsKey("fileType")
+            || parent == null || !parent.exists() || !parent.canWrite())
         {
             throw new Exception("Cannot create resource.");
         }
@@ -201,6 +198,32 @@ public class ResourcesHelper
             path = params.get("filePath")[0];
         }
 
+        File parentResource = getResourceParent(parent, path);
+
+        if (!name.endsWith("." + type.toLowerCase()))
+        {
+            name += "." + type.toLowerCase();
+        }
+
+        File file = new File(parentResource, name);
+        if (!file.exists())
+        {
+            file.createNewFile();
+        }
+
+        FileOutputStream fileOutStream = new FileOutputStream(file);
+        String text = getTextContent(type);
+        IOUtils.write(text, fileOutStream);
+
+        path = file.getAbsolutePath();
+        path = path.substring(parent.getAbsolutePath().length());
+        path = path.substring(0, path.length() - name.length());
+
+        return new Resource(path, name, type, text);
+    }
+
+    private static File getResourceParent(File parent, String path) throws Exception
+    {
         File parentResource = parent;
         if (!path.isEmpty())
         {
@@ -213,34 +236,21 @@ public class ResourcesHelper
             parentResource.mkdirs();
         }
 
-        if (!name.endsWith("." + type.toLowerCase()))
-        {
-            name += "." + type.toLowerCase();
-        }
+        return parentResource;
+    }
 
-        String text = "/* Add content */";
+    private static String getTextContent(String type)
+    {
         if ("ftl".equals(type))
         {
-            text = "<#ftl encoding=\"UTF-8\">\n<#-- Add content -->";
+            return "<#ftl encoding=\"UTF-8\">\n<#-- Add content -->";
         }
-        else if ("xml".equals(type))
+
+        if ("xml".equals(type))
         {
-            text = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!-- Add content -->";
+            return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!-- Add content -->";
         }
 
-        File file = new File(parentResource, name);
-        if (!file.exists())
-        {
-            file.createNewFile();
-        }
-
-        FileOutputStream fileOutStream = new FileOutputStream(file);
-        IOUtils.write(text, fileOutStream);
-
-        path = file.getAbsolutePath();
-        path = path.substring(parent.getAbsolutePath().length());
-        path = path.substring(0, path.length() - name.length());
-
-        return new Resource(path, name, type, text);
+        return "/* Add content */";
     }
 }
