@@ -7,7 +7,7 @@
 
 [![Koding Hackathon Badge](/koding_hackathon_badge.png?raw=true "Koding Hackathon Badge")](https://koding.com/Hackathon)
 
-# kasije
+![KasiJe](https://raw.githubusercontent.com/touwolf/kasije/master/kasije.png)
 
 Kasije lightweight cms, evolve the productivity.
 
