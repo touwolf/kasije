@@ -17,7 +17,7 @@ p
 
 html, body
 {
-    font-family: 'Montserrat-Regular';
+    font-family: 'Montserrat-Regular', Tahoma, Geneva, sans-serif;
     font-size:   100%;
     background:  #F3F3F4;
     overflow-x:  hidden;
@@ -78,9 +78,9 @@ div#wrapper
 .navbar .navbar-nav li .dropdown-menu
 {
     margin-top:            3px;
-    -webkit-border-radius: 0px;
-    -moz-border-radius:    0px;
-    border-radius:         0px;
+    -webkit-border-radius: 0;
+    -moz-border-radius:    0;
+    border-radius:         0;
     border:                1px solid #e1e6ef;
     -webkit-box-shadow:    0 2px 4px rgba(0, 0, 0, 0.125);
     -moz-box-shadow:       0 2px 4px rgba(0, 0, 0, 0.125);
@@ -189,7 +189,7 @@ div#wrapper
 {
     min-width: 300px;
     height:    56px;
-    padding:   0px 15px;
+    padding:   0 15px;
 }
 
 .navbar .navbar-nav li .dropdown-menu li
@@ -212,9 +212,9 @@ div#wrapper
 
 .navbar .navbar-nav li .dropdown-menu li a
 {
-    -webkit-border-radius: 0px;
-    -moz-border-radius:    0px;
-    border-radius:         0px;
+    -webkit-border-radius: 0;
+    -moz-border-radius:    0;
+    border-radius:         0;
     line-height:           40px;
     height:                40px;
     margin:                0 -15px;
@@ -228,7 +228,7 @@ div#wrapper
     -moz-border-radius:    50em;
     border-radius:         50em;
     border:                1px solid #e1e6ef;
-    margin:                0px 10px 0 -5px;
+    margin:                0 10px 0 -5px;
     float:                 left;
 }
 
@@ -292,7 +292,7 @@ h1 a.navbar-brand
     color:       #fff !important;
     font-size:   30px;
     font-weight: 500;
-    padding:     20px 0px;
+    padding:     20px 0;
     background:  #d95459;
     text-align:  center;
     width:       248px;
@@ -346,6 +346,7 @@ ul.nav.navbar-nav.navbar-right
     display:                     inline-block;
     vertical-align:              middle;
     -webkit-transform:           translateZ(0);
+    -o-transform:                translateZ(0);
     -moz-transform:              translateZ(0);
     transform:                   translateZ(0);
     box-shadow:                  0 0 1px rgba(0, 0, 0, 0);
@@ -354,9 +355,11 @@ ul.nav.navbar-nav.navbar-right
     -moz-osx-font-smoothing:     grayscale;
     position:                    relative;
     -webkit-transition-property: color;
+    -moz-transition-property:    color;
     -o-transition-property:      color;
     transition-property:         color;
     -webkit-transition-duration: 0.5s;
+    -o-transition-duration:      0.5s;
     -moz-transition-duration:    0.5s;
     transition-duration:         0.5s;
 }
@@ -375,14 +378,17 @@ ul.nav.navbar-nav.navbar-right
     -ms-transform:                      scaleX(0);
     transform:                          scaleX(0);
     -webkit-transform-origin:           0 50%;
+    -o-transform-origin:                0 50%;
     -moz-transform-origin:              0 50%;
     transform-origin:                   0 50%;
     -webkit-transition-property:        transform;
+    -moz-transition-property:           transform;
     -o-transition-property:             transform;
     transition-property:                transform;
     -webkit-transition-duration:        0.5s;
     transition-duration:                0.5s;
     -webkit-transition-timing-function: ease-out;
+    -moz-transition-timing-function:    ease-out;
     -o-transition-timing-function:      ease-out;
     transition-timing-function:         ease-out;
 }
@@ -395,9 +401,11 @@ ul.nav.navbar-nav.navbar-right
 .hvr-bounce-to-right:hover:before, .hvr-bounce-to-right:focus:before, .hvr-bounce-to-right:active:before
 {
     -webkit-transform:                  scaleX(1);
+    -moz-transform:                     scaleX(1);
     -o-transform:                       scaleX(1);
     transform:                          scaleX(1);
     -webkit-transition-timing-function: cubic-bezier(0.52, 1.64, 0.37, 0.66);
+    -o-transition-timing-function:      cubic-bezier(0.52, 1.64, 0.37, 0.66);
     -moz-transition-timing-function:    cubic-bezier(0.52, 1.64, 0.37, 0.66);
     transition-timing-function:         cubic-bezier(0.52, 1.64, 0.37, 0.66);
 }
@@ -407,7 +415,7 @@ ul.nav.navbar-nav.navbar-right
 {
     color:         #999;
     font-weight:   500;
-    padding:       0px 20px 0px 0px;
+    padding:       0 20px 0 0;
     font-size:     0.85em;
     border-bottom: 1px solid #E9E9E9;
 }
@@ -519,7 +527,7 @@ nav.navbar.navbar-static-top
 
 .navbar-left-right input[type="submit"]
 {
-    background: url(../images/search.png) 0px 2px no-repeat;
+    background: url(../images/search.png) 0 2px no-repeat;
     width:      16px;
     height:     16px;
     border:     none;
@@ -550,7 +558,7 @@ nav.navbar.navbar-static-top
 
 .dropdown-at img
 {
-    margin: 0 0em 0 1em;
+    margin: 0 0 0 1em;
 }
 
 i.fa.fa-globe
@@ -600,7 +608,7 @@ i.fa.fa-globe
 {
     color:       #B1B0B0;
     font-size:   0.8em;
-    font-family: 'Muli-Regular';
+    font-family: 'Muli-Regular', Tahoma, Geneva, sans-serif;
 }
 
 .user-new-left
@@ -656,7 +664,7 @@ i.fa.fa-globe
 
 .dropdown-menu
 {
-    padding: 0px 0;
+    padding: 0;
 }
 
 .dropdown-menu li a i
@@ -717,16 +725,17 @@ i.fa.fa-globe
 {
     background:            #fff;
     display:               block;
-    margin:                0em 1em;
+    margin:                0 1em;
     padding:               1em;
     border:                1px solid #ebeff6;
-    border-color:          #ebeff6;
     border-radius:         4px;
     -webkit-border-radius: 4px;
     -o-border-radius:      4px;
     -moz-border-radius:    4px;
     -ms-border-radius:     4px;
     -webkit-box-shadow:    0 1px 1px rgba(0, 0, 0, .05);
+    -moz-box-shadow:       0 1px 1px rgba(0, 0, 0, .05);
+    -o-box-shadow:         0 1px 1px rgba(0, 0, 0, .05);
     box-shadow:            0 1px 1px rgba(0, 0, 0, .05);
 }
 
@@ -734,14 +743,14 @@ i.fa.fa-globe
 {
     color:           #D95459;
     text-decoration: none;
-    font-family:     'Muli-Regular';
+    font-family:     'Muli-Regular', Tahoma, Geneva, sans-serif;
     padding:         0.3em;
 }
 
 .banner h2 span
 {
     color:       #000;
-    font-family: 'Muli-Regular';
+    font-family: 'Muli-Regular', Tahoma, Geneva, sans-serif;
     padding:     0.3em;
 }
 
@@ -770,7 +779,7 @@ i.fa.fa-globe
 
 .content-top-1:last-child
 {
-    margin-bottom: 0em;
+    margin-bottom: 0;
 }
 
 .content-graph
@@ -837,11 +846,11 @@ i.fa.fa-globe
     float: right;
 }
 
-.top-content h5
+.top-content > h5
 {
     font-size:   1.3em;
     color:       #B3AEAE;
-    font-family: 'Muli-Regular';
+    font-family: 'Muli-Regular', Tahoma, Geneva, sans-serif;
 }
 
 .top-content label
@@ -898,7 +907,7 @@ i.fa.fa-globe
     box-shadow:            0 1px 1px rgba(0, 0, 0, .05);
 }
 
-.middle-content h3
+.middle-content > h3
 {
     font-size:     1.5em;
     color:         #000;
@@ -961,7 +970,7 @@ i.fa.fa-globe
 {
     color:       #999;
     font-size:   1em;
-    font-family: 'Muli-Regular';
+    font-family: 'Muli-Regular', Tahoma, Geneva, sans-serif;
 }
 
 .weather-top-right p i
@@ -1032,7 +1041,7 @@ i.fa.fa-globe
 {
     font-size:   1em;
     line-height: 1.4em;
-    font-family: 'Muli-Regular';
+    font-family: 'Muli-Regular', Tahoma, Geneva, sans-serif;
 }
 
 /*----*/
@@ -1222,7 +1231,7 @@ i.fa.fa-twitter
     font-size:   1.1em;
     text-align:  center;
     padding:     1em;
-    font-family: 'Muli-Regular';
+    font-family: 'Muli-Regular', Tahoma, Geneva, sans-serif;
 }
 
 .post-bottom-1 p label, .post-bottom-2 p label
@@ -1255,9 +1264,9 @@ i.fa.fa-twitter
     background:                         #fff;
     padding:                            1em;
     border:                             none;
-    border-bottom:                      1px solid transparent;
     border-color:                       #ebeff6;
-    border-radius:                      0px;
+    border-bottom:                      1px solid transparent;
+    border-radius:                      0;
     border-bottom-left-radius:          4px;
     -webkit-border-bottom-left-radius:  4px;
     -o-border-bottom-left-radius:       4px;
@@ -1280,7 +1289,7 @@ i.fa.fa-twitter
 
 .col-md:nth-child(5), .col-md:nth-child(10)
 {
-    margin-right: 0%;
+    margin-right: 0;
 }
 
 .gallery-img
@@ -1291,10 +1300,10 @@ i.fa.fa-twitter
 .zoom-icon
 {
     position:           absolute;
-    top:                0px;
-    right:              0px;
-    bottom:             0px;
-    left:               0px;
+    top:                0;
+    right:              0;
+    bottom:             0;
+    left:               0;
     display:            block !important;
     opacity:            1 !important;
     visibility:         visible !important;
@@ -1314,7 +1323,6 @@ i.fa.fa-twitter
     display:            block;
     top:                50%;
     left:               50%;
-    top:                50%;
     bottom:             50%;
     width:              0;
     height:             0;
@@ -1335,7 +1343,7 @@ i.fa.fa-twitter
     top:                48%;
     display:            block;
     margin:             0;
-    height:             0%;
+    height:             0;
     width:              200%;
     background:         url(../images/dark.png);
     content:            "";
@@ -1424,7 +1432,7 @@ i.fa.fa-twitter
     color:       #999;
     padding:     1em 0;
     line-height: 2em;
-    font-family: 'Muli-Regular';
+    font-family: 'Muli-Regular', Tahoma, Geneva, sans-serif;
 }
 
 /*--//faqs--*/
@@ -1454,7 +1462,7 @@ i.fa.fa-twitter
     font-size:   0.9em;
     color:       #999;
     line-height: 2em;
-    font-family: 'Muli-Regular';
+    font-family: 'Muli-Regular', Tahoma, Geneva, sans-serif;
 }
 
 /*--//blank--*/
@@ -1490,7 +1498,7 @@ i.fa.fa-twitter
     color:       #999;
     margin:      1em 0;
     line-height: 1.8em;
-    font-family: 'Muli-Regular';
+    font-family: 'Muli-Regular', Tahoma, Geneva, sans-serif;
 }
 
 .grid-hor
@@ -1515,7 +1523,7 @@ i.fa.fa-twitter
 
 .horz-grid:last-child
 {
-    margin-bottom: 0em;
+    margin-bottom: 0;
 }
 
 .grid-hor h3
@@ -1546,7 +1554,7 @@ i.fa.fa-twitter
 
 .grid-form1:last-child
 {
-    margin-bottom: 0em;
+    margin-bottom: 0;
 }
 
 .grid-form1 h3
@@ -1565,8 +1573,8 @@ i.fa.fa-twitter
 {
     box-shadow:    none;
     outline:       none;
-    border-radius: 0px;
-    font-family:   'Muli-Regular';
+    border-radius: 0;
+    font-family:   'Muli-Regular', Tahoma, Geneva, sans-serif;
 }
 
 .form-control:focus
@@ -1577,7 +1585,7 @@ i.fa.fa-twitter
 
 .btn
 {
-    border-radius: 0px;
+    border-radius: 0;
     outline:       none;
 }
 
@@ -1625,15 +1633,17 @@ input#disabledTextInput, select#disabledSelect
     font-weight:        300;
     height:             40px;
     -webkit-appearance: none;
+    -moz-appearance:    none;
+    -o-appearance:      none;
     outline:            none;
-    font-family:        'Muli-Regular';
+    font-family:        'Muli-Regular', Tahoma, Geneva, sans-serif;
     background:         none;
     box-shadow:         none !important;
 }
 
 .input-lg
 {
-    border-radius: 0px;
+    border-radius: 0;
 }
 
 .panel-footer
@@ -1662,7 +1672,7 @@ input#disabledTextInput, select#disabledSelect
     display:         table;
     width:           100%;
     border-collapse: separate;
-    margin-bottom:   0em;
+    margin-bottom:   0;
 }
 
 .has-success .input-group-addon
@@ -1746,7 +1756,7 @@ label.control-label
     padding:     0.5em 1em;
     color:       #999;
     margin-top:  0.5em;
-    font-family: 'Muli-Regular';
+    font-family: 'Muli-Regular', Tahoma, Geneva, sans-serif;
 }
 
 .form-group1 textarea
@@ -1759,12 +1769,11 @@ label.control-label
     width:       100%;
     border:      1px solid #E9E9E9;
     font-size:   0.9em;
-    width:       100%;
     outline:     none;
     padding:     0.5em 1em;
     color:       #999;
     margin-top:  0.5em;
-    font-family: 'Muli-Regular';
+    font-family: 'Muli-Regular', Tahoma, Geneva, sans-serif;
 }
 
 .vali-form
@@ -1804,7 +1813,7 @@ label.control-label
 {
     font-size: 1.4em;
     color:     #000;
-    padding:   0em 0.9em 1em;
+    padding:   0 0.9em 1em;
 }
 
 .login-mail
@@ -1826,7 +1835,7 @@ label.control-label
     font-size:   0.9em;
     color:       #999;
     width:       89%;
-    font-family: 'Muli-Regular';
+    font-family: 'Muli-Regular', Tahoma, Geneva, sans-serif;
 }
 
 .login-do input[type="submit"]
@@ -1857,7 +1866,7 @@ label.control-label
     font-size:   0.9em;
     color:       #999;
     margin:      0.7em 0;
-    font-family: 'Muli-Regular';
+    font-family: 'Muli-Regular', Tahoma, Geneva, sans-serif;
 }
 
 .checkbox1
@@ -1887,7 +1896,7 @@ label.control-label
     -moz-transition:    0.5s all;
     -o-transition:      0.5s all;
     clear:              both;
-    font-family:        'Muli-Regular';
+    font-family:        'Muli-Regular', Tahoma, Geneva, sans-serif;
 }
 
 .checkbox1 i
@@ -2026,7 +2035,7 @@ label.control-label
 .profile-bottom
 {
     width:                 55%;
-    margin:                0em auto;
+    margin:                0 auto;
     background-color:      #fff;
     padding:               1em 0;
     border:                1px solid #ebeff6;
@@ -2043,7 +2052,7 @@ label.control-label
 {
     font-size:     1.4em;
     color:         #000;
-    padding:       0em 0.9em 1em;
+    padding:       0 0.9em 1em;
     border-bottom: 1px solid #F3F3F4;
     margin-bottom: 1em;
 }
@@ -2069,7 +2078,7 @@ label.control-label
 {
     font-size: 1.5em;
     color:     #000;
-    padding:   0em 0.4em 0.3em;
+    padding:   0 0.4em 0.3em;
 }
 
 .profile-text td
@@ -2204,7 +2213,7 @@ label.control-label
 
 .map-system:last-child
 {
-    margin-bottom: 0em;
+    margin-bottom: 0;
 }
 
 .map-1
@@ -2249,7 +2258,7 @@ h3.head-top
     color:         #999;
     font-size:     0.85em;
     margin-bottom: 1em;
-    font-family:   'Muli-Regular';
+    font-family:   'Muli-Regular', Tahoma, Geneva, sans-serif;
 }
 
 .but_list h1, .but_list h2, .but_list h3, .but_list h4, .but_list h5, .but_list h6
@@ -2264,7 +2273,7 @@ a#myTabDrop1, a#profile-tab, a#home-tab
 
 .well
 {
-    font-family: 'Muli-Regular';
+    font-family: 'Muli-Regular', Tahoma, Geneva, sans-serif;
 }
 
 div#home
@@ -2323,7 +2332,7 @@ td.table-text p
 {
     font-size:   0.9em;
     line-height: 1.5em;
-    font-family: 'Muli-Regular';
+    font-family: 'Muli-Regular', Tahoma, Geneva, sans-serif;
     color:       #999;
 }
 
@@ -2337,7 +2346,7 @@ td span
     color:       #fff;
     font-size:   0.8em;
     padding:     4px 7px;
-    font-family: 'Muli-Regular';
+    font-family: 'Muli-Regular', Tahoma, Geneva, sans-serif;
 }
 
 td span.fam
@@ -2345,7 +2354,7 @@ td span.fam
     color:       #fff;
     font-size:   0.8em;
     padding:     4px 7px;
-    font-family: 'Muli-Regular';
+    font-family: 'Muli-Regular', Tahoma, Geneva, sans-serif;
 }
 
 td span.fam
@@ -2414,7 +2423,6 @@ td span.mar
 
 .form-control2
 {
-    border:                            1px solid #e0e0e0;
     padding:                           5px 8px;
     color:                             #616161;
     width:                             100%;
@@ -2423,7 +2431,7 @@ td span.mar
     height:                            40px;
     -webkit-appearance:                none;
     outline:                           none;
-    font-family:                       'Muli-Regular';
+    font-family:                       'Muli-Regular', Tahoma, Geneva, sans-serif;
     background-color:                  #fff;
     border:                            1px solid #ebeff6;
     border-top-left-radius:            4px;
@@ -2444,8 +2452,7 @@ td span.mar
 {
     line-height:                        24px;
     background-color:                   #FFA800;
-    border:                             1px solid transparent;
-    border-color:                       #FFA800;
+    border:                             1px solid #FFA800;
     border-top-right-radius:            4px;
     -webkit-border-top-right-radius:    4px;
     -o-border-top-right-radius:         4px;
@@ -2585,7 +2592,7 @@ tr.table-row:hover
 
 .tab-content
 {
-    padding-left: 0px;
+    padding-left: 0;
 }
 
 tr.table-row
@@ -2732,9 +2739,9 @@ tr.table-row
 .four p
 {
     font-size:   1em;
-    padding:     0.5em 0em 2em;
+    padding:     0.5em 0 2em;
     display:     block;
-    font-family: 'Muli-Regular';
+    font-family: 'Muli-Regular', Tahoma, Geneva, sans-serif;
 
 }
 
@@ -2948,7 +2955,7 @@ tr.table-row
 
     .content-bottom
     {
-        padding: 0em 0 1em;
+        padding: 0 0 1em;
     }
 
     .content-graph
@@ -2970,7 +2977,7 @@ tr.table-row
     .grid-graph
     {
         width:         55%;
-        padding-right: 0%;
+        padding-right: 0;
     }
 
     canvas#polarArea, canvas#radar, canvas#doughnut
@@ -2991,7 +2998,7 @@ tr.table-row
 
     .graph-2
     {
-        padding: 0 1em 0em;
+        padding: 0 1em 0;
     }
 
     .graph-3
@@ -3006,7 +3013,7 @@ tr.table-row
 
     .graph-5
     {
-        padding: 0em 1em;
+        padding: 0 1em;
     }
 
     .grid-on
@@ -3017,7 +3024,7 @@ tr.table-row
     /*--maps--*/
     .map-1
     {
-        padding: 0em 1em 1em;
+        padding: 0 1em 1em;
     }
 
     .map-2
@@ -3061,7 +3068,7 @@ tr.table-row
 
     .col-md:nth-child(3), .col-md:nth-child(6), .col-md:nth-child(9), .col-md:nth-child(12)
     {
-        margin-right: 0%;
+        margin-right: 0;
     }
 
     /*--404--*/
@@ -3094,7 +3101,7 @@ tr.table-row
 
     .grid-form1 form
     {
-        margin: 0em 0;
+        margin: 0 0;
     }
 
     .col-md-8
@@ -3104,7 +3111,7 @@ tr.table-row
 
     .form-horizontal .control-label
     {
-        padding: 7px 0px 0;
+        padding: 7px 0 0;
     }
 
     .form-group
@@ -3180,7 +3187,7 @@ tr.table-row
     .grid-date h4
     {
         font-size: 2.5em;
-        padding:   20px 0 0px 0;
+        padding:   20px 0 0 0;
     }
 
     .copy
@@ -3396,12 +3403,12 @@ tr.table-row
 
     div#home
     {
-        padding: 0em 0 0;
+        padding: 0 0 0;
     }
 
     .grid_3 p
     {
-        margin-bottom: 0em;
+        margin-bottom: 0;
     }
 
     .label
@@ -3412,7 +3419,7 @@ tr.table-row
 
     .but_list h1, .but_list h2, .but_list h3
     {
-        margin-bottom: 0em;
+        margin-bottom: 0;
     }
 
     .but_list h4, .but_list h5, .but_list h6
@@ -3481,7 +3488,7 @@ tr.table-row
 
     .validation-form
     {
-        padding: 0em;
+        padding: 0;
     }
 
     .grid-hor h3
@@ -3545,7 +3552,7 @@ tr.table-row
 
     .drop-men
     {
-        margin-right: 0px;
+        margin-right: 0;
     }
 
     .top-content
@@ -3585,12 +3592,12 @@ tr.table-row
         font-size: 0.8em;
     }
 
-    .weather-head h4
+    .weather-head > h4
     {
         font-size: 0.9em;
     }
 
-    .weather-head h6
+    .weather-head > h6
     {
         font-size: 1.2em;
     }
@@ -3602,7 +3609,7 @@ tr.table-row
 
     .weather-head
     {
-        padding: 1em 0em;
+        padding: 1em 0;
     }
 
     .middle-content
@@ -3652,7 +3659,7 @@ tr.table-row
     .grid-graph
     {
         width:       80%;
-        padding-top: 0%;
+        padding-top: 0;
     }
 
     .graph h4
@@ -3730,7 +3737,7 @@ tr.table-row
 
     .but_list h4, .but_list h5, .but_list h6
     {
-        margin-bottom: 0em;
+        margin-bottom: 0;
     }
 
     h3.head-top
@@ -3790,7 +3797,7 @@ tr.table-row
     .col-md:nth-child(2), .col-md:nth-child(4), .col-md:nth-child(6),
     .col-md:nth-child(8), .col-md:nth-child(10), .col-md:nth-child(12)
     {
-        margin-right: 0%;
+        margin-right: 0;
     }
 
     /*--404--*/
@@ -3847,7 +3854,7 @@ tr.table-row
 
     .grid-hor
     {
-        padding: 0em;
+        padding: 0;
     }
 
     .dropdown-menu
@@ -3890,7 +3897,7 @@ tr.table-row
 
     .input-group-in
     {
-        padding-bottom: 0em;
+        padding-bottom: 0;
     }
 
     .content-box ul li a

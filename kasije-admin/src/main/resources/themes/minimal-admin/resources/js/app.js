@@ -167,7 +167,7 @@
                 self.current.editor.commands.addCommand({
                     name: 'undo',
                     bindKey: {win: 'Ctrl-Z',  mac: 'Command-Z'},
-                    exec: function(editor)
+                    exec: function()
                     {
                         self.fire('reset-current-file');
                     },
@@ -299,7 +299,7 @@
                     }, 200);
                 });
 
-                jqXHR.fail(function(data)
+                jqXHR.fail(function()
                 {
                     win.hideLoading();
 
@@ -333,7 +333,7 @@
                 }
             });
 
-            jqXHR.done(function(data)
+            jqXHR.done(function()
             {
                 win.hideLoading();
                 console.log('ok');
@@ -388,8 +388,11 @@
     {
         for (var index in components)
         {
-            var component = components[index];
-            component.init.call(component);
+            if ({}.hasOwnProperty.call(components, index))
+            {
+                var component = components[index];
+                component.init.call(component);
+            }
         }
         win.hideLoading();
     });
