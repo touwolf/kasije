@@ -1,22 +1,27 @@
+# GENERAL
+
 - Configurable cache for pages (based on last update to content or theme)
 - Configurable time cache for facebook users
 - Pass extra variables to pages
 - Improve rpm distribution
 - Improve server scripts (start, restart, stop)
-- CLI
+- JS compilation (TypeScript, CoffeScript, ECMASCRIPT 6)
+- Scripts by CDN on Admin template
+- Support more formats than XML to pages (eg: JSON)
+- Function to compress JS or CSS from templates
+
+# CLI
+
+- Console access like:
     $ kasije create 'my_site'
     $ kasije create 'my_site' engine=freemarker comp=xml
     $ cd 'my_site'
     $ kasije generate 'new_page'
     $ kasije start
     $ kasije start port=1337
-- JS compilation (TypeScript, CoffeScript, ECMASCRIPT 6)
-- Scripts by CDN on Admin template
-- Support more formats than XML to pages (eg: JSON)
-- Function to compress JS or CSS from templates
 
-#===== Admin
-- Add files.
+# ADMIN
+
 - Edit configurations.
 - Edit javascripts.
 - Remove files.
