@@ -157,9 +157,11 @@
 
 <#macro content>
     <#if page.@id == "site-pages" && hasRole("pages")>
-        <@filesContent title="Pages" listSelector="site-pages-list" />
+        <@filesContent title="Pages" listSelector="site-pages-list"
+                       fileType="page" fileTypes=["xml"] />
     <#elseif page.@id == "site-themes" && hasRole("themes")>
-        <@filesContent title="Theme resources" listSelector="site-theme-list" />
+        <@filesContent title="Theme resources" listSelector="site-theme-list"
+                       fileType="resource" fileTypes=["ftl", "css"] />
     <#else>
         <@homeContent />
     </#if>
@@ -223,12 +225,13 @@
     </div>
 </#macro>
 
-<#macro filesContent title listSelector>
+<#macro filesContent title listSelector fileType fileTypes>
     <div class="inbox-mail">
         <div class="col-md-4 compose">
             <div class="input-group input-group-in">
                 <span class="">
-                    <button class="btn btn-success" type="button">
+                    <button class="btn btn-success not-enabled load-enabled"
+                            type="button" data-toggle="modal" data-target="#addModal">
                         <i class="fa fa-plus"></i>
                     </button>
                 </span>
@@ -283,6 +286,46 @@
             </div>
         </div>
         <@clearfix />
+    </div>
+
+    <div class="modal fade" id="addModal" tabindex="-1" role="dialog"
+         aria-labelledby="addModalLabel" aria-hidden="true"
+         style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add ${fileType}</h4>
+                </div>
+                <div class="modal-body">
+                    <form data-url="/admin/add-${fileType}/">
+                        <div class="form-group">
+                            <label for="fileName">Name of ${fileType}</label>
+                            <input type="text" class="form-control1" id="fileName" required
+                                   name="fileName" placeholder="Enter name of ${fileType}" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="filePath">Path for ${fileType}</label>
+                            <input type="text" class="form-control1" id="filePath"
+                                   name="filePath" placeholder="Enter path for ${fileType}" />
+                        </div>
+
+                        <div class="form-group form-group2 group-mail">
+                            <label>File type</label>
+                            <select name="fileType" class="form-control1" required>
+                                <#list fileTypes as fType>
+                                <option value="${fType}">${fType?upper_case}</option>
+                                </#list>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="addFile">Add</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
     </div>
 </#macro>
 

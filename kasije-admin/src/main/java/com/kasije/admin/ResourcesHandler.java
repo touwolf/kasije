@@ -20,14 +20,16 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.kasije.core.*;
 import com.kasije.core.auth.AuthUser;
-import java.io.*;
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.commons.io.IOUtils;
 import org.bridje.ioc.Component;
 import org.bridje.ioc.Inject;
 import org.bridje.ioc.InjectNext;
@@ -90,7 +92,23 @@ public class ResourcesHandler implements RequestHandler
                     else if (realPath.startsWith("save-page"))
                     {
                         Map<String, String[]> params = req.getParameterMap();
-                        resources = handleSavePageResponse(pagesFolder, realPath.substring("save-page/".length()), params);
+                        resources = ResourcesHelper.handleSavePageResponse(pagesFolder, realPath.substring("save-page/".length()), params);
+                    }
+                    else if (realPath.startsWith("add-page"))
+                    {
+                        Map<String, String[]> params = req.getParameterMap();
+                        try
+                        {
+                            Resource resource = ResourcesHelper.createResource(pagesFolder, params);
+                            if (resource != null)
+                            {
+                                resources = Collections.singletonList(resource);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            return false;
+                        }
                     }
                     else if (realPath.startsWith("save-theme-resource"))
                     {
@@ -98,7 +116,27 @@ public class ResourcesHandler implements RequestHandler
                         if (theme != null)
                         {
                             Map<String, String[]> params = req.getParameterMap();
-                            resources = handleSaveThemeResponse(theme.getFile(), realPath.substring("save-theme-resource/".length()), params);
+                            resources = ResourcesHelper.handleSaveThemeResponse(theme.getFile(), realPath.substring("save-theme-resource/".length()), params);
+                        }
+                    }
+                    else if (realPath.startsWith("add-resource"))
+                    {
+                        WebSiteTheme theme = themesManager.findTheme(adminSite);
+                        if (theme != null)
+                        {
+                            Map<String, String[]> params = req.getParameterMap();
+                            try
+                            {
+                                Resource resource = ResourcesHelper.createResource(theme.getFile(), params);
+                                if (resource != null)
+                                {
+                                    resources = Collections.singletonList(resource);
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                return false;
+                            }
                         }
                     }
 
@@ -131,40 +169,13 @@ public class ResourcesHandler implements RequestHandler
 
     private List<Resource> handlePagesResponse(File pagesFolder) throws IOException
     {
-        List<File> pages = findFiles(pagesFolder, Arrays.asList("xml", "json"));
+        List<File> pages = ResourcesHelper.findFiles(pagesFolder, Arrays.asList("xml", "json"));
 
         return pages
                 .parallelStream()
-                .map(file -> buildResource(pagesFolder, file))
+                .map(file -> ResourcesHelper.buildResource(pagesFolder, file))
                 .filter(resource -> resource != null)
                 .collect(Collectors.toList());
-    }
-
-    private Resource buildResource(File baseFile, File file)
-    {
-        List<String> lines;
-        try
-        {
-            lines = IOUtils.readLines(new FileInputStream(file));
-        }
-        catch (IOException e)
-        {
-            return null;
-        }
-        String content = String.join("\n", lines);
-
-        String name = file.getName();
-        int lastDotIndex = name.lastIndexOf(".");
-        String ext = name.substring(lastDotIndex + 1);
-
-        String path = file.getAbsolutePath();
-        path = path.substring(baseFile.getAbsolutePath().length());
-        path = path.substring(0, path.length() - name.length());
-
-        Resource resource = new Resource(path, name, ext, content);
-        resource.setTags(findTags(ext, lines));
-
-        return resource;
     }
 
     private List<Resource> handleThemesResponse(WebSite site) throws IOException
@@ -175,95 +186,13 @@ public class ResourcesHandler implements RequestHandler
             return Collections.EMPTY_LIST;
         }
 
-        List<File> files = findFiles(theme.getFile(), Arrays.asList("ftl", "css"));
+        List<File> files = ResourcesHelper.findFiles(theme.getFile(), Arrays.asList("ftl", "css"));
 
         return files
                 .parallelStream()
-                .map(file -> buildResource(theme.getFile(), file))
+                .map(file -> ResourcesHelper.buildResource(theme.getFile(), file))
                 .filter(resource -> resource != null)
                 .collect(Collectors.toList());
-    }
-
-    private List<File> findFiles(File parent, List<String> extensions)
-    {
-        if (!parent.exists() || !parent.canRead())
-        {
-            return Collections.EMPTY_LIST;
-        }
-
-        List<File> files = new LinkedList<>();
-
-        File[] children = parent.listFiles(file ->
-        {
-            return file.isDirectory();
-        });
-        for (File child : children)
-        {
-            files.addAll(findFiles(child, extensions));
-        }
-
-        children = parent.listFiles(file ->
-        {
-            String name = file.getName();
-            int dotIndex = name.lastIndexOf(".");
-            if (dotIndex < 2)
-            {
-                return false;
-            }
-
-            String extension = name.substring(dotIndex + 1);
-            if (name.endsWith(".min." + extension))
-            {
-                return false;
-            }
-
-            return extensions.contains(extension);
-        });
-        files.addAll(Arrays.asList(children));
-
-        return files;
-    }
-
-    private List<Resource> handleSavePageResponse(File pagesFolder, String pageName, Map<String, String[]> params) throws IOException
-    {
-        if (!params.containsKey("text"))
-        {
-            return null;
-        }
-
-        File pageFile = new File(pagesFolder, pageName);
-        if (!pageFile.exists() || !pageFile.canWrite())
-        {
-            return null;
-        }
-
-        FileOutputStream fileOutStream = new FileOutputStream(pageFile);
-
-        String text = params.get("text")[0];
-        IOUtils.write(text, fileOutStream);
-
-        return Collections.emptyList();
-    }
-
-    private List<Resource> handleSaveThemeResponse(File themeFolder, String resource, Map<String, String[]> params) throws IOException
-    {
-        if (!params.containsKey("text"))
-        {
-            return null;
-        }
-
-        File resourceFile = new File(themeFolder, resource);
-        if (!resourceFile.exists() || !resourceFile.canRead())
-        {
-            return null;
-        }
-
-        FileOutputStream fileOutStream = new FileOutputStream(resourceFile);
-
-        String text = params.get("text")[0];
-        IOUtils.write(text, fileOutStream);
-
-        return Collections.emptyList();
     }
 
     private boolean isAuthorized(RequestContext reqCtx, String path)
@@ -281,52 +210,5 @@ public class ResourcesHandler implements RequestHandler
         }
 
         return authUser.getRoles() != null && authUser.getRoles().contains("admin");
-    }
-
-    private List<String> findTags(String ext, List<String> lines)
-    {
-        if ("xml".equalsIgnoreCase(ext))
-        {
-            Pattern tagPattern = Pattern.compile("\\w+");
-
-            List<String> tags = new LinkedList<>();
-            lines.parallelStream().forEach(line ->
-            {
-                int startIndex = line.indexOf("<");
-                if (startIndex < 0)
-                {
-                    return;
-                }
-
-                int spaceIndex = line.indexOf(" ", startIndex);
-                if (spaceIndex < 0)
-                {
-                    spaceIndex = line.length();
-                }
-
-                int closeIndex = line.indexOf(">", startIndex);
-                if (closeIndex < 0)
-                {
-                    closeIndex = line.length();
-                }
-
-                int endIndex = Math.min(spaceIndex, closeIndex);
-                String tag = line.substring(startIndex + 1, endIndex);
-
-                if (!tag.isEmpty() && !tags.contains(tag))
-                {
-                    Matcher matcher = tagPattern.matcher(tag);
-
-                    if (matcher.matches())
-                    {
-                        tags.add(tag);
-                    }
-                }
-            });
-
-            return tags;
-        }
-
-        return null;
     }
 }
