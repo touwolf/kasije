@@ -16,16 +16,17 @@
 
 package com.kasije.main;
 
-import com.kasije.core.config.server.model.Connector;
-import com.kasije.core.config.server.ServerConfig;
-import com.kasije.core.config.ConfigProvider;
-import org.apache.commons.lang.StringUtils;
+import java.io.File;
+import java.lang.management.ManagementFactory;
+import javax.management.JMX;
+import javax.management.MBeanServer;
+import javax.management.MBeanServerConnection;
+import javax.management.ObjectName;
+import javax.management.remote.JMXConnector;
+import javax.management.remote.JMXConnectorFactory;
+import javax.management.remote.JMXServiceURL;
 import org.bridje.ioc.Ioc;
-import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.server.ServerConnector;
-import org.eclipse.jetty.servlet.ServletHandler;
-import org.eclipse.jetty.servlet.ServletHolder;
-import org.eclipse.jetty.util.ssl.SslContextFactory;
+import org.bridje.ioc.IocContext;
 
 /**
  *
@@ -37,81 +38,61 @@ public class Main
      */
     public static void main(String[] args) throws Exception
     {
-        Server server = new Server();
-        ServletHandler servletHandler = new ServletHandler();
-        KasijeServlet servlet = Ioc.context().find(KasijeServlet.class);
-        ServletHolder servletHolder = new ServletHolder("kasije", servlet);
-        servletHandler.addServletWithMapping(servletHolder, "/*");
-        server.setHandler(servletHandler);
-
-        ConfigProvider configProv = Ioc.context().find(ConfigProvider.class);
-        ServerConfig config = configProv.getServerConfig();
-        if(null == config || null == config.getConnectors() || config.getConnectors().isEmpty())
+        if(args.length < 1)
         {
-            server.addConnector(createConnector(server, null));
+            printUsage();
+            return ;
         }
-        else
+
+        if ("start".equalsIgnoreCase(args[0]))
         {
-            for (Connector connectorConfig : config.getConnectors())
+            start();
+            return;
+        }
+        else if ("stop".equalsIgnoreCase(args[0]))
+        {
+            if(args.length >= 2)
             {
-                server.addConnector(createConnector(server, connectorConfig));
+                stop(args[1]);
+                return;
             }
         }
 
+        printUsage();
+    }
+
+    private static void printUsage()
+    {
+        System.out.println("Options: start|stop");
+    }
+
+    private static void start() throws Exception
+    {
+        System.out.println("Starting Kasije, path context: " + new File(".").getAbsoluteFile().getPath() + "...");
+
+        IocContext context = Ioc.context();
+        KasijeServer server = context.find(KasijeServer.class);
+
+        initMBeans(context);
         server.start();
+        System.out.println("Server started!");
         server.join();
     }
 
-    private static org.eclipse.jetty.server.Connector createConnector(Server server, Connector connConfig)
+    private static void initMBeans(IocContext context) throws Exception
     {
-        Connector connectorConfig = connConfig;
-        if (connectorConfig == null)
-        {
-            connectorConfig = new Connector();
-        }
+        MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
+        ObjectName mbeanName = new ObjectName("com.kasije:type=AppCtrl");
+        mbs.registerMBean(context.find(AppCtrl.class), mbeanName);
+    }
 
-        if (!"http".equalsIgnoreCase(connectorConfig.getProtocol()) && !"https".equalsIgnoreCase(connectorConfig.getProtocol()))
-        {
-            connectorConfig.setProtocol("http");
-        }
-
-        if (connectorConfig.getPort() == null || connectorConfig.getPort() == 0)
-        {
-            connectorConfig.setPort(8080);
-        }
-
-        ServerConnector connector;
-        if ("https".equalsIgnoreCase(connectorConfig.getProtocol()))
-        {
-            SslContextFactory sslFact = new SslContextFactory();
-            if (StringUtils.isNotBlank(connectorConfig.getKeyStorePath()))
-            {
-                sslFact.setKeyStorePath(connectorConfig.getKeyStorePath());
-            }
-            if (StringUtils.isNotBlank(connectorConfig.getKeyStorePassword()))
-            {
-                sslFact.setKeyStorePassword(connectorConfig.getKeyStorePassword());
-            }
-            if (StringUtils.isNotBlank(connectorConfig.getKeyManagerPassword()))
-            {
-                sslFact.setKeyManagerPassword(connectorConfig.getKeyManagerPassword());
-            }
-            if (StringUtils.isNotBlank(connectorConfig.getTrustStorePath()))
-            {
-                sslFact.setTrustStorePath(connectorConfig.getTrustStorePath());
-            }
-            if (StringUtils.isNotBlank(connectorConfig.getTrustStorePassword()))
-            {
-                sslFact.setTrustStorePassword(connectorConfig.getTrustStorePassword());
-            }
-            connector = new ServerConnector(server, sslFact);
-        }
-        else
-        {
-            connector = new ServerConnector(server);
-        }
-
-        connector.setPort(connectorConfig.getPort());
-        return connector;
+    private static void stop(String port) throws Exception
+    {
+        JMXServiceURL url =new JMXServiceURL("service:jmx:rmi:///jndi/rmi://:" + port + "/jmxrmi");
+        JMXConnector jmxc = JMXConnectorFactory.connect(url, null);
+        MBeanServerConnection mbsc = jmxc.getMBeanServerConnection();
+        ObjectName mbeanName = new ObjectName("com.kasije:type=AppCtrl");
+        AppCtrlMBean mbeanProxy = JMX.newMBeanProxy(mbsc, mbeanName, AppCtrlMBean.class, true);
+        mbeanProxy.shutdown();
     }
 }

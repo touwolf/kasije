@@ -5,7 +5,6 @@
 - Configurable time cache for facebook users
 - Pass extra variables to pages
 - Improve rpm distribution
-- Improve server scripts (start, restart, stop)
 - JS compilation (TypeScript, CoffeScript, ECMASCRIPT 6)
 - Scripts by CDN on Admin template
 - Support more formats than XML to pages (eg: JSON)
