@@ -79,7 +79,10 @@
         this['_on' + eventId] = handler;
     };
 
-    win.Component = Component;
+    win.createComponent = function(config)
+    {
+        return new Component(config);
+    };
 
     //Form validation
     var isValidForm = function(form)
@@ -102,7 +105,7 @@
     };
 
     //Editor component
-    win.EditorComponent = function(config)
+    win.createEditorComponent = function(config)
     {
         config.element = null;
         config.files = null;
@@ -394,4 +397,4 @@
         }
         win.hideLoading();
     });
-})(window, jQuery);
+}(window, jQuery));

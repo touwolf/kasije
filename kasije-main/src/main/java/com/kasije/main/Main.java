@@ -49,13 +49,10 @@ public class Main
             start();
             return;
         }
-        else if ("stop".equalsIgnoreCase(args[0]))
+        else if ("stop".equalsIgnoreCase(args[0]) && args.length >= 2)
         {
-            if(args.length >= 2)
-            {
-                stop(args[1]);
-                return;
-            }
+            stop(args[1]);
+            return;
         }
 
         printUsage();

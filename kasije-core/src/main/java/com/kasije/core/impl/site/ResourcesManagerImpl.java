@@ -165,13 +165,10 @@ public class ResourcesManagerImpl implements ResourcesManager
             }
         }
 
-        if (!cssFile.exists())
+        if (!cssFile.exists() && !cssFile.createNewFile())
         {
-            if (!cssFile.createNewFile())
-            {
-                LOG.log(Level.SEVERE, "Could not create: {0} to compile sass", cssFile.getAbsolutePath());
-                return null;
-            }
+            LOG.log(Level.SEVERE, "Could not create: {0} to compile sass", cssFile.getAbsolutePath());
+            return null;
         }
 
         Compiler compiler = new Compiler();
@@ -211,13 +208,10 @@ public class ResourcesManagerImpl implements ResourcesManager
                 }
             }
 
-            if (!minFile.exists())
+            if (!minFile.exists() && !minFile.createNewFile())
             {
-                if (!minFile.createNewFile())
-                {
-                    LOG.log(Level.SEVERE, "Could not create: {0} to compress resource", minFile.getAbsolutePath());
-                    return source;
-                }
+                LOG.log(Level.SEVERE, "Could not create: {0} to compress resource", minFile.getAbsolutePath());
+                return source;
             }
 
             OutputStream out = new BufferedOutputStream(new FileOutputStream(minFile));

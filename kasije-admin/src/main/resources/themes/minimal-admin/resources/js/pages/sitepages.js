@@ -16,7 +16,7 @@
 
 (function(win, $)
 {
-    win.Component({
+    win.createComponent({
         id: 'current-file-actions',
         init: function()
         {
@@ -34,7 +34,7 @@
         }
     });
 
-    win.EditorComponent({
+    win.createEditorComponent({
         id: 'site-pages-list',
         elementSelector: '.site-pages-list',
         fetchURL: '/admin/pages',

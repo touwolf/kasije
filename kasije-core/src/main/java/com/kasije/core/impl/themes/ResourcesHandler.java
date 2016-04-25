@@ -65,13 +65,10 @@ public class ResourcesHandler implements RequestHandler
 
             File themeFile = reqCtx.get(WebSiteTheme.class).getFile();
             File resFile = new File(themeFile, resourcesRelativePath + realPath);
-            if (!resFile.exists() || !resFile.isFile())
+            if ((!resFile.exists() || !resFile.isFile()) && site != null)
             {
-                if(site != null)
-                {
-                    resourcesRelativePath = "resources/";//TODO: config
-                    resFile = new File(site.getFile().getAbsolutePath(), resourcesRelativePath + realPath);
-                }
+                resourcesRelativePath = "resources/";//TODO: config
+                resFile = new File(site.getFile().getAbsolutePath(), resourcesRelativePath + realPath);
             }
 
             if (resFile.exists() && resFile.isFile())

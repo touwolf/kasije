@@ -16,7 +16,7 @@
 
 (function(win, $)
 {
-    win.Component({
+    win.createComponent({
         id: 'current-theme-actions',
         init: function()
         {
@@ -34,7 +34,7 @@
         }
     });
 
-    win.EditorComponent({
+    win.createEditorComponent({
         id: 'site-theme-list',
         elementSelector: '.site-theme-list',
         fetchURL: '/admin/themes',
