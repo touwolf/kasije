@@ -84,7 +84,7 @@
     //Form validation
     var isValidForm = function(form)
     {
-        var isValid = true
+        var isValid = true;
         form.find('input, select').each(function(index, input)
         {
             if (!input.checkValidity())
@@ -98,11 +98,11 @@
             }
         });
 
-        return isValid
-    }
+        return isValid;
+    };
 
     //Editor component
-    var EditorComponent = function(config)
+    win.EditorComponent = function(config)
     {
         config.element = null;
         config.files = null;
@@ -231,7 +231,7 @@
             };
 
             // Initial files loading
-            win.showLoading()
+            win.showLoading();
 
             var jqXHR = $.ajax({
                 method: 'POST',
@@ -270,10 +270,10 @@
             {
                 if (!isValidForm(modalForm))
                 {
-                    return
+                    return;
                 }
 
-                win.showLoading()
+                win.showLoading();
 
                 var jqXHR = $.ajax({
                     method: 'POST',
@@ -285,7 +285,7 @@
                 {
                     addFileToList(data[0]);
 
-                    modalDiv.closest('div.modal').modal('hide')
+                    modalDiv.closest('div.modal').modal('hide');
 
                     win.hideLoading();
 
@@ -320,7 +320,7 @@
             }
 
             win.showLoading();
-            console.log('saving...')
+            console.log('saving...');
 
             var self = this;
             self.current.file.text = self.current.editor.getValue();
@@ -340,7 +340,7 @@
                 self.current.file.origText = self.current.file.text;
             });
 
-            jqXHR.fail(function(data)
+            jqXHR.fail(function()
             {
                 win.hideLoading();
                 console.error(arguments);//TODO
@@ -363,8 +363,6 @@
 
         return editorComp;
     };
-
-    win.EditorComponent = EditorComponent;
 
     //Loading
     var loadingEl = $('#loadingoverlay');

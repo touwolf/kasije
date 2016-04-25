@@ -69,6 +69,25 @@ public class KasijeServer
 
     private org.eclipse.jetty.server.Connector createConnector(Connector connConfig)
     {
+        Connector connectorConfig = createDefaultConnector(connConfig);
+
+        ServerConnector connector;
+        if ("https".equalsIgnoreCase(connectorConfig.getProtocol()))
+        {
+            connector = createSSLServerConnector(connectorConfig);
+        }
+        else
+        {
+            connector = new ServerConnector(internal);
+        }
+
+        connector.setPort(connectorConfig.getPort());
+
+        return connector;
+    }
+
+    private Connector createDefaultConnector(Connector connConfig)
+    {
         Connector connectorConfig = connConfig;
         if (connectorConfig == null)
         {
@@ -85,40 +104,34 @@ public class KasijeServer
             connectorConfig.setPort(8080);
         }
 
-        ServerConnector connector;
-        if ("https".equalsIgnoreCase(connectorConfig.getProtocol()))
+        return connectorConfig;
+    }
+
+    private ServerConnector createSSLServerConnector(Connector connectorConfig)
+    {
+        SslContextFactory sslFact = new SslContextFactory();
+        if (StringUtils.isNotBlank(connectorConfig.getKeyStorePath()))
         {
-            SslContextFactory sslFact = new SslContextFactory();
-            if (StringUtils.isNotBlank(connectorConfig.getKeyStorePath()))
-            {
-                sslFact.setKeyStorePath(connectorConfig.getKeyStorePath());
-            }
-            if (StringUtils.isNotBlank(connectorConfig.getKeyStorePassword()))
-            {
-                sslFact.setKeyStorePassword(connectorConfig.getKeyStorePassword());
-            }
-            if (StringUtils.isNotBlank(connectorConfig.getKeyManagerPassword()))
-            {
-                sslFact.setKeyManagerPassword(connectorConfig.getKeyManagerPassword());
-            }
-            if (StringUtils.isNotBlank(connectorConfig.getTrustStorePath()))
-            {
-                sslFact.setTrustStorePath(connectorConfig.getTrustStorePath());
-            }
-            if (StringUtils.isNotBlank(connectorConfig.getTrustStorePassword()))
-            {
-                sslFact.setTrustStorePassword(connectorConfig.getTrustStorePassword());
-            }
-            connector = new ServerConnector(internal, sslFact);
+            sslFact.setKeyStorePath(connectorConfig.getKeyStorePath());
         }
-        else
+        if (StringUtils.isNotBlank(connectorConfig.getKeyStorePassword()))
         {
-            connector = new ServerConnector(internal);
+            sslFact.setKeyStorePassword(connectorConfig.getKeyStorePassword());
+        }
+        if (StringUtils.isNotBlank(connectorConfig.getKeyManagerPassword()))
+        {
+            sslFact.setKeyManagerPassword(connectorConfig.getKeyManagerPassword());
+        }
+        if (StringUtils.isNotBlank(connectorConfig.getTrustStorePath()))
+        {
+            sslFact.setTrustStorePath(connectorConfig.getTrustStorePath());
+        }
+        if (StringUtils.isNotBlank(connectorConfig.getTrustStorePassword()))
+        {
+            sslFact.setTrustStorePassword(connectorConfig.getTrustStorePassword());
         }
 
-        connector.setPort(connectorConfig.getPort());
-
-        return connector;
+        return new ServerConnector(internal, sslFact);
     }
 
     public void start() throws Exception

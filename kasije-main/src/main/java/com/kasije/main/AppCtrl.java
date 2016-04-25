@@ -45,19 +45,19 @@ public class AppCtrl extends NotificationBroadcasterSupport implements AppCtrlMB
                 {
                     Thread.sleep(seconds * 1000l);
                     LOG.info("Shutting down JVM!");
-                    System.exit(0);
+                    Runtime.getRuntime().exit(0);
                 }
                 catch (Exception e)
                 {
                     LOG.log(Level.SEVERE, e.getMessage(), e);
-                    System.exit(1);
+                    Runtime.getRuntime().exit(1);
                 }
             }).start();
         }
         catch (Exception e)
         {
             LOG.log(Level.SEVERE, e.getMessage(), e);
-            System.exit(1);
+            Runtime.getRuntime().exit(1);
         }
     }
 }
