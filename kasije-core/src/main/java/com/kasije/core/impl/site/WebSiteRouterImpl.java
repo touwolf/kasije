@@ -19,10 +19,11 @@ package com.kasije.core.impl.site;
 import com.kasije.core.WebSite;
 import com.kasije.core.WebSiteRouter;
 import com.kasije.core.config.ConfigProvider;
-import com.kasije.core.config.server.AdminConfig;
 import com.kasije.core.config.server.model.Router;
 import com.kasije.core.config.sites.SiteConfig;
 import java.io.File;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.logging.Logger;
 import org.apache.commons.lang.StringUtils;
 import org.bridje.ioc.Component;
@@ -80,24 +81,20 @@ public class WebSiteRouterImpl implements WebSiteRouter
 
     private WebSite findAdminSite()
     {
-        AdminConfig adminConfig = config.getRouterConfig().getAdminConfig();
-        if (adminConfig == null)
+        URL adminUrl = getClass().getResource("/kasije-admin");
+        try
+        {
+            File file = new File(adminUrl.toURI());
+            SiteConfig siteConfig = config.getSiteConfig(file.getAbsolutePath());
+            WebSiteImpl webSite = new WebSiteImpl(file.getAbsolutePath(), siteConfig);
+            webSite.setAdmin(true);
+
+            return webSite;
+        }
+        catch (URISyntaxException e)
         {
             return null;
         }
-
-        String path = adminConfig.getPath() + "/" + adminConfig.getName();
-        File file = new File(path);
-        if (!file.exists() || !file.canRead())
-        {
-            return null;
-        }
-
-        SiteConfig siteConfig = config.getSiteConfig(path);
-        WebSiteImpl webSite = new WebSiteImpl(path, siteConfig);
-        webSite.setAdmin(true);
-
-        return webSite;
     }
 
     @Override
