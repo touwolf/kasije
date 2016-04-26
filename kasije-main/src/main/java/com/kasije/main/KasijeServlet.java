@@ -43,6 +43,7 @@ final class KasijeServlet extends HttpServlet
         RequestContext reqCtx = new RequestContextImpl();
         reqCtx.put(HttpServletRequest.class, req);
         reqCtx.put(HttpServletResponse.class, resp);
+
         handler.handle(reqCtx);
     }
 }

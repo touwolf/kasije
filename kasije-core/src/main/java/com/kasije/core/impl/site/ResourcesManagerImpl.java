@@ -144,7 +144,6 @@ public class ResourcesManagerImpl implements ResourcesManager
     {
         Boolean development = config.getServerConfig().getDevelopment();
         return !development && (sourceName.endsWith(CSS_SUFFIX) || sourceName.endsWith(JS_SUFFIX));
-
     }
 
     private File cssFromSass(File source) throws IOException
@@ -199,12 +198,17 @@ public class ResourcesManagerImpl implements ResourcesManager
         try
         {
             //ONLY FROM CACHE IF WAS MODIFIED AFTER SOURCE FILE
-            if (minFile.exists() && source.lastModified() <= minFile.lastModified())
+            if (minFile.exists())
             {
-                List<String> lines = IOUtils.readLines(new FileInputStream(minFile));
-                if (lines != null && !lines.isEmpty())
+                long srcLastModified = source.lastModified();
+                long minLastModified = minFile.lastModified();
+                if (srcLastModified < minLastModified)
                 {
-                    return minFile;
+                    List<String> lines = IOUtils.readLines(new FileInputStream(minFile));
+                    if (lines != null && !lines.isEmpty())
+                    {
+                        return minFile;
+                    }
                 }
             }
 

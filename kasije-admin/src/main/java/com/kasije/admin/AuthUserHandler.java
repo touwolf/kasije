@@ -16,14 +16,15 @@
 
 package com.kasije.admin;
 
+import com.kasije.admin.auth.AuthUserProvider;
 import com.kasije.admin.config.AuthConfig;
 import com.kasije.admin.config.AuthUserConfig;
-import com.kasije.core.auth.AuthUser;
-import com.kasije.admin.auth.AuthUserProvider;
 import com.kasije.core.RequestContext;
 import com.kasije.core.RequestHandler;
 import com.kasije.core.WebSite;
+import com.kasije.core.auth.AuthUser;
 import com.kasije.core.config.ConfigProvider;
+import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import javax.servlet.http.Cookie;
@@ -63,7 +64,7 @@ public class AuthUserHandler implements RequestHandler
                     AuthUser user = provider.fetchUser(cookies);
                     if (user != null)
                     {
-                        String path = site.getFile().getAbsolutePath() + "/etc";
+                        String path = new File(".").getAbsolutePath() + "/etc";
                         AuthConfig authConfig = configProvider.getConfig(AuthConfig.class, path);
                         if (authConfig != null)
                         {

@@ -21,6 +21,7 @@ import com.kasije.core.WebSiteRouter;
 import com.kasije.core.config.ConfigProvider;
 import com.kasije.core.config.server.model.Router;
 import com.kasije.core.config.sites.SiteConfig;
+import com.kasije.core.config.sites.model.Theme;
 import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -61,6 +62,7 @@ public class WebSiteRouterImpl implements WebSiteRouter
         String path = relativePath + "/" + serverName;
 
         SiteConfig siteConfig = config.getSiteConfig(path);
+
         return new WebSiteImpl(path, siteConfig);
     }
 
@@ -69,11 +71,7 @@ public class WebSiteRouterImpl implements WebSiteRouter
     {
         if (pathInfo.startsWith(ADMIN_PREFIX))
         {
-            WebSite adminSite = findAdminSite();
-            if (adminSite != null)
-            {
-                return adminSite;
-            }
+            return findAdminSite();
         }
 
         return null;
@@ -82,10 +80,18 @@ public class WebSiteRouterImpl implements WebSiteRouter
     private WebSite findAdminSite()
     {
         URL adminUrl = getClass().getResource("/kasije-admin");
+        URL themeUrl = getClass().getResource("/themes/minimal-admin");
         try
         {
+            File themeFile = new File(themeUrl.toURI());
+            Theme adminTheme = new Theme();
+            adminTheme.setName("minimal-admin");
+            adminTheme.setPath(themeFile.getAbsolutePath());
+
+            SiteConfig siteConfig = new SiteConfig();
+            siteConfig.setTheme(adminTheme);
+
             File file = new File(adminUrl.toURI());
-            SiteConfig siteConfig = config.getSiteConfig(file.getAbsolutePath());
             WebSiteImpl webSite = new WebSiteImpl(file.getAbsolutePath(), siteConfig);
             webSite.setAdmin(true);
 
