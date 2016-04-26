@@ -1,14 +1,6 @@
 #!/bin/sh
 
-function realpath
-{
-     echo $(cd $(dirname "$1"); pwd)/$(basename "$1");
-}
-
-__FILE__=`realpath "$0"`
-__DIR__=`dirname "${__FILE__}"`
-
-cd "{__DIR__}/.."
+cd /usr/local/touwolf/kasije/
 bin/kasije.sh stop
 sleep 5
 bin/kasije.sh start
