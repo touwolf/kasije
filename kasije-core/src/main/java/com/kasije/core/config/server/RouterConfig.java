@@ -44,6 +44,9 @@ public class RouterConfig
     })
     private List<Virtual> virtuals;
 
+    @XmlElement(name = "adminPath", type = String.class)
+    private String adminPath;
+
     public List<Router> getRouters()
     {
         if(null == routers)
@@ -70,5 +73,15 @@ public class RouterConfig
 
     public void setVirtuals(List<Virtual> virtuals) {
         this.virtuals = virtuals;
+    }
+
+    public String getAdminPath()
+    {
+        return adminPath;
+    }
+
+    public void setAdminPath(String adminPath)
+    {
+        this.adminPath = adminPath;
     }
 }

@@ -23,6 +23,7 @@ import com.kasije.core.config.server.model.Router;
 import com.kasije.core.config.sites.SiteConfig;
 import com.kasije.core.config.sites.model.Theme;
 import java.io.File;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.lang.StringUtils;
 import org.bridje.ioc.Component;
@@ -77,7 +78,27 @@ public class WebSiteRouterImpl implements WebSiteRouter
 
     private WebSite findAdminSite()
     {
-        File themeFile = new File("./admin/themes/minimal-admin");
+        String adminPath = config.getRouterConfig().getAdminPath();
+        if (adminPath == null || adminPath.isEmpty())
+        {
+            adminPath = "./admin";
+        }
+        File adminDir = new File(adminPath);
+        if (!adminDir.exists() || !adminDir.isDirectory())
+        {
+            LOG.log(Level.WARNING, "Admin site is missing or bad configured!");
+            return null;
+        }
+
+        File themeFile = new File(adminDir, "themes/minimal-admin");
+        File file = new File(adminDir, "kasije-admin");
+        if (!themeFile.exists() || !themeFile.isDirectory()
+            || !file.exists() || !file.isDirectory())
+        {
+            LOG.log(Level.WARNING, "Admin site is missing or bad configured!");
+            return null;
+        }
+
         Theme adminTheme = new Theme();
         adminTheme.setName("minimal-admin");
         adminTheme.setPath(themeFile.getAbsolutePath());
@@ -85,7 +106,6 @@ public class WebSiteRouterImpl implements WebSiteRouter
         SiteConfig siteConfig = new SiteConfig();
         siteConfig.setTheme(adminTheme);
 
-        File file = new File("./admin/kasije-admin");
         WebSiteImpl webSite = new WebSiteImpl(file.getAbsolutePath(), siteConfig);
         webSite.setAdmin(true);
 
