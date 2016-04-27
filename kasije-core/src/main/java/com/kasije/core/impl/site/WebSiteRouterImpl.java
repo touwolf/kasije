@@ -23,8 +23,6 @@ import com.kasije.core.config.server.model.Router;
 import com.kasije.core.config.sites.SiteConfig;
 import com.kasije.core.config.sites.model.Theme;
 import java.io.File;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.logging.Logger;
 import org.apache.commons.lang.StringUtils;
 import org.bridje.ioc.Component;
@@ -79,28 +77,19 @@ public class WebSiteRouterImpl implements WebSiteRouter
 
     private WebSite findAdminSite()
     {
-        URL adminUrl = getClass().getResource("/kasije-admin");
-        URL themeUrl = getClass().getResource("/themes/minimal-admin");
-        try
-        {
-            File themeFile = new File(themeUrl.toURI());
-            Theme adminTheme = new Theme();
-            adminTheme.setName("minimal-admin");
-            adminTheme.setPath(themeFile.getAbsolutePath());
+        File themeFile = new File("./admin/themes/minimal-admin");
+        Theme adminTheme = new Theme();
+        adminTheme.setName("minimal-admin");
+        adminTheme.setPath(themeFile.getAbsolutePath());
 
-            SiteConfig siteConfig = new SiteConfig();
-            siteConfig.setTheme(adminTheme);
+        SiteConfig siteConfig = new SiteConfig();
+        siteConfig.setTheme(adminTheme);
 
-            File file = new File(adminUrl.toURI());
-            WebSiteImpl webSite = new WebSiteImpl(file.getAbsolutePath(), siteConfig);
-            webSite.setAdmin(true);
+        File file = new File("./admin/kasije-admin");
+        WebSiteImpl webSite = new WebSiteImpl(file.getAbsolutePath(), siteConfig);
+        webSite.setAdmin(true);
 
-            return webSite;
-        }
-        catch (URISyntaxException e)
-        {
-            return null;
-        }
+        return webSite;
     }
 
     @Override

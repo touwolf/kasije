@@ -219,6 +219,15 @@
                                     </sources>
                                 </mapping>
                                 <mapping>
+                                    <directory>${rpm.install.basedir}/admin</directory>
+                                    <filemode>666</filemode>
+                                    <sources>
+                                        <source>
+                                            <location>target/${project.artifactId}-${project.version}-dist/admin</location>
+                                        </source>
+                                    </sources>
+                                </mapping>
+                                <mapping>
                                     <directory>${rpm.install.basedir}/sites</directory>
                                     <configuration>noreplace</configuration>
                                     <filemode>666</filemode>
