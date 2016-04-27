@@ -44,7 +44,7 @@ body a
     -ms-transition:     0.5s all;
 }
 
-div#wrapper
+#wrapper
 {
     background-color: #fff;
 }
@@ -105,7 +105,7 @@ div#wrapper
     background: #f2f4f8;
 }
 
-.navbar .navbar-nav li.m_2 a
+.navbar .navbar-nav .m_2 a
 {
     line-height: 38px;
 }
@@ -440,7 +440,7 @@ i.nav_icon
     height:  44px;
 }
 
-span.fa.arrow
+.arrow
 {
     margin-top: 17px;
 }
@@ -561,7 +561,7 @@ nav.navbar.navbar-static-top
     margin: 0 0 0 1em;
 }
 
-i.fa.fa-globe
+.fa-globe
 {
     font-size: 1.8em;
     color:     #999;
@@ -1604,7 +1604,7 @@ input.form-control.input-sm, select.form-control.input-sm
     margin: 1.5em 0;
 }
 
-input#disabledTextInput, select#disabledSelect
+#disabledTextInput, #disabledSelect
 {
     background-color: #FFF;
 }
@@ -2137,7 +2137,7 @@ label.control-label
     text-align:            center;
 }
 
-.profile-fo a.pro
+.profile-fo .pro
 {
     background: #FBB03B;
 }
@@ -2163,7 +2163,7 @@ label.control-label
     border-top: 1px solid #F3F3F4;
 }
 
-.profile-btn button.btn.bg-red
+.profile-btn .bg-red
 {
     border-radius:         4px;
     -webkit-border-radius: 4px;
@@ -2266,7 +2266,7 @@ h3.head-top
     margin-bottom: 0.7em;
 }
 
-a#myTabDrop1, a#profile-tab, a#home-tab
+#myTabDrop1, #profile-tab, #home-tab
 {
     padding: 0.8em;
 }
@@ -2276,7 +2276,7 @@ a#myTabDrop1, a#profile-tab, a#home-tab
     font-family: 'Muli-Regular', Tahoma, Geneva, sans-serif;
 }
 
-div#home
+#home
 {
     padding: 1em 0 0;
 }
@@ -2367,12 +2367,12 @@ td span.ur
     background: #FFA800;
 }
 
-td span.work
+td .work
 {
     background: #7F8C8D;
 }
 
-td span.mar
+td .mar
 {
     background: #1ABC9C;
 }
@@ -2786,12 +2786,12 @@ tr.table-row
         padding: 3.35em 2.15em;
     }
 
-    canvas#bar1, canvas#line1
+    #bar1, #line1
     {
         width: 428px !important;
     }
 
-    canvas#polarArea, canvas#radar, canvas#doughnut
+    #polarArea, #radar, #doughnut
     {
         width:  265px !important;
         height: 265px !important;
@@ -2838,7 +2838,7 @@ tr.table-row
         height: 160px;
     }
 
-    canvas#bar1, canvas#line1
+    #bar1, #line1
     {
         width:  307px !important;
         height: 273px !important;
@@ -2851,7 +2851,7 @@ tr.table-row
         padding-right: 2%;
     }
 
-    canvas#polarArea, canvas#radar, canvas#doughnut
+    #polarArea, #radar, #doughnut
     {
         width:  190px !important;
         height: 190px !important;
@@ -2968,7 +2968,7 @@ tr.table-row
         padding: 1em 0 0;
     }
 
-    canvas#bar1, canvas#line1
+    #bar1, #line1
     {
         width:  444px !important;
         height: 234px !important;
@@ -2980,7 +2980,7 @@ tr.table-row
         padding-right: 0;
     }
 
-    canvas#polarArea, canvas#radar, canvas#doughnut
+    #polarArea, #radar, #doughnut
     {
         width:  320px !important;
         height: 320px !important;
@@ -3179,7 +3179,7 @@ tr.table-row
         display: none;
     }
 
-    p.monday
+    .monday
     {
         font-size: 1em;
     }
@@ -3195,7 +3195,7 @@ tr.table-row
         padding: 1em 0;
     }
 
-    ul.new
+    .new
     {
         text-align: center;
     }
@@ -3218,7 +3218,7 @@ tr.table-row
         background-color: #fff;
     }
 
-    form.navbar-form.navbar-right
+    .navbar-form.navbar-right
     {
         margin: 0;
     }
@@ -3271,7 +3271,7 @@ tr.table-row
         margin-right: 17px;
     }
 
-    canvas#bar1, canvas#line1
+    #bar1, #line1
     {
         width: 568px !important;
     }
@@ -3359,7 +3359,7 @@ tr.table-row
         right: 91%;
     }
 
-    canvas#bar1, canvas#line1
+    #bar1, #line1
     {
         width: 413px !important;
     }
@@ -3401,7 +3401,7 @@ tr.table-row
         padding:          1em;
     }
 
-    div#home
+    #home
     {
         padding: 0 0 0;
     }
@@ -3535,7 +3535,7 @@ tr.table-row
 
 @media (max-width: 404px)
 {
-    span.name-caret
+    .name-caret
     {
         display: none;
     }
@@ -3633,19 +3633,19 @@ tr.table-row
     }
 
     /*--graph--*/
-    canvas#bar1, canvas#line1
+    #bar1, #line1
     {
         width:  256px !important;
         height: 200px !important;
     }
 
-    canvas#pie
+    #pie
     {
         width:  300px !important;
         height: 187px !important;
     }
 
-    canvas#polarArea, canvas#radar, canvas#doughnut
+    #polarArea, #radar, #doughnut
     {
         width:  250px !important;
         height: 250px !important;
@@ -3884,7 +3884,7 @@ tr.table-row
         padding: 0;
     }
 
-    ul.dropdown-menu.dropdown-menu-right
+    .dropdown-menu-right
     {
         left: -1em;
         top:  2.5em;

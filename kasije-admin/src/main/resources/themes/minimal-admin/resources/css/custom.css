@@ -6,7 +6,7 @@
     pointer-events: none;
 }
 
-div.ace-editor
+.ace-editor
 {
     width: 100%;
     min-height: 600px;
@@ -157,7 +157,7 @@ div.ace-editor
     }
 }
 
-div.loadingoverlay
+.loadingoverlay
 {
     display: flex;
     flex-direction: column;
