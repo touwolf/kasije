@@ -40,5 +40,9 @@
             <artifactId>restfb</artifactId>
             <version>1.21.0</version>
         </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
     </dependencies>
 </project>
