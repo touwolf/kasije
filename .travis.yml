@@ -4,3 +4,6 @@ jdk:
 
 before_install:
   - sudo apt-get install rpm
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
