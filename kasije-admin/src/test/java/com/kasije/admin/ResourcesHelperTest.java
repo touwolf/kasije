@@ -24,7 +24,7 @@ import org.junit.Test;
 public class ResourcesHelperTest
 {
     @Test
-    public void findTagsTest()
+    public void testFindTags()
     {
         String ext = "xml";
         List<String> lines = Arrays.asList("<tag1></tag1>");
