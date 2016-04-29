@@ -4,6 +4,7 @@
 [![Maven: compatible](https://img.shields.io/badge/Maven-compatible-brightgreen.svg?style=flat)]()
 [![Hex.pm](https://img.shields.io/hexpm/l/plug.svg)]()
 [![Codacy Badge](https://api.codacy.com/project/badge/grade/ce0957d943154ed3bbb0a461a7c16f9a)](https://www.codacy.com/app/miche-atucha/kasije)
+[![codecov.io](http://codecov.io/gh/touwolf/kasije/coverage.svg?branch=master)](http://codecov.io/gh/touwolf/kasije?branch=master)
 
 [![Koding Hackathon Badge](/koding_hackathon_badge.png?raw=true "Koding Hackathon Badge")](https://koding.com/Hackathon)
 
