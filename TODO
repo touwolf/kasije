@@ -5,6 +5,7 @@
 - JS compilation (TypeScript, CoffeScript, ECMASCRIPT 6)
 - Support more formats than XML to pages (eg: JSON)
 - Function to compress JS or CSS from templates
+- Update README.md to explain ADMIN module.
 
 # CLI
 
