@@ -75,7 +75,11 @@
                         <#if breadcrumb?index != 0>
                         <i class="fa fa-angle-right"></i>
                         </#if>
+                        <#if breadcrumb.@href?? && breadcrumb.@href?has_content>
+                        <a href="${breadcrumb.@href}">${breadcrumb}</a>
+                        <#else>
                         <span>${breadcrumb}</span>
+                        </#if>
                         </#list>
                     </h2>
                 </div>

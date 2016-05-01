@@ -739,19 +739,23 @@ nav.navbar.navbar-static-top
     box-shadow:            0 1px 1px rgba(0, 0, 0, .05);
 }
 
-.banner h2 a
+.banner h2 a, .banner h2 span
 {
-    color:           #D95459;
     text-decoration: none;
     font-family:     'Muli-Regular', Tahoma, Geneva, sans-serif;
+    vertical-align:  middle;
+    font-size:       14px;
     padding:         0.3em;
 }
 
 .banner h2 span
 {
-    color:       #000;
-    font-family: 'Muli-Regular', Tahoma, Geneva, sans-serif;
-    padding:     0.3em;
+    color: #D95459;
+}
+
+.banner h2 span
+{
+    color: #000;
 }
 
 .banner h2 i
@@ -759,6 +763,7 @@ nav.navbar.navbar-static-top
     color:          #000;
     vertical-align: middle;
     padding:        0.3em;
+    font-size:   14px;
 }
 
 /*--content--*/
