@@ -215,14 +215,24 @@
             var addFileToList = function(data)
             {
                 var faIcons = {
-                    css: 'css3'
+                    css: 'css3',
+                    sass: 'css3',
+                    javascript: 'html5'//check js availability
+                };
+
+                var colorIcons = {
+                    css: 'text-warning',
+                    sass: 'text-warning',
+                    javascript: 'text-success',
+                    ftl: 'text-primary'
                 };
 
                 var name = data.name;
                 var nameId = name.split('.').join('_').toLowerCase();
                 var faIcon = faIcons[data.type] || 'code';
+                var colorIcon = colorIcons[data.type] || '';
 
-                var iElement = '<i class="fa fa-' + faIcon + '"></i>';
+                var iElement = '<i class="fa fa-' + faIcon + ' ' + colorIcon + '"></i>';
                 var aElement = '<a href="#">' + iElement + name + '</a>';
                 var liElement = '<li id="' + nameId + '">' + aElement + '</li>';
 

@@ -88,7 +88,8 @@ public class ResourcesHandler implements RequestHandler
             return false;
         }
 
-        File pagesFolder = new File(adminSite.getFile().getAbsoluteFile(), "pages");
+        File parentFolder = adminSite.getFile().getAbsoluteFile();
+        File pagesFolder = new File(parentFolder, "pages");
         if (!pagesFolder.exists() || !pagesFolder.isDirectory() || !pagesFolder.canRead())
         {
             return false;
@@ -99,6 +100,11 @@ public class ResourcesHandler implements RequestHandler
             return doHandleResponse(reqCtx, handlePagesResponse(pagesFolder));
         }
 
+        if ("pages-resources".equalsIgnoreCase(realPath))
+        {
+            return doHandleResponse(reqCtx, handlePagesResourcesResponse(parentFolder));
+        }
+
         if ("themes".equalsIgnoreCase(realPath))
         {
             return doHandleResponse(reqCtx, handleThemesResponse(adminSite));
@@ -106,17 +112,29 @@ public class ResourcesHandler implements RequestHandler
 
         if (realPath.startsWith("save-page"))
         {
+            File folder = pagesFolder;
+            if (realPath.startsWith("save-page-resource"))
+            {
+                folder = parentFolder;
+            }
+
             Map<String, String[]> params = req.getParameterMap();
-            List<Resource> resources = ResourcesHelper.handleSavePageResponse(pagesFolder, realPath.substring("save-page/".length()), params);
+            List<Resource> resources = ResourcesHelper.handleSavePageResponse(folder, realPath.substring("save-page/".length()), params);
             return doHandleResponse(reqCtx, resources);
         }
 
         if (realPath.startsWith("add-page"))
         {
+            File folder = pagesFolder;
+            if (realPath.startsWith("add-page-resource"))
+            {
+                folder = parentFolder;
+            }
+
             Map<String, String[]> params = req.getParameterMap();
             try
             {
-                Resource resource = ResourcesHelper.createResource(pagesFolder, params);
+                Resource resource = ResourcesHelper.createResource(folder, params);
                 if (resource != null)
                 {
                     return doHandleResponse(reqCtx, Collections.singletonList(resource));
@@ -195,6 +213,17 @@ public class ResourcesHandler implements RequestHandler
                 .collect(Collectors.toList());
     }
 
+    private List<Resource> handlePagesResourcesResponse(File parentFolder) throws IOException
+    {
+        List<File> pages = ResourcesHelper.findFiles(parentFolder, Arrays.asList("js", "css", "scss"));
+
+        return pages
+                .parallelStream()
+                .map(file -> ResourcesHelper.buildResource(parentFolder, file))
+                .filter(resource -> resource != null)
+                .collect(Collectors.toList());
+    }
+
     private List<Resource> handleThemesResponse(WebSite site) throws IOException
     {
         WebSiteTheme theme = themesManager.findTheme(site);
@@ -203,7 +232,8 @@ public class ResourcesHandler implements RequestHandler
             return Collections.EMPTY_LIST;
         }
 
-        List<File> files = ResourcesHelper.findFiles(theme.getFile(), Arrays.asList("ftl", "css"));
+        List<String> resourcesExts = Arrays.asList("ftl", "css", "scss", "js");
+        List<File> files = ResourcesHelper.findFiles(theme.getFile(), resourcesExts);
 
         return files
                 .parallelStream()

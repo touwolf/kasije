@@ -24,7 +24,6 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.commons.io.IOUtils;
-import static java.awt.SystemColor.text;
 
 /**
  *
@@ -52,10 +51,25 @@ public class ResourcesHelper
         path = path.substring(baseFile.getAbsolutePath().length());
         path = path.substring(0, path.length() - name.length());
 
-        Resource resource = new Resource(path, name, ext, content);
+        Resource resource = new Resource(path, name, findType(ext), content);
         resource.setTags(findTags(ext, lines));
 
         return resource;
+    }
+
+    private static String findType(String ext)
+    {
+        if ("js".equalsIgnoreCase(ext))
+        {
+            return "javascript";
+        }
+
+        if ("scss".equalsIgnoreCase(ext))
+        {
+            return "sass";
+        }
+
+        return ext;
     }
 
     public static List<String> findTags(String ext, List<String> lines)
@@ -167,6 +181,17 @@ public class ResourcesHelper
         return handleSaveFileResponse(pageFile, params.get("text")[0]);
     }
 
+    public static List<Resource> handleSavePageResourceResponse(File parentFolder, String resourceName, Map<String, String[]> params) throws IOException
+    {
+        if (!params.containsKey("text"))
+        {
+            return null;
+        }
+
+        File resourceFile = new File(parentFolder, resourceName);
+        return handleSaveFileResponse(resourceFile, params.get("text")[0]);
+    }
+
     private static List<Resource> handleSaveFileResponse(File file, String content) throws IOException
     {
         if (!file.exists() || !file.canRead())
@@ -191,6 +216,7 @@ public class ResourcesHelper
 
         String name = params.get("fileName")[0];
         String type = params.get("fileType")[0].toLowerCase();
+        String extension = findExtension(type);
 
         String path = "";
         if (params.containsKey("filePath"))
@@ -200,9 +226,9 @@ public class ResourcesHelper
 
         File parentResource = getResourceParent(parent, path);
 
-        if (!name.endsWith("." + type.toLowerCase()))
+        if (!name.endsWith("." + extension.toLowerCase()))
         {
-            name += "." + type.toLowerCase();
+            name += "." + extension.toLowerCase();
         }
 
         File file = new File(parentResource, name);
@@ -222,13 +248,28 @@ public class ResourcesHelper
         return new Resource(path, name, type, text);
     }
 
+    private static String findExtension(String type)
+    {
+        if ("javascript".equalsIgnoreCase(type))
+        {
+            return "js";
+        }
+
+        if ("sass".equalsIgnoreCase(type))
+        {
+            return "scss";
+        }
+
+        return type;
+    }
+
     private static File getResourceParent(File parent, String path) throws Exception
     {
         File parentResource = parent;
         if (!path.isEmpty())
         {
             parentResource = new File(parent, path);
-            if (!parentResource.isDirectory())
+            if (parentResource.exists() && !parentResource.isDirectory())
             {
                 throw new Exception("Cannot create resource.");
             }

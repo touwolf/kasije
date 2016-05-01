@@ -135,14 +135,19 @@
                     <ul class="nav nav-second-level">
                         <#if hasRole("pages")>
                         <li>
-                            <a href="/admin/site-pages" class=" hvr-bounce-to-right">
+                            <a href="/admin/site-pages" class="hvr-bounce-to-right">
                                 <i class="fa fa-code nav_icon"></i>Pages
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/admin/site-pages-resources" class="hvr-bounce-to-right">
+                                <i class="fa fa-wrench nav_icon"></i>Pages Resources
                             </a>
                         </li>
                         </#if>
                         <#if hasRole("themes")>
                         <li>
-                            <a href="/admin/site-themes" class=" hvr-bounce-to-right">
+                            <a href="/admin/site-themes" class="hvr-bounce-to-right">
                                 <i class="fa fa-image nav_icon"></i>Themes
                             </a>
                         </li>
@@ -161,7 +166,10 @@
                        fileType="page" fileTypes=["xml"] />
     <#elseif page.@id == "site-themes" && hasRole("themes")>
         <@filesContent title="Theme resources" listSelector="site-theme-list"
-                       fileType="resource" fileTypes=["ftl", "css"] />
+                       fileType="resource" fileTypes=["ftl", "css", "sass", "javascript"] />
+    <#elseif page.@id == "site-pages-resources" && hasRole("pages")>
+        <@filesContent title="Pages resources" listSelector="site-pages-resources-list"
+                       fileType="page-resource" fileTypes=["javascript", "css", "sass"] />
     <#else>
         <@homeContent />
     </#if>
@@ -311,7 +319,7 @@
                         </div>
 
                         <div class="form-group form-group2 group-mail">
-                            <label>File type</label>
+                            <label>Select file type</label>
                             <select name="fileType" class="form-control1" required>
                                 <#list fileTypes as fType>
                                 <option value="${fType}">${fType?upper_case}</option>
