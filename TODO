@@ -2,8 +2,6 @@
 
 - Configurable cache for pages (based on last update to content or theme)
 - Configurable time cache for facebook users
-- Pass extra variables to pages
-- Improve rpm distribution
 - JS compilation (TypeScript, CoffeScript, ECMASCRIPT 6)
 - Support more formats than XML to pages (eg: JSON)
 - Function to compress JS or CSS from templates
@@ -20,7 +18,8 @@
 
 # ADMIN
 
-- View images as gallery.
+- Images gallery for theme.
 - Upload files and images.
+- Remove files and images.
 - Edit configurations.
-- Remove files.
+- Restart server.

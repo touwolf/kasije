@@ -377,6 +377,80 @@
         return editorComp;
     };
 
+    //Images component
+    win.createImagesComponent = function(config)
+    {
+        config.element = null;
+        config.images = null;
+
+        var preInit = config.init || function() {};
+
+        config.init = function()
+        {
+            var self = this;
+            self.element = $(config.elementSelector);
+
+            // Image to add
+            var addImageToList = function(data)
+            {
+                var minUrl = data.type;
+                var url = data.path;
+                var title = data.name;
+                var description = data.text;
+
+                var imgElement = '<img class="img-responsive" src="' + minUrl + '" alt="">';
+                var spanElement = '<span class="zoom-icon"></span>';
+                var aElement = '<a href="' + url + '" class="b-link-stripe b-animate-go swipebox" title="' + title + '">';
+                aElement += imgElement + spanElement + '</a>';
+                var imgDivElement = '<div class="gallery-img">' + aElement + '</div>';
+
+                var titleElement = '<div class="text-gallery"><h6>' + description + '</h6></div>';
+
+                var divElement = '<div class="col-md">' + imgDivElement + titleElement + '</div>';
+                self.element.append(divElement);
+
+                self.images[url] = data;
+            };
+
+            // Initial images loading
+            win.showLoading();
+
+            var jqXHR = $.ajax({
+                method: 'POST',
+                url: config.fetchURL
+            });
+
+            jqXHR.done(function(data)
+            {
+                self.images = {};
+
+                for (var index in data)
+                {
+                    if ({}.hasOwnProperty.call(data, index))
+                    {
+                        addImageToList(data[index]);
+                    }
+                }
+
+                self.element.append('<div class="clearfix"></div>');
+                win.hideLoading();
+            });
+
+            jqXHR.fail(function()
+            {
+                win.hideLoading();
+
+                console.error(arguments);//TODO
+            });
+
+            preInit.call(self);
+        };
+
+        var imagesComp = new Component(config);
+
+        return imagesComp;
+    };
+
     //Loading
     var loadingEl = $('#loadingoverlay');
     win.showLoading = function()

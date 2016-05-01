@@ -14,34 +14,15 @@
  * limitations under the License.
  */
 
-package com.kasije.core;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
-
-/**
- *
- */
-public interface ResourcesManager
+(function(win, $)
 {
-    String getMime(String resourceName);
+    win.createImagesComponent({
+        id: 'site-pages-images-list',
+        elementSelector: '#images-container',
+        fetchURL: '/admin/pages-images'
+    });
 
-    void processResource(File source, OutputStream outStream) throws IOException;
-
-    static String findFileExtension(String fileName, boolean dotIncluded)
-    {
-        int dotIndex = fileName.lastIndexOf(".");
-        if (dotIndex < 0)
-        {
-            return "";
-        }
-
-        if (!dotIncluded)
-        {
-            dotIndex++;
-        }
-
-        return fileName.substring(dotIndex);
-    }
-}
+    $('.swipebox').swipebox({
+        hideBarsDelay: 10000
+    });
+})(window, jQuery);

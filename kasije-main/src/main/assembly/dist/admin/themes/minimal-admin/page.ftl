@@ -10,6 +10,11 @@
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="/admin/resources/css/style.css" rel='stylesheet' type='text/css'/>
     <link href="/admin/resources/css/custom.css" rel="stylesheet">
+    <#if page.resources?? && page.resources.css??>
+    <#list page.resources.css as css>
+    <link href="${css}.css" rel="stylesheet">
+    </#list>
+    </#if>
 </head>
 <body>
     <#if !(page.__user??) || !hasRole("admin")>
@@ -124,8 +129,10 @@
             <ul class="nav" id="side-menu">
                 <li>
                     <a href="/admin" class=" hvr-bounce-to-right">
-                        <i class="fa fa-home nav_icon "></i>
-                        <span class="nav-label">Home</span>
+                        <i class="fa fa-home nav_icon"></i>
+                        <span class="nav-label<#if page.@id == "home"> text-success</#if>">
+                            Home
+                        </span>
                     </a>
                 </li>
 
@@ -140,19 +147,36 @@
                         <#if hasRole("pages")>
                         <li>
                             <a href="/admin/site-pages" class="hvr-bounce-to-right">
-                                <i class="fa fa-code nav_icon"></i>Pages
+                                <i class="fa fa-code nav_icon"></i>
+                                <span class="nav-label<#if page.@id == "site-pages"> text-success</#if>">
+                                    Pages
+                                </span>
                             </a>
                         </li>
                         <li>
                             <a href="/admin/site-pages-resources" class="hvr-bounce-to-right">
-                                <i class="fa fa-wrench nav_icon"></i>Pages Resources
+                                <i class="fa fa-wrench nav_icon"></i>
+                                <span class="nav-label<#if page.@id == "site-pages-resources"> text-success</#if>">
+                                    Pages Resources
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/admin/site-pages-images" class="hvr-bounce-to-right">
+                                <i class="fa fa-image nav_icon"></i>
+                                <span class="nav-label<#if page.@id == "site-pages-images"> text-success</#if>">
+                                    Pages Images
+                                </span>
                             </a>
                         </li>
                         </#if>
                         <#if hasRole("themes")>
                         <li>
                             <a href="/admin/site-themes" class="hvr-bounce-to-right">
-                                <i class="fa fa-image nav_icon"></i>Themes
+                                <i class="fa fa-paint-brush nav_icon"></i>
+                                <span class="nav-label<#if page.@id == "site-themes"> text-success</#if>">
+                                    Theme
+                                </span>
                             </a>
                         </li>
                         </#if>
@@ -168,12 +192,14 @@
     <#if page.@id == "site-pages" && hasRole("pages")>
         <@filesContent title="Pages" listSelector="site-pages-list"
                        fileType="page" fileTypes=["xml"] />
-    <#elseif page.@id == "site-themes" && hasRole("themes")>
-        <@filesContent title="Theme resources" listSelector="site-theme-list"
-                       fileType="resource" fileTypes=["ftl", "css", "sass", "javascript"] />
     <#elseif page.@id == "site-pages-resources" && hasRole("pages")>
         <@filesContent title="Pages resources" listSelector="site-pages-resources-list"
                        fileType="page-resource" fileTypes=["javascript", "css", "sass"] />
+    <#elseif page.@id == "site-pages-images" && hasRole("pages")>
+        <@imagesContent />
+    <#elseif page.@id == "site-themes" && hasRole("themes")>
+        <@filesContent title="Theme resources" listSelector="site-theme-list"
+                       fileType="resource" fileTypes=["ftl", "css", "sass", "javascript"] />
     <#else>
         <@homeContent />
     </#if>
@@ -338,6 +364,12 @@
                 </div>
             </div>
         </div>
+    </div>
+</#macro>
+
+<#macro imagesContent>
+    <div class="gallery" id="images-container">
+        <@clearfix />
     </div>
 </#macro>
 

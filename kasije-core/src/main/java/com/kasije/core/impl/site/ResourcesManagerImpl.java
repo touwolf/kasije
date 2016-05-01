@@ -59,7 +59,7 @@ public class ResourcesManagerImpl implements ResourcesManager
     @Override
     public String getMime(String resourceName)
     {
-        String ext = getExtension(resourceName);
+        String ext = ResourcesManager.findFileExtension(resourceName, true);
         if (ext.isEmpty())
         {
             return "text/plain";
@@ -125,19 +125,8 @@ public class ResourcesManagerImpl implements ResourcesManager
 
     private boolean isMinified(String sourceName)
     {
-        String ext = getExtension(sourceName);
+        String ext = ResourcesManager.findFileExtension(sourceName, true);
         return sourceName.endsWith(MIN_SUFFIX + ext);
-    }
-
-    private String getExtension(String sourceName)
-    {
-        int dotIndex = sourceName.lastIndexOf(".");
-        if (dotIndex < 0)
-        {
-            return "";
-        }
-
-        return sourceName.substring(dotIndex);
     }
 
     private boolean allowMinify(String sourceName)
@@ -189,7 +178,7 @@ public class ResourcesManagerImpl implements ResourcesManager
     private File compress(File source)
     {
         String sourceName = source.getName();
-        String ext = getExtension(sourceName);
+        String ext = ResourcesManager.findFileExtension(sourceName, true);
 
         int lastDotIndex = sourceName.lastIndexOf(ext);
         String minName = sourceName.substring(0, lastDotIndex) + MIN_SUFFIX + ext;

@@ -16,13 +16,18 @@
 
 package com.kasije.admin;
 
+import com.kasije.core.ResourcesManager;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.*;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.imageio.ImageIO;
 import org.apache.commons.io.IOUtils;
 
 /**
@@ -55,6 +60,73 @@ public class ResourcesHelper
         resource.setTags(findTags(ext, lines));
 
         return resource;
+    }
+
+    public static Resource buildImage(File baseFile, File file)
+    {
+        String path = file.getAbsolutePath();
+        path = path.substring(baseFile.getAbsolutePath().length());
+        path = path.replaceAll("\\\\", "/");
+        if (!path.startsWith("/"))
+        {
+            path = "/" + path;
+        }
+
+        String fileName = file.getName();
+        String ext = ResourcesManager.findFileExtension(file.getName(), true);
+        int lastDotIndex = fileName.lastIndexOf(ext);
+        String minName = fileName.substring(0, lastDotIndex) + ".min" + ext;
+        File minFile = new File(file.getParentFile(), minName);
+        long srcLastModified = file.lastModified();
+        long minLastModified = minFile.lastModified();
+        if (!minFile.exists() || srcLastModified < minLastModified)
+        {
+            minifyImage(file, minFile);
+        }
+
+        String minPath = minFile.getAbsolutePath();
+        minPath = minPath.substring(baseFile.getAbsolutePath().length());
+        minPath = minPath.replaceAll("\\\\", "/");
+        if (!minPath.startsWith("/"))
+        {
+            minPath = "/" + minPath;
+        }
+
+        String reducedName = fileName.substring(0, fileName.length() - ext.length());
+        if (reducedName.length() > 15)
+        {
+            reducedName = reducedName.substring(0, 15);
+        }
+
+        return new Resource(path, path, minPath, reducedName);
+    }
+
+    private static void minifyImage(File file, File minFile)
+    {
+        if (minFile.exists())
+        {
+            minFile.delete();
+        }
+
+        try
+        {
+            int scaledWidth = 275;
+            int scaledHeight = 185;
+
+            BufferedImage input = ImageIO.read(file);
+            BufferedImage output = new BufferedImage(scaledWidth, scaledHeight, input.getType());
+
+            Graphics2D g2d = output.createGraphics();
+            g2d.drawImage(input, 0, 0, scaledWidth, scaledHeight, null);
+            g2d.dispose();
+
+            String ext = ResourcesManager.findFileExtension(minFile.getName(), false);
+
+            ImageIO.write(output, ext, minFile);
+        }
+        catch (IOException e)
+        {
+        }
     }
 
     private static String findType(String ext)
@@ -140,14 +212,8 @@ public class ResourcesHelper
         children = parent.listFiles(file ->
         {
             String name = file.getName();
-            int dotIndex = name.lastIndexOf(".");
-            if (dotIndex < 2)
-            {
-                return false;
-            }
-
-            String extension = name.substring(dotIndex + 1);
-            if (name.endsWith(".min." + extension))
+            String extension = ResourcesManager.findFileExtension(name, false);
+            if (extension.isEmpty() || name.endsWith(".min." + extension))
             {
                 return false;
             }
@@ -179,17 +245,6 @@ public class ResourcesHelper
 
         File pageFile = new File(pagesFolder, pageName);
         return handleSaveFileResponse(pageFile, params.get("text")[0]);
-    }
-
-    public static List<Resource> handleSavePageResourceResponse(File parentFolder, String resourceName, Map<String, String[]> params) throws IOException
-    {
-        if (!params.containsKey("text"))
-        {
-            return null;
-        }
-
-        File resourceFile = new File(parentFolder, resourceName);
-        return handleSaveFileResponse(resourceFile, params.get("text")[0]);
     }
 
     private static List<Resource> handleSaveFileResponse(File file, String content) throws IOException

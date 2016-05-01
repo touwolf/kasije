@@ -105,6 +105,11 @@ public class ResourcesHandler implements RequestHandler
             return doHandleResponse(reqCtx, handlePagesResourcesResponse(parentFolder));
         }
 
+        if ("pages-images".equalsIgnoreCase(realPath))
+        {
+            return doHandleResponse(reqCtx, handlePagesImagesResponse(parentFolder));
+        }
+
         if ("themes".equalsIgnoreCase(realPath))
         {
             return doHandleResponse(reqCtx, handleThemesResponse(adminSite));
@@ -220,6 +225,17 @@ public class ResourcesHandler implements RequestHandler
         return pages
                 .parallelStream()
                 .map(file -> ResourcesHelper.buildResource(parentFolder, file))
+                .filter(resource -> resource != null)
+                .collect(Collectors.toList());
+    }
+
+    private List<Resource> handlePagesImagesResponse(File parentFolder) throws IOException
+    {
+        List<File> images = ResourcesHelper.findFiles(parentFolder, Arrays.asList("png", "jpg", "jpeg"));
+
+        return images
+                .parallelStream()
+                .map(file -> ResourcesHelper.buildImage(parentFolder, file))
                 .filter(resource -> resource != null)
                 .collect(Collectors.toList());
     }
