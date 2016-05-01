@@ -196,7 +196,7 @@
         <@filesContent title="Pages resources" listSelector="site-pages-resources-list"
                        fileType="page-resource" fileTypes=["javascript", "css", "sass"] />
     <#elseif page.@id == "site-pages-images" && hasRole("pages")>
-        <@imagesContent />
+        <@imagesContent location="page"/>
     <#elseif page.@id == "site-themes" && hasRole("themes")>
         <@filesContent title="Theme resources" listSelector="site-theme-list"
                        fileType="resource" fileTypes=["ftl", "css", "sass", "javascript"] />
@@ -334,6 +334,7 @@
                 <div class="modal-header">
                     <h4 class="modal-title">Add ${fileType}</h4>
                 </div>
+
                 <div class="modal-body">
                     <form data-url="/admin/add-${fileType}/">
                         <div class="form-group">
@@ -358,8 +359,9 @@
                         </div>
                     </form>
                 </div>
+
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="addFile">Add</button>
+                    <button type="button" class="btn btn-success" id="addFile">Add</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                 </div>
             </div>
@@ -367,9 +369,56 @@
     </div>
 </#macro>
 
-<#macro imagesContent>
+<#macro imagesContent location>
+    <div class="banner">
+        <span class="">
+            <button class="btn btn-primary not-enabled"
+                    type="button" data-toggle="modal" data-target="#uploadModal">
+                <i class="fa fa-upload"></i>
+            </button>
+        </span>
+    </div>
+
     <div class="gallery" id="images-container">
         <@clearfix />
+    </div>
+
+    <div class="modal fade" id="uploadModal" tabindex="-1" role="dialog"
+         aria-labelledby="uploadModalLabel" aria-hidden="true"
+         style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Upload image</h4>
+                </div>
+
+                <div class="modal-body">
+                    <form data-url="/admin/upload-${location}-image/">
+                        <div class="form-group">
+                            <button class="btn btn-primary" type="button" id="inputImage">
+                                <i class="fa fa-upload"></i>
+                                Select image
+                            </button>
+                            <input type="file" accept="image/*"
+                                   style="display:none" id="realInputImage">
+                        </div>
+                        <div id="selectedImage" class="form-group">
+                            <p class="bg-danger text-danger">No image selected!</p>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="imagePath">Path for image</label>
+                            <input type="text" class="form-control1" id="imagePath" required
+                                   name="imagePath" placeholder="Enter path for image" />
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="uploadImage">Upload</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
     </div>
 </#macro>
 

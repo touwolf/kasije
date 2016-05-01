@@ -19,6 +19,7 @@ package com.kasije.main;
 import com.kasije.core.RequestContext;
 import com.kasije.core.RequestHandler;
 import java.io.IOException;
+import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
@@ -26,12 +27,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.bridje.ioc.Component;
 import org.bridje.ioc.Inject;
+import org.eclipse.jetty.server.Request;
 
 /**
  *
  */
 @Component
-@MultipartConfig(location = "./")
+@MultipartConfig(
+    location = "./",
+    fileSizeThreshold = 1024 * 1024 * 2, // 2MB
+    maxFileSize = 1024 * 1024 * 10,      // 10MB
+    maxRequestSize = 1024 * 1024 * 50    // 50MB
+)
 final class KasijeServlet extends HttpServlet
 {
     @Inject
@@ -40,6 +47,9 @@ final class KasijeServlet extends HttpServlet
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
     {
+        MultipartConfigElement multipartConfigElement = new MultipartConfigElement((String)null);
+        req.setAttribute(Request.__MULTIPART_CONFIG_ELEMENT, multipartConfigElement);
+
         RequestContext reqCtx = new RequestContextImpl();
         reqCtx.put(HttpServletRequest.class, req);
         reqCtx.put(HttpServletResponse.class, resp);

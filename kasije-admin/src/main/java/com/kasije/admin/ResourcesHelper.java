@@ -19,15 +19,13 @@ package com.kasije.admin;
 import com.kasije.core.ResourcesManager;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.imageio.ImageIO;
+import javax.servlet.http.Part;
 import org.apache.commons.io.IOUtils;
 
 /**
@@ -303,6 +301,57 @@ public class ResourcesHelper
         return new Resource(path, name, type, text);
     }
 
+    public static Resource uploadImage(File parent, Collection<Part> parts) throws Exception
+    {
+        String name ="";
+        String path = "";
+        Part imagePart = null;
+        for (Part part : parts)
+        {
+            if ("imagePath".equals(part.getName()))
+            {
+                InputStreamReader reader = new InputStreamReader(part.getInputStream(), "UTF-8");
+                List<String> lines = IOUtils.readLines(reader);
+                path = String.join("", lines);
+            }
+
+            if ("imageFile".equals(part.getName()))
+            {
+                imagePart = part;
+                String contentDisp = part.getHeader("content-disposition");
+                String[] items = contentDisp.split(";");
+                for (String s : items)
+                {
+                    if (s.trim().startsWith("filename"))
+                    {
+                        name = s.substring(s.indexOf("=") + 2, s.length()-1);
+                    }
+                }
+            }
+        }
+
+        if (path.isEmpty() || name.isEmpty() || imagePart == null)
+        {
+            return null;
+        }
+
+        File parentResource = getResourceParent(parent, path);
+        File file = new File(parentResource, name);
+        if (file.exists())
+        {
+            file.delete();
+        }
+
+        file.createNewFile();
+
+        byte[] buffer = new byte[imagePart.getInputStream().available()];
+        IOUtils.readFully(imagePart.getInputStream(), buffer);
+        FileOutputStream outputStream = new FileOutputStream(file);
+        IOUtils.write(buffer, outputStream);
+
+        return buildImage(parent, file);
+    }
+
     private static String findExtension(String type)
     {
         if ("javascript".equalsIgnoreCase(type))
@@ -324,13 +373,13 @@ public class ResourcesHelper
         if (!path.isEmpty())
         {
             parentResource = new File(parent, path);
-            if (parentResource.exists() && !parentResource.isDirectory())
-            {
-                throw new Exception("Cannot create resource.");
-            }
-
-            parentResource.mkdirs();
         }
+
+        if (parentResource.exists() && !parentResource.isDirectory())
+        {
+            throw new Exception("Cannot create resource.");
+        }
+        parentResource.mkdirs();
 
         return parentResource;
     }

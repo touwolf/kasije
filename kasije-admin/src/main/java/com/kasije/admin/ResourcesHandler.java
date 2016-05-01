@@ -23,13 +23,11 @@ import com.kasije.core.auth.AuthUser;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 import org.bridje.ioc.Component;
 import org.bridje.ioc.Inject;
 import org.bridje.ioc.InjectNext;
@@ -149,6 +147,27 @@ public class ResourcesHandler implements RequestHandler
             {
                 return false;
             }
+        }
+
+        if (realPath.startsWith("upload-page-image"))
+        {
+            try
+            {
+                Collection<Part> parts = req.getParts();
+                if (parts != null && !parts.isEmpty())
+                {
+                    Resource resource = ResourcesHelper.uploadImage(parentFolder, parts);
+                    if (resource != null)
+                    {
+                        return doHandleResponse(reqCtx, Collections.singletonList(resource));
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+            }
+
+            return false;
         }
 
         if (realPath.startsWith("save-theme-resource"))

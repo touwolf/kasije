@@ -279,7 +279,7 @@
             var addFileBtn = $('#addFile');
             var modalDiv = addFileBtn.closest('div.modal-dialog');
             var modalForm = modalDiv.find('form');
-            addFileBtn.on('click', function()
+            addFileBtn.on('click', function(e)
             {
                 if (!isValidForm(modalForm))
                 {
@@ -318,6 +318,8 @@
 
                     console.error(arguments);//TODO
                 });
+
+                e.preventDefault();
             });
 
             preInit.call(self);
@@ -406,10 +408,12 @@
 
                 var titleElement = '<div class="text-gallery"><h6>' + description + '</h6></div>';
 
-                var divElement = '<div class="col-md">' + imgDivElement + titleElement + '</div>';
+                var divElement = '<div class="col-md-3">' + imgDivElement + titleElement + '</div>';
                 self.element.append(divElement);
 
                 self.images[url] = data;
+
+                return minUrl;
             };
 
             // Initial images loading
@@ -432,7 +436,8 @@
                     }
                 }
 
-                self.element.append('<div class="clearfix"></div>');
+                self.element.append('<div class="clearfix" id="lastGalleryElement"></div>');
+                $('.not-enabled').removeClass('not-enabled');
                 win.hideLoading();
             });
 
@@ -441,6 +446,107 @@
                 win.hideLoading();
 
                 console.error(arguments);//TODO
+            });
+
+            //Upload
+            var inputImgBtn = $('#inputImage');
+            var realInputImgBtn = $('#realInputImage');
+            var selectedImage = $('#selectedImage');
+            inputImgBtn.on('click', function(e)
+            {
+                realInputImgBtn.click();
+                e.preventDefault();
+            });
+
+            var getImageFile = function()
+            {
+                var file = null;
+                if (realInputImgBtn[0].files && realInputImgBtn[0].files.length)
+                {
+                    file = realInputImgBtn[0].files[0];
+                }
+
+                return file;
+            };
+
+            realInputImgBtn.on('change', function(e)
+            {
+                var file = getImageFile();
+                if (!file)
+                {
+                    selectedImage.html('<p class="bg-danger text-danger">No image selected!</p>');
+                    return;
+                }
+
+                selectedImage.html('');
+
+                var imgElement = '<img src="' + window.URL.createObjectURL(file) + '" height="60" />';
+                var spanElement = '&nbsp;<span>' + file.name + ': ' + file.size + ' bytes</span>';
+                selectedImage.append(imgElement + spanElement);
+
+                e.preventDefault();
+            });
+
+            var uploadImgBtn = $('#uploadImage');
+            var modalDiv = uploadImgBtn.closest('div.modal-dialog');
+            var modalForm = modalDiv.find('form');
+            uploadImgBtn.on('click', function(e)
+            {
+                if (!isValidForm(modalForm))
+                {
+                    return;
+                }
+
+                var file = getImageFile();
+                if (!file)
+                {
+                    selectedImage.html('<p class="bg-danger text-danger">No image selected!</p>');
+                    return;
+                }
+
+                var data = new FormData();
+                data.append('imageFile', file);
+                var formData = modalForm.serializeArray();
+                $.each(formData, function(key, input)
+                {
+                    data.append(input.name, input.value);
+                });
+
+                win.showLoading();
+
+                var jqXHR = $.ajax({
+                    method: 'POST',
+                    url: modalForm.data('url'),
+                    data: data,
+                    contentType: false,
+                    processData: false
+                });
+
+                jqXHR.done(function(data)
+                {
+                    var url = addImageToList(data[0]);
+
+                    modalDiv.closest('div.modal').modal('hide');
+
+                    win.hideLoading();
+
+                    $('#lastGalleryElement').remove();
+                    self.element.append('<div class="clearfix" id="lastGalleryElement"></div>');
+
+                    var imgElement = $('[src="' + url + '"]');
+                    $('html, body').animate({
+                        scrollTop: imgElement.offset().top - 20
+                    }, 500);
+                });
+
+                jqXHR.fail(function()
+                {
+                    win.hideLoading();
+
+                    console.error(arguments);//TODO
+                });
+
+                e.preventDefault();
             });
 
             preInit.call(self);
