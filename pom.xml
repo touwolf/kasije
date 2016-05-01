@@ -27,9 +27,9 @@
     <modules>
         <module>kasije-core</module>
         <module>kasije-freemarker</module>
-        <module>kasije-main</module>
         <module>kasije-admin</module>
         <module>kasije-cli</module>
+        <module>kasije-main</module>
     </modules>
 
     <scm>
@@ -125,12 +125,6 @@
                     <groupId>org.jacoco</groupId>
                     <artifactId>jacoco-maven-plugin</artifactId>
                     <version>0.7.6.201602180812</version>
-                    <configuration>
-                        <destFile>${project.basedir}/../target/jacoco.exec</destFile>
-                        <dataFile>${project.basedir}/../target/jacoco.exec</dataFile>
-                        <outputDirectory>${project.basedir}/../target/site</outputDirectory>
-                        <append>true</append>
-                    </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>
