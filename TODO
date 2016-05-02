@@ -19,7 +19,7 @@
 
 # ADMIN
 
-- Upload files.
-- Remove files and images.
+- Upload resources (JS, CSS).
+- Remove resources (JS, CSS, images).
 - Edit configurations.
 - Restart server.
