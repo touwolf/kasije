@@ -24,6 +24,7 @@ import org.apache.commons.lang.StringUtils;
 import org.bridje.ioc.Component;
 import org.bridje.ioc.Inject;
 import org.bridje.ioc.IocContext;
+import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.servlet.ServletHandler;
@@ -146,6 +147,12 @@ public class KasijeServer
 
     public void stop() throws Exception
     {
+        for (Handler handler : internal.getHandlers())
+        {
+            handler.stop();
+        }
+
         internal.stop();
+        internal.getThreadPool().join();
     }
 }

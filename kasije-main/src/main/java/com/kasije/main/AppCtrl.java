@@ -35,24 +35,8 @@ public class AppCtrl extends NotificationBroadcasterSupport implements AppCtrlMB
     {
         try
         {
-            final long seconds = 5l;
             LOG.info("Shutting down Kasije!");
             server.stop();
-            LOG.info("Waiting " + seconds + " seconds to stop the server...");
-            new Thread(() ->
-            {
-                try
-                {
-                    Thread.sleep(seconds * 1000l);
-                    LOG.info("Shutting down JVM!");
-                    Runtime.getRuntime().exit(0);
-                }
-                catch (Exception e)
-                {
-                    LOG.log(Level.SEVERE, e.getMessage(), e);
-                    Runtime.getRuntime().exit(1);
-                }
-            }).start();
         }
         catch (Exception e)
         {

@@ -75,24 +75,30 @@ public class ResourcesHandler implements RequestHandler
             return false;
         }
 
-        return doHandle(reqCtx, req, realPath);
+        return doHandle(reqCtx, realPath);
     }
 
-    private boolean doHandle(RequestContext reqCtx, HttpServletRequest req, String realPath) throws IOException
+    private boolean doHandle(RequestContext reqCtx, String realPath) throws IOException
     {
+        HttpServletRequest req = reqCtx.get(HttpServletRequest.class);
         WebSite adminSite = siteRepo.find(reqCtx, req.getServerName(), false);
         if (adminSite == null || adminSite.isAdmin())
         {
             return false;
         }
 
+        return handlePageResponse(reqCtx, realPath, adminSite) ||
+                handleThemeResponse(reqCtx, realPath, adminSite);
+    }
+
+    private boolean handlePageResponse(RequestContext reqCtx, String realPath, WebSite adminSite) throws IOException
+    {
         File parentFolder = adminSite.getFile().getAbsoluteFile();
         File pagesFolder = new File(parentFolder, "pages");
         if (!pagesFolder.exists() || !pagesFolder.isDirectory() || !pagesFolder.canRead())
         {
             return false;
         }
-
         if ("pages".equalsIgnoreCase(realPath))
         {
             return doHandleResponse(reqCtx, handlePagesResponse(pagesFolder));
@@ -108,11 +114,7 @@ public class ResourcesHandler implements RequestHandler
             return doHandleResponse(reqCtx, handlePagesImagesResponse(parentFolder));
         }
 
-        if ("themes".equalsIgnoreCase(realPath))
-        {
-            return doHandleResponse(reqCtx, handleThemesResponse(adminSite));
-        }
-
+        HttpServletRequest req = reqCtx.get(HttpServletRequest.class);
         if (realPath.startsWith("save-page"))
         {
             File folder = pagesFolder;
@@ -170,6 +172,17 @@ public class ResourcesHandler implements RequestHandler
             return false;
         }
 
+        return false;
+    }
+
+    private boolean handleThemeResponse(RequestContext reqCtx, String realPath, WebSite adminSite) throws IOException
+    {
+        if ("themes".equalsIgnoreCase(realPath))
+        {
+            return doHandleResponse(reqCtx, handleThemesResponse(adminSite));
+        }
+
+        HttpServletRequest req = reqCtx.get(HttpServletRequest.class);
         if (realPath.startsWith("save-theme-resource"))
         {
             WebSiteTheme theme = themesManager.findTheme(adminSite);

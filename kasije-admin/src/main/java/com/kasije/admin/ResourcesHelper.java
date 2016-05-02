@@ -264,7 +264,7 @@ public class ResourcesHelper
         if (!params.containsKey("fileName") || !params.containsKey("fileType")
             || parent == null || !parent.exists() || !parent.canWrite())
         {
-            throw new Exception("Cannot create resource.");
+            throw new IOException("Cannot create resource.");
         }
 
         String name = params.get("fileName")[0];
