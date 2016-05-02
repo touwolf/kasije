@@ -377,7 +377,7 @@ public class ResourcesHelper
 
         if (parentResource.exists() && !parentResource.isDirectory())
         {
-            throw new Exception("Cannot create resource.");
+            throw new IOException("Cannot create resource.");
         }
         parentResource.mkdirs();
 
