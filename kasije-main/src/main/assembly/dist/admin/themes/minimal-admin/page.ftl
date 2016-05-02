@@ -179,6 +179,14 @@
                                 </span>
                             </a>
                         </li>
+                        <li>
+                            <a href="/admin/site-theme-images" class="hvr-bounce-to-right">
+                                <i class="fa fa-image nav_icon"></i>
+                                <span class="nav-label<#if page.@id == "site-theme-images"> text-success</#if>">
+                                    Theme Images
+                                </span>
+                            </a>
+                        </li>
                         </#if>
                     </ul>
                 </li>
@@ -200,6 +208,8 @@
     <#elseif page.@id == "site-themes" && hasRole("themes")>
         <@filesContent title="Theme resources" listSelector="site-theme-list"
                        fileType="resource" fileTypes=["ftl", "css", "sass", "javascript"] />
+    <#elseif page.@id == "site-theme-images" && hasRole("themes")>
+        <@imagesContent location="theme"/>
     <#else>
         <@homeContent />
     </#if>

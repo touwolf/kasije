@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page title="Kasije Admin" id="site-theme-images">
+    <breadcrumb href="/admin">Home</breadcrumb>
+    <breadcrumb>Theme Images</breadcrumb>
+    <resources>
+        <css>https://cdnjs.cloudflare.com/ajax/libs/jquery.swipebox/1.4.4/css/swipebox.min</css>
+        <js>https://cdnjs.cloudflare.com/ajax/libs/jquery.swipebox/1.4.4/js/jquery.swipebox.min</js>
+        <js>/admin/resources/js/pages/sitethemeimages</js>
+    </resources>
+</page>

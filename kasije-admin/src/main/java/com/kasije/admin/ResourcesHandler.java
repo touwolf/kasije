@@ -137,39 +137,12 @@ public class ResourcesHandler implements RequestHandler
             }
 
             Map<String, String[]> params = req.getParameterMap();
-            try
-            {
-                Resource resource = ResourcesHelper.createResource(folder, params);
-                if (resource != null)
-                {
-                    return doHandleResponse(reqCtx, Collections.singletonList(resource));
-                }
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
+            return addResource(reqCtx, folder, params);
         }
 
         if (realPath.startsWith("upload-page-image"))
         {
-            try
-            {
-                Collection<Part> parts = req.getParts();
-                if (parts != null && !parts.isEmpty())
-                {
-                    Resource resource = ResourcesHelper.uploadImage(parentFolder, parts);
-                    if (resource != null)
-                    {
-                        return doHandleResponse(reqCtx, Collections.singletonList(resource));
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-            }
-
-            return false;
+            return uploadFile(reqCtx, parentFolder);
         }
 
         return false;
@@ -182,40 +155,86 @@ public class ResourcesHandler implements RequestHandler
             return doHandleResponse(reqCtx, handleThemesResponse(adminSite));
         }
 
+        WebSiteTheme theme = themesManager.findTheme(adminSite);
+        if ("theme-images".equalsIgnoreCase(realPath))
+        {
+            if (theme != null)
+            {
+                return doHandleResponse(reqCtx, handlePagesImagesResponse(theme.getFile()));
+            }
+
+            return false;
+        }
+
         HttpServletRequest req = reqCtx.get(HttpServletRequest.class);
         if (realPath.startsWith("save-theme-resource"))
         {
-            WebSiteTheme theme = themesManager.findTheme(adminSite);
             if (theme != null)
             {
                 Map<String, String[]> params = req.getParameterMap();
                 List<Resource> resources = ResourcesHelper.handleSaveThemeResponse(theme.getFile(), realPath.substring("save-theme-resource/".length()), params);
                 return doHandleResponse(reqCtx, resources);
             }
+
+            return false;
         }
 
         if (realPath.startsWith("add-resource"))
         {
-            WebSiteTheme theme = themesManager.findTheme(adminSite);
             if (theme != null)
             {
                 Map<String, String[]> params = req.getParameterMap();
-                try
-                {
-                    Resource resource = ResourcesHelper.createResource(theme.getFile(), params);
-                    if (resource != null)
-                    {
-                        return doHandleResponse(reqCtx, Collections.singletonList(resource));
-                    }
-                }
-                catch (Exception ex)
-                {
-                    return false;
-                }
+                return addResource(reqCtx, theme.getFile(), params);
             }
+
+            return false;
+        }
+
+        if (realPath.startsWith("upload-theme-image"))
+        {
+            return uploadFile(reqCtx, theme.getFile());
         }
 
         return handler.handle(reqCtx);
+    }
+
+    private boolean addResource(RequestContext reqCtx, File file, Map<String, String[]> params)
+    {
+        try
+        {
+            Resource resource = ResourcesHelper.createResource(file, params);
+            if (resource != null)
+            {
+                return doHandleResponse(reqCtx, Collections.singletonList(resource));
+            }
+        }
+        catch (Exception ex)
+        {
+        }
+
+        return false;
+    }
+
+    private boolean uploadFile(RequestContext reqCtx, File file)
+    {
+        try
+        {
+            HttpServletRequest req = reqCtx.get(HttpServletRequest.class);
+            Collection<Part> parts = req.getParts();
+            if (parts != null && !parts.isEmpty())
+            {
+                Resource resource = ResourcesHelper.uploadImage(file, parts);
+                if (resource != null)
+                {
+                    return doHandleResponse(reqCtx, Collections.singletonList(resource));
+                }
+            }
+        }
+        catch (Exception e)
+        {
+        }
+
+        return false;
     }
 
     private boolean doHandleResponse(RequestContext reqCtx, List<Resource> resources)
