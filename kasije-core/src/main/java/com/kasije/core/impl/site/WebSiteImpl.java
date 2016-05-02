@@ -20,20 +20,17 @@ import com.kasije.core.WebFile;
 import com.kasije.core.WebPage;
 import com.kasije.core.WebSite;
 import com.kasije.core.config.sites.SiteConfig;
-import com.kasije.core.config.sites.model.Theme;
 import com.kasije.core.config.sites.model.Alias;
+import com.kasije.core.config.sites.model.Theme;
 import com.kasije.core.impl.files.WebFileImpl;
 import com.kasije.core.impl.page.WebPageImpl;
 import java.io.File;
-import java.util.logging.Logger;
 
 /**
  *
  */
 class WebSiteImpl implements WebSite
 {
-    private static final Logger LOG = Logger.getLogger(WebSiteImpl.class.getName());
-
     private final String name;
 
     private final File siteFolder;

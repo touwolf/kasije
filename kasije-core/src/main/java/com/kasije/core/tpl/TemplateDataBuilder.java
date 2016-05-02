@@ -47,11 +47,13 @@ public class TemplateDataBuilder
             return parseXML(file, user);
         }
 
+        /*
         file = new File(parent, getPathWithExt(path, "json"));
         if (file.exists() && file.canRead())
         {
             return parseJSON(file, user);
         }
+        */
 
         return null;
     }
@@ -115,11 +117,13 @@ public class TemplateDataBuilder
         return data;
     }
 
+    /*
     private static TemplateData parseJSON(File file, AuthUser user)
     {
         //TODO
         return null;
     }
+    */
 
     private static String getPathWithExt(String p, String extension)
     {

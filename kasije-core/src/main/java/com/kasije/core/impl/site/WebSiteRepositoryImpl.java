@@ -3,7 +3,6 @@ package com.kasije.core.impl.site;
 import com.kasije.core.*;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import org.bridje.ioc.Component;
 import org.bridje.ioc.Inject;
@@ -11,8 +10,6 @@ import org.bridje.ioc.Inject;
 @Component
 public class WebSiteRepositoryImpl implements WebSiteRepository
 {
-    private static final Logger LOG = Logger.getLogger(WebSiteRepositoryImpl.class.getName());
-
     @Inject
     private WebSiteRouter siteRouter;
 

@@ -19,7 +19,6 @@ package com.kasije.core.impl.site;
 import com.kasije.core.WebSiteVirtual;
 import com.kasije.core.config.ConfigProvider;
 import com.kasije.core.config.server.model.Virtual;
-import java.util.logging.Logger;
 import org.bridje.ioc.Component;
 import org.bridje.ioc.Inject;
 import org.bridje.ioc.Priority;
@@ -28,8 +27,6 @@ import org.bridje.ioc.Priority;
 @Priority(value = Integer.MAX_VALUE)
 public class WebSiteVirtualImpl implements WebSiteVirtual
 {
-    private static final Logger LOG = Logger.getLogger(WebSiteVirtualImpl.class.getName());
-
     @Inject
     private ConfigProvider config;
 

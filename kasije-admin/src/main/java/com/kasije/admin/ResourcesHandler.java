@@ -70,7 +70,7 @@ public class ResourcesHandler implements RequestHandler
         String[] realPathArr = Arrays.copyOfRange(resPathArr, 2, resPathArr.length);
         String realPath = String.join("/", (CharSequence[]) realPathArr);
 
-        if (!isAuthorized(reqCtx, realPath))
+        if (!isAuthorized(reqCtx))
         {
             return false;
         }
@@ -290,7 +290,7 @@ public class ResourcesHandler implements RequestHandler
                 .collect(Collectors.toList());
     }
 
-    private boolean isAuthorized(RequestContext reqCtx, String path)
+    private boolean isAuthorized(RequestContext reqCtx)
     {
         WebSite site = reqCtx.get(WebSite.class);
         if (site == null || !site.isAdmin())
