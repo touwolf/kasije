@@ -131,7 +131,7 @@ public class ResourcesManagerImpl implements ResourcesManager
 
     private boolean allowMinify(String sourceName)
     {
-        Boolean development = config.getServerConfig().getDevelopment();
+        Boolean development = true;//TODO
         return !development && (sourceName.endsWith(CSS_SUFFIX) || sourceName.endsWith(JS_SUFFIX));
     }
 
