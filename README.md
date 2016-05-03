@@ -20,7 +20,7 @@ Efficiently develop multiple websites from a single location with shared resourc
 
 **Pre-processing and compression of static resources**
 
-Static resources that require pre-processing (Sass, typescript, CoffeeScript, etc) are processed without your intervention, all you need to do is include them as they are, and Kasije will process them appropriately by their extension. Also the resources that support compression (JS and CSS) are compressed by the system and cached until they return to be modified. (All this features are used on this site you are reading ;)
+Static resources that require pre-processing (Sass, typescript, CoffeeScript, etc) are processed without your intervention, all you need to do is include them as they are, and Kasije will process them appropriately by their extension. Also the resources that support compression (JS and CSS) are compressed by the system and cached until they return to be modified.
 
 **Separation of content and presentation**
 
@@ -28,7 +28,7 @@ It is a good design philosophy that we made concrete. You will preserve the sema
 
 **Easy virtual hosting**
 
-Virtual Host refers to running multiples websites on a single physical server, which is not apparent to the end user. Kasije leaves no room for complicated configurations or server restarts, simply add content in the folder with the name of the virtual domain and the virtual host will be ready (as we have done with this website).
+Virtual Host refers to running multiples websites on a single physical server, which is not apparent to the end user. Kasije leaves no room for complicated configurations or server restarts, simply add content in the folder with the name of the virtual domain and the virtual host will be ready.
 
 **Extensible by plugins**
 
@@ -36,7 +36,7 @@ The CMS supports the implementation of plugins to extend its core features, prov
 
 **Command line interface**   
  
-Kasije has multiple command line tools integrated to facilitate the work on the server, its Java based nature makes it run on most platforms and allow you to create new sites, configure and monitor them in the most natural way.              
+Kasije has multiple command line tools integrated to facilitate the work on the server, its Java based nature makes it run on most platforms and allow you to create new sites, configure and monitor them in the most natural way.    
   
 ### Dependencies
 
