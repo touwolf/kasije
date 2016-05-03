@@ -16,12 +16,12 @@
 
 package com.kasije.core.impl.themes;
 
-import com.kasije.core.RequestContext;
-import com.kasije.core.RequestHandler;
 import com.kasije.core.ThemesManager;
 import com.kasije.core.WebSite;
 import com.kasije.core.WebSiteTheme;
 import java.io.IOException;
+import org.bridje.http.HttpServerContext;
+import org.bridje.http.HttpServerHandler;
 import org.bridje.ioc.Component;
 import org.bridje.ioc.Inject;
 import org.bridje.ioc.InjectNext;
@@ -32,16 +32,16 @@ import org.bridje.ioc.Priority;
  */
 @Component
 @Priority(Integer.MIN_VALUE + 120)
-class ThemesHandler implements RequestHandler
+class ThemesHandler implements HttpServerHandler
 {
     @InjectNext
-    private RequestHandler handler;
+    private HttpServerHandler handler;
 
     @Inject
     private ThemesManager themesManag;
 
     @Override
-    public boolean handle(RequestContext reqCtx) throws IOException
+    public boolean handle(HttpServerContext reqCtx) throws IOException
     {
         WebSiteTheme webSiteTheme = reqCtx.get(WebSiteTheme.class);
         if (webSiteTheme == null)
@@ -52,7 +52,7 @@ class ThemesHandler implements RequestHandler
                 WebSiteTheme theme = themesManag.findTheme(webSite);
                 if(theme != null)
                 {
-                    reqCtx.put(WebSiteTheme.class, theme);
+                    reqCtx.set(WebSiteTheme.class, theme);
                 }
             }
         }

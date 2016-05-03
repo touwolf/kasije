@@ -16,11 +16,11 @@
 
 package com.kasije.core.impl.page;
 
-import com.kasije.core.RequestContext;
-import com.kasije.core.RequestHandler;
 import com.kasije.core.WebPage;
 import com.kasije.core.WebSiteTheme;
 import java.io.IOException;
+import org.bridje.http.HttpServerContext;
+import org.bridje.http.HttpServerHandler;
 import org.bridje.ioc.Component;
 import org.bridje.ioc.InjectNext;
 import org.bridje.ioc.Priority;
@@ -30,13 +30,13 @@ import org.bridje.ioc.Priority;
  */
 @Component
 @Priority(Integer.MIN_VALUE + 1000)
-class WebPageRender implements RequestHandler
+class WebPageRender implements HttpServerHandler
 {
     @InjectNext
-    private RequestHandler handler;
+    private HttpServerHandler handler;
 
     @Override
-    public boolean handle(RequestContext reqCtx) throws IOException
+    public boolean handle(HttpServerContext reqCtx) throws IOException
     {
         if (reqCtx.get(WebPage.class) != null)
         {

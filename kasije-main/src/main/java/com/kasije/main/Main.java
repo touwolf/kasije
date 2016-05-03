@@ -25,6 +25,7 @@ import javax.management.ObjectName;
 import javax.management.remote.JMXConnector;
 import javax.management.remote.JMXConnectorFactory;
 import javax.management.remote.JMXServiceURL;
+import org.bridje.http.HttpServer;
 import org.bridje.ioc.Ioc;
 import org.bridje.ioc.IocContext;
 
@@ -68,13 +69,12 @@ public class Main
     {
         System.out.println("Starting Kasije, path context: " + new File(".").getAbsoluteFile().getPath() + "...");
 
-        IocContext context = Ioc.context();
-        KasijeServer server = context.find(KasijeServer.class);
+        HttpServer server = Ioc.context().find(HttpServer.class);
 
-        initMBeans(context);
+        initMBeans(Ioc.context());
         server.start();
         System.out.println("Server started!");
-        server.join();
+        //server.join();TODO
     }
 
     private static void initMBeans(IocContext context) throws Exception

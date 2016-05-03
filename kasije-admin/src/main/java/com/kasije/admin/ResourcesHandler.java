@@ -18,16 +18,23 @@ package com.kasije.admin;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.kasije.core.*;
+import com.kasije.core.ThemesManager;
+import com.kasije.core.WebSite;
+import com.kasije.core.WebSiteRepository;
+import com.kasije.core.WebSiteTheme;
 import com.kasije.core.auth.AuthUser;
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.*;
+import java.io.OutputStreamWriter;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
+import org.bridje.http.HttpServerContext;
+import org.bridje.http.HttpServerHandler;
+import org.bridje.http.HttpServerRequest;
+import org.bridje.http.HttpServerResponse;
 import org.bridje.ioc.Component;
 import org.bridje.ioc.Inject;
 import org.bridje.ioc.InjectNext;
@@ -38,7 +45,7 @@ import org.bridje.ioc.Priority;
  */
 @Component
 @Priority(Integer.MIN_VALUE + 275)
-public class ResourcesHandler implements RequestHandler
+public class ResourcesHandler implements HttpServerHandler
 {
     private static final Gson GSON = new GsonBuilder().create();
 
@@ -49,23 +56,23 @@ public class ResourcesHandler implements RequestHandler
     private ThemesManager themesManager;
 
     @InjectNext
-    private RequestHandler handler;
+    private HttpServerHandler handler;
 
     @Override
-    public boolean handle(RequestContext reqCtx) throws IOException
+    public boolean handle(HttpServerContext reqCtx) throws IOException
     {
-        HttpServletRequest req = reqCtx.get(HttpServletRequest.class);
+        HttpServerRequest req = reqCtx.get(HttpServerRequest.class);
         if(req == null)
         {
             return false;
         }
 
-        if(!req.getPathInfo().startsWith("/admin"))
+        if(!req.getPath().startsWith("/admin"))
         {
             return handler.handle(reqCtx);
         }
 
-        String pathInfo = req.getPathInfo();
+        String pathInfo = req.getPath();
         String[] resPathArr = pathInfo.split("/");
         String[] realPathArr = Arrays.copyOfRange(resPathArr, 2, resPathArr.length);
         String realPath = String.join("/", (CharSequence[]) realPathArr);
@@ -78,10 +85,10 @@ public class ResourcesHandler implements RequestHandler
         return doHandle(reqCtx, realPath);
     }
 
-    private boolean doHandle(RequestContext reqCtx, String realPath) throws IOException
+    private boolean doHandle(HttpServerContext reqCtx, String realPath) throws IOException
     {
-        HttpServletRequest req = reqCtx.get(HttpServletRequest.class);
-        WebSite adminSite = siteRepo.find(reqCtx, req.getServerName(), false);
+        HttpServerRequest req = reqCtx.get(HttpServerRequest.class);
+        WebSite adminSite = siteRepo.find(reqCtx, "FIXME"/*req.getServerName()*/, false);
         if (adminSite == null || adminSite.isAdmin())
         {
             return false;
@@ -91,7 +98,7 @@ public class ResourcesHandler implements RequestHandler
                 handleThemeResponse(reqCtx, realPath, adminSite);
     }
 
-    private boolean handlePageResponse(RequestContext reqCtx, String realPath, WebSite adminSite) throws IOException
+    private boolean handlePageResponse(HttpServerContext reqCtx, String realPath, WebSite adminSite) throws IOException
     {
         File parentFolder = adminSite.getFile().getAbsoluteFile();
         File pagesFolder = new File(parentFolder, "pages");
@@ -114,7 +121,7 @@ public class ResourcesHandler implements RequestHandler
             return doHandleResponse(reqCtx, handlePagesImagesResponse(parentFolder));
         }
 
-        HttpServletRequest req = reqCtx.get(HttpServletRequest.class);
+        HttpServerRequest req = reqCtx.get(HttpServerRequest.class);
         if (realPath.startsWith("save-page"))
         {
             File folder = pagesFolder;
@@ -123,7 +130,7 @@ public class ResourcesHandler implements RequestHandler
                 folder = parentFolder;
             }
 
-            Map<String, String[]> params = req.getParameterMap();
+            Map<String, String> params = req.getPostParameters();
             List<Resource> resources = ResourcesHelper.handleSavePageResponse(folder, realPath.substring("save-page/".length()), params);
             return doHandleResponse(reqCtx, resources);
         }
@@ -136,7 +143,7 @@ public class ResourcesHandler implements RequestHandler
                 folder = parentFolder;
             }
 
-            Map<String, String[]> params = req.getParameterMap();
+            Map<String, String> params = req.getPostParameters();
             return addResource(reqCtx, folder, params);
         }
 
@@ -148,7 +155,7 @@ public class ResourcesHandler implements RequestHandler
         return false;
     }
 
-    private boolean handleThemeResponse(RequestContext reqCtx, String realPath, WebSite adminSite) throws IOException
+    private boolean handleThemeResponse(HttpServerContext reqCtx, String realPath, WebSite adminSite) throws IOException
     {
         if ("themes".equalsIgnoreCase(realPath))
         {
@@ -166,12 +173,12 @@ public class ResourcesHandler implements RequestHandler
             return false;
         }
 
-        HttpServletRequest req = reqCtx.get(HttpServletRequest.class);
+        HttpServerRequest req = reqCtx.get(HttpServerRequest.class);
         if (realPath.startsWith("save-theme-resource"))
         {
             if (theme != null)
             {
-                Map<String, String[]> params = req.getParameterMap();
+                Map<String, String> params = req.getPostParameters();
                 List<Resource> resources = ResourcesHelper.handleSaveThemeResponse(theme.getFile(), realPath.substring("save-theme-resource/".length()), params);
                 return doHandleResponse(reqCtx, resources);
             }
@@ -183,7 +190,7 @@ public class ResourcesHandler implements RequestHandler
         {
             if (theme != null)
             {
-                Map<String, String[]> params = req.getParameterMap();
+                Map<String, String> params = req.getPostParameters();
                 return addResource(reqCtx, theme.getFile(), params);
             }
 
@@ -198,7 +205,7 @@ public class ResourcesHandler implements RequestHandler
         return handler.handle(reqCtx);
     }
 
-    private boolean addResource(RequestContext reqCtx, File file, Map<String, String[]> params)
+    private boolean addResource(HttpServerContext reqCtx, File file, Map<String, String> params)
     {
         try
         {
@@ -215,11 +222,13 @@ public class ResourcesHandler implements RequestHandler
         return false;
     }
 
-    private boolean uploadFile(RequestContext reqCtx, File file)
+    private boolean uploadFile(HttpServerContext reqCtx, File file)
     {
+        /*
+        TODO
         try
         {
-            HttpServletRequest req = reqCtx.get(HttpServletRequest.class);
+            HttpServerRequest req = reqCtx.get(HttpServerRequest.class);
             Collection<Part> parts = req.getParts();
             if (parts != null && !parts.isEmpty())
             {
@@ -233,22 +242,26 @@ public class ResourcesHandler implements RequestHandler
         catch (Exception e)
         {
         }
+         */
 
         return false;
     }
 
-    private boolean doHandleResponse(RequestContext reqCtx, List<Resource> resources)
+    private boolean doHandleResponse(HttpServerContext reqCtx, List<Resource> resources)
     {
         try
         {
             String jsonResources = GSON.toJson(resources);
 
-            HttpServletResponse resp = reqCtx.get(HttpServletResponse.class);
-            resp.setStatus(200);
+            HttpServerResponse resp = reqCtx.get(HttpServerResponse.class);
+            resp.setStatusCode(200);
             resp.setContentType("text/json");
 
-            PrintWriter writer = resp.getWriter();
-            writer.println(jsonResources);
+            try(OutputStreamWriter writer = new OutputStreamWriter(resp.getOutputStream()))
+            {
+                writer.append(jsonResources);
+                writer.flush();
+            }
 
             return true;
         }
@@ -309,7 +322,7 @@ public class ResourcesHandler implements RequestHandler
                 .collect(Collectors.toList());
     }
 
-    private boolean isAuthorized(RequestContext reqCtx)
+    private boolean isAuthorized(HttpServerContext reqCtx)
     {
         WebSite site = reqCtx.get(WebSite.class);
         if (site == null || !site.isAdmin())

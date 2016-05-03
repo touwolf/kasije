@@ -16,12 +16,17 @@
 
 package com.kasije.core.impl.themes;
 
-import com.kasije.core.*;
+import com.kasije.core.ResourcesManager;
+import com.kasije.core.WebSite;
+import com.kasije.core.WebSiteRouter;
+import com.kasije.core.WebSiteTheme;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import org.bridje.http.HttpServerContext;
+import org.bridje.http.HttpServerHandler;
+import org.bridje.http.HttpServerRequest;
+import org.bridje.http.HttpServerResponse;
 import org.bridje.ioc.Component;
 import org.bridje.ioc.Inject;
 import org.bridje.ioc.InjectNext;
@@ -32,28 +37,28 @@ import org.bridje.ioc.Priority;
  */
 @Component
 @Priority(Integer.MIN_VALUE + 175)
-public class ResourcesHandler implements RequestHandler
+public class ResourcesHandler implements HttpServerHandler
 {
     @Inject
     private ResourcesManager resMgr;
 
     @InjectNext
-    private RequestHandler handler;
+    private HttpServerHandler handler;
 
     @Inject
     private WebSiteRouter router;
 
     @Override
-    public boolean handle(RequestContext reqCtx) throws IOException
+    public boolean handle(HttpServerContext reqCtx) throws IOException
     {
-        HttpServletRequest req = reqCtx.get(HttpServletRequest.class);
+        HttpServerRequest req = reqCtx.get(HttpServerRequest.class);
         if(req == null)
         {
             return false;
         }
 
         WebSite site = reqCtx.get(WebSite.class);
-        String pathInfo = site != null ? router.findPathInfo(site, req.getPathInfo()) : req.getPathInfo();
+        String pathInfo = site != null ? router.findPathInfo(site, req.getPath()) : req.getPath();
 
         if (pathInfo.startsWith("/resources"))
         {
@@ -73,7 +78,7 @@ public class ResourcesHandler implements RequestHandler
 
             if (resFile.exists() && resFile.isFile())
             {
-                HttpServletResponse resp = reqCtx.get(HttpServletResponse.class);
+                HttpServerResponse resp = reqCtx.get(HttpServerResponse.class);
                 resp.setContentType(resMgr.getMime(realPath));
                 resMgr.processResource(resFile, resp.getOutputStream());
 

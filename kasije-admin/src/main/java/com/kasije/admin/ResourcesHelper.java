@@ -20,12 +20,12 @@ import com.kasije.core.ResourcesManager;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.nio.charset.Charset;
 import java.util.*;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.imageio.ImageIO;
-import javax.servlet.http.Part;
 import org.apache.commons.io.IOUtils;
 
 /**
@@ -38,7 +38,7 @@ public class ResourcesHelper
         List<String> lines;
         try
         {
-            lines = IOUtils.readLines(new FileInputStream(file));
+            lines = IOUtils.readLines(new FileInputStream(file), Charset.defaultCharset());
         }
         catch (IOException e)
         {
@@ -223,7 +223,7 @@ public class ResourcesHelper
         return files;
     }
 
-    public static List<Resource> handleSaveThemeResponse(File themeFolder, String resource, Map<String, String[]> params) throws IOException
+    public static List<Resource> handleSaveThemeResponse(File themeFolder, String resource, Map<String, String> params) throws IOException
     {
         if (!params.containsKey("text"))
         {
@@ -231,10 +231,10 @@ public class ResourcesHelper
         }
 
         File resourceFile = new File(themeFolder, resource);
-        return handleSaveFileResponse(resourceFile, params.get("text")[0]);
+        return handleSaveFileResponse(resourceFile, params.get("text"));
     }
 
-    public static List<Resource> handleSavePageResponse(File pagesFolder, String pageName, Map<String, String[]> params) throws IOException
+    public static List<Resource> handleSavePageResponse(File pagesFolder, String pageName, Map<String, String> params) throws IOException
     {
         if (!params.containsKey("text"))
         {
@@ -242,7 +242,7 @@ public class ResourcesHelper
         }
 
         File pageFile = new File(pagesFolder, pageName);
-        return handleSaveFileResponse(pageFile, params.get("text")[0]);
+        return handleSaveFileResponse(pageFile, params.get("text"));
     }
 
     private static List<Resource> handleSaveFileResponse(File file, String content) throws IOException
@@ -259,7 +259,7 @@ public class ResourcesHelper
         return Collections.emptyList();
     }
 
-    public static Resource createResource(File parent, Map<String, String[]> params) throws Exception
+    public static Resource createResource(File parent, Map<String, String> params) throws Exception
     {
         if (!params.containsKey("fileName") || !params.containsKey("fileType")
             || parent == null || !parent.exists() || !parent.canWrite())
@@ -267,14 +267,14 @@ public class ResourcesHelper
             throw new IOException("Cannot create resource.");
         }
 
-        String name = params.get("fileName")[0];
-        String type = params.get("fileType")[0].toLowerCase();
+        String name = params.get("fileName");
+        String type = params.get("fileType").toLowerCase();
         String extension = findExtension(type);
 
         String path = "";
         if (params.containsKey("filePath"))
         {
-            path = params.get("filePath")[0];
+            path = params.get("filePath");
         }
 
         File parentResource = getResourceParent(parent, path);
@@ -292,7 +292,7 @@ public class ResourcesHelper
 
         FileOutputStream fileOutStream = new FileOutputStream(file);
         String text = getTextContent(type);
-        IOUtils.write(text, fileOutStream);
+        IOUtils.write(text, fileOutStream, Charset.defaultCharset());
 
         path = file.getAbsolutePath();
         path = path.substring(parent.getAbsolutePath().length());
@@ -301,6 +301,8 @@ public class ResourcesHelper
         return new Resource(path, name, type, text);
     }
 
+    /*
+    TODO
     public static Resource uploadImage(File parent, Collection<Part> parts) throws Exception
     {
         String name ="";
@@ -351,6 +353,7 @@ public class ResourcesHelper
 
         return buildImage(parent, file);
     }
+    */
 
     private static String findExtension(String type)
     {

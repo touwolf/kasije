@@ -17,12 +17,13 @@
 package com.kasije.admin.auth;
 
 import com.kasije.core.auth.AuthUser;
-import javax.servlet.http.Cookie;
+import java.util.Collection;
+import org.bridje.http.HttpCookie;
 
 /**
  *
  */
 public interface AuthUserProvider
 {
-    AuthUser fetchUser(Cookie[] cookies);
+    AuthUser fetchUser(Collection<HttpCookie> cookies);
 }

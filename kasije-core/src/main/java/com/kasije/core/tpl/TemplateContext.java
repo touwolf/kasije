@@ -16,13 +16,13 @@
 
 package com.kasije.core.tpl;
 
-import com.kasije.core.RequestContext;
 import java.io.IOException;
+import org.bridje.http.HttpServerContext;
 
 /**
  *
  */
 public interface TemplateContext
 {
-    boolean render(RequestContext reqCtx) throws IOException;
+    boolean render(HttpServerContext reqCtx) throws IOException;
 }

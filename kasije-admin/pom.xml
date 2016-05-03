@@ -23,6 +23,10 @@
         </dependency>
         <dependency>
             <groupId>org.bridje</groupId>
+            <artifactId>bridje-http</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.bridje</groupId>
             <artifactId>bridje-cfg</artifactId>
         </dependency>
         <dependency>
@@ -38,7 +42,7 @@
         <dependency>
             <groupId>com.restfb</groupId>
             <artifactId>restfb</artifactId>
-            <version>1.21.0</version>
+            <version>1.22.0</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>

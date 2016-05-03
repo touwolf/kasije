@@ -16,13 +16,13 @@
 
 package com.kasije.core.tpl;
 
-import com.kasije.core.RequestContext;
 import com.kasije.core.WebPage;
 import com.kasije.core.WebSite;
 import com.kasije.core.auth.AuthUser;
 import java.io.File;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import org.bridje.http.HttpServerContext;
 import org.w3c.dom.*;
 
 /**
@@ -30,7 +30,7 @@ import org.w3c.dom.*;
  */
 public class TemplateDataBuilder
 {
-    public static TemplateData parse(RequestContext reqCtx, WebSite site, WebPage page)
+    public static TemplateData parse(HttpServerContext reqCtx, WebSite site, WebPage page)
     {
         AuthUser user = null;
         if (site.isAdmin())

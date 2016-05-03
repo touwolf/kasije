@@ -16,7 +16,6 @@
 
 package com.kasije.core.impl.themes;
 
-import com.kasije.core.RequestContext;
 import com.kasije.core.WebSite;
 import com.kasije.core.WebSiteTheme;
 import com.kasije.core.config.sites.model.Theme;
@@ -25,6 +24,7 @@ import com.kasije.core.tpl.TemplateEngine;
 import java.io.File;
 import java.io.IOException;
 import org.apache.commons.lang.StringUtils;
+import org.bridje.http.HttpServerContext;
 
 /**
  *
@@ -57,7 +57,7 @@ public class WebSiteThemeImpl implements WebSiteTheme
     }
 
     @Override
-    public boolean render(RequestContext reqCtx) throws IOException
+    public boolean render(HttpServerContext reqCtx) throws IOException
     {
         for (TemplateEngine engine : tplEngines)
         {

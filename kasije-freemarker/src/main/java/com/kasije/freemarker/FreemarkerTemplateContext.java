@@ -16,7 +16,6 @@
 
 package com.kasije.freemarker;
 
-import com.kasije.core.RequestContext;
 import com.kasije.core.WebPage;
 import com.kasije.core.WebSite;
 import com.kasije.core.tpl.TemplateContext;
@@ -30,10 +29,11 @@ import freemarker.cache.TemplateLoader;
 import freemarker.template.*;
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.OutputStreamWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.servlet.http.HttpServletResponse;
+import org.bridje.http.HttpServerContext;
+import org.bridje.http.HttpServerResponse;
 
 public class FreemarkerTemplateContext implements TemplateContext
 {
@@ -68,7 +68,7 @@ public class FreemarkerTemplateContext implements TemplateContext
     }
 
     @Override
-    public boolean render(RequestContext reqCtx) throws IOException
+    public boolean render(HttpServerContext reqCtx) throws IOException
     {
         WebPage webPage = reqCtx.get(WebPage.class);
         if (webPage == null)
@@ -83,15 +83,16 @@ public class FreemarkerTemplateContext implements TemplateContext
         }
 
         Template template = config.getTemplate("page.ftl");//TODO: improve this wiring
-        PrintWriter writer = reqCtx.get(HttpServletResponse.class).getWriter();
 
         TemplateData data = TemplateDataBuilder.parse(reqCtx, webSite, webPage);
         ObjectWrapper wrapper = new DefaultObjectWrapper(VERSION);
         TemplateDataModel dataModel = new TemplateDataModel(data, wrapper);
 
-        try
+        HttpServerResponse resp = reqCtx.get(HttpServerResponse.class);
+        try(OutputStreamWriter writer = new OutputStreamWriter(resp.getOutputStream()))
         {
             template.process(dataModel, writer, wrapper);
+            writer.flush();
             return true;
         }
         catch (TemplateException e)

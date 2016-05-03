@@ -19,16 +19,17 @@ package com.kasije.admin;
 import com.kasije.admin.auth.AuthUserProvider;
 import com.kasije.admin.config.AuthConfig;
 import com.kasije.admin.config.AuthUserConfig;
-import com.kasije.core.RequestContext;
-import com.kasije.core.RequestHandler;
 import com.kasije.core.WebSite;
 import com.kasije.core.auth.AuthUser;
 import com.kasije.core.config.ConfigProvider;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
+import org.bridje.http.HttpCookie;
+import org.bridje.http.HttpServerContext;
+import org.bridje.http.HttpServerHandler;
+import org.bridje.http.HttpServerRequest;
 import org.bridje.ioc.Component;
 import org.bridje.ioc.Inject;
 import org.bridje.ioc.InjectNext;
@@ -39,10 +40,10 @@ import org.bridje.ioc.Priority;
  */
 @Component
 @Priority(Integer.MIN_VALUE + 270)
-public class AuthUserHandler implements RequestHandler
+public class AuthUserHandler implements HttpServerHandler
 {
     @InjectNext
-    private RequestHandler handler;
+    private HttpServerHandler handler;
 
     @Inject
     private AuthUserProvider[] providers;
@@ -51,17 +52,18 @@ public class AuthUserHandler implements RequestHandler
     private ConfigProvider configProvider;
 
     @Override
-    public boolean handle(RequestContext reqCtx) throws IOException
+    public boolean handle(HttpServerContext reqCtx) throws IOException
     {
         WebSite site = reqCtx.get(WebSite.class);
         if (site != null && site.isAdmin())
         {
-            Cookie[] cookies = reqCtx.get(HttpServletRequest.class).getCookies();
-            if (cookies != null && cookies.length > 0 && providers.length > 0)
+            Map<String, HttpCookie> cookies = reqCtx.get(HttpServerRequest.class).getCookies();
+
+            if (cookies != null && !cookies.isEmpty() && providers.length > 0)
             {
                 for (AuthUserProvider provider : providers)
                 {
-                    AuthUser user = provider.fetchUser(cookies);
+                    AuthUser user = provider.fetchUser(cookies.values());
                     if (user != null)
                     {
                         String path = new File(".").getAbsolutePath() + "/etc";
@@ -75,7 +77,7 @@ public class AuthUserHandler implements RequestHandler
                             }
                         }
 
-                        reqCtx.put(AuthUser.class, user);
+                        reqCtx.set(AuthUser.class, user);
                         break;
                     }
                 }

@@ -20,9 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import com.kasije.core.config.server.RouterConfig;
-import com.kasije.core.config.server.ServerConfig;
 import com.kasije.core.config.sites.SiteConfig;
 import org.bridje.cfg.ConfigRepositoryContext;
 import org.bridje.cfg.ConfigService;
@@ -39,8 +37,6 @@ public class ConfigProvider
 
     @Inject
     private ConfigService configService;
-
-    private ServerConfig serverConfig;
 
     private RouterConfig routerConfig;
 
@@ -64,24 +60,6 @@ public class ConfigProvider
         }
 
         return routerConfig;
-    }
-
-    public ServerConfig getServerConfig()
-    {
-        try
-        {
-            if (null == serverConfig)
-            {
-                ConfigRepositoryContext configContext = configService.createRepoContext("server");
-                serverConfig = configContext.findConfig(ServerConfig.class);
-            }
-        }
-        catch (Exception ex)
-        {
-            LOG.log(Level.SEVERE, ex.getMessage(), ex);
-        }
-
-        return serverConfig;
     }
 
     public SiteConfig getSiteConfig(String absolutePath)

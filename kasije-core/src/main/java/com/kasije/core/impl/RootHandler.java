@@ -16,10 +16,11 @@
 
 package com.kasije.core.impl;
 
-import com.kasije.core.RequestContext;
-import com.kasije.core.RequestHandler;
 import java.io.IOException;
-import javax.servlet.http.HttpServletResponse;
+import java.io.OutputStreamWriter;
+import org.bridje.http.HttpServerContext;
+import org.bridje.http.HttpServerHandler;
+import org.bridje.http.HttpServerResponse;
 import org.bridje.ioc.Component;
 import org.bridje.ioc.InjectNext;
 import org.bridje.ioc.Priority;
@@ -29,21 +30,27 @@ import org.bridje.ioc.Priority;
  */
 @Component
 @Priority(Integer.MIN_VALUE)
-class RootHandler implements RequestHandler
+class RootHandler implements HttpServerHandler
 {
     @InjectNext
-    private RequestHandler handler;
-    
+    private HttpServerHandler handler;
+
     @Override
-    public boolean handle(RequestContext reqCtx) throws IOException
+    public boolean handle(HttpServerContext reqCtx) throws IOException
     {
         if(!handler.handle(reqCtx))
         {
-            HttpServletResponse resp = reqCtx.get(HttpServletResponse.class);
-            resp.setStatus(404);
-            reqCtx.get(HttpServletResponse.class).getWriter().print("<h1>404 - Not Found</h1>");
+            HttpServerResponse resp = reqCtx.get(HttpServerResponse.class);
+            resp.setStatusCode(404);
+
+            try(OutputStreamWriter writer = new OutputStreamWriter(resp.getOutputStream()))
+            {
+                writer.append("<h1>404 - Not Found</h1>");
+                writer.flush();
+            }
         }
+
         return true;
     }
-    
+
 }

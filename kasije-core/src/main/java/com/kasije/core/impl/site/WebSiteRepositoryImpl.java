@@ -1,9 +1,13 @@
 package com.kasije.core.impl.site;
 
-import com.kasije.core.*;
+import com.kasije.core.WebSite;
+import com.kasije.core.WebSiteRepository;
+import com.kasije.core.WebSiteRouter;
+import com.kasije.core.WebSiteVirtual;
 import java.util.HashMap;
 import java.util.Map;
-import javax.servlet.http.HttpServletRequest;
+import org.bridje.http.HttpServerContext;
+import org.bridje.http.HttpServerRequest;
 import org.bridje.ioc.Component;
 import org.bridje.ioc.Inject;
 
@@ -19,7 +23,7 @@ public class WebSiteRepositoryImpl implements WebSiteRepository
     private final Map<String, WebSite> mapWebSite = new HashMap<>();
 
     @Override
-    public WebSite find(RequestContext reqCtx, String sName, boolean acceptAdmin)
+    public WebSite find(HttpServerContext reqCtx, String sName, boolean acceptAdmin)
     {
         String siteName = sName;
         /* it's cache */
@@ -32,12 +36,12 @@ public class WebSiteRepositoryImpl implements WebSiteRepository
             }
         }
 
-        HttpServletRequest req = reqCtx.get(HttpServletRequest.class);
+        HttpServerRequest req = reqCtx.get(HttpServerRequest.class);
         siteName = siteVirtual.findRealSiteName(siteName);
 
         if (acceptAdmin)
         {
-            WebSite adminWebSite = siteRouter.findAdminWebSite(req.getPathInfo());
+            WebSite adminWebSite = siteRouter.findAdminWebSite(req.getPath());
             if (adminWebSite != null)
             {
                 mapWebSite.put(adminWebSite.getName(), adminWebSite);

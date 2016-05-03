@@ -16,9 +16,12 @@
 
 package com.kasije.core.impl.files;
 
-import com.kasije.core.*;
+import com.kasije.core.WebFile;
+import com.kasije.core.WebSite;
 import java.io.IOException;
-import javax.servlet.http.HttpServletRequest;
+import org.bridje.http.HttpServerContext;
+import org.bridje.http.HttpServerHandler;
+import org.bridje.http.HttpServerRequest;
 import org.bridje.ioc.Component;
 import org.bridje.ioc.InjectNext;
 import org.bridje.ioc.Priority;
@@ -28,13 +31,13 @@ import org.bridje.ioc.Priority;
  */
 @Component
 @Priority(Integer.MIN_VALUE + 250)
-class WebFileHandler implements RequestHandler
+class WebFileHandler implements HttpServerHandler
 {
     @InjectNext
-    private RequestHandler handler;
+    private HttpServerHandler handler;
 
     @Override
-    public boolean handle(RequestContext reqCtx) throws IOException
+    public boolean handle(HttpServerContext reqCtx) throws IOException
     {
         if(null == handler)
         {
@@ -53,7 +56,7 @@ class WebFileHandler implements RequestHandler
                 webFile = site.findFile(fileName);
                 if(null != webFile)
                 {
-                    reqCtx.put(WebFile.class, webFile);
+                    reqCtx.set(WebFile.class, webFile);
                 }
             }
         }
@@ -61,9 +64,8 @@ class WebFileHandler implements RequestHandler
         return handler.handle(reqCtx);
     }
 
-    private String findFileName(RequestContext reqCtx)
+    private String findFileName(HttpServerContext reqCtx)
     {
-        HttpServletRequest req = reqCtx.get(HttpServletRequest.class);
-        return req.getPathInfo();
+        return reqCtx.get(HttpServerRequest.class).getPath();
     }
 }

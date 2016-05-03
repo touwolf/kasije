@@ -112,14 +112,7 @@ Kasije is a Java based framework for the web. Its implementations relies in othe
 **How it is designed**
 
 Kasije is developed using the chain of responsibility pattern, in order to make it easy for other users to extend or add features. Each request is processed through the chain where a group of handles performs specific actions adding information to the final result.
-
-To extend the system, simply add handlers with the desired features implementing the following interface:
-```java
-public interface RequestHandler
-{
-    boolean handle(RequestContext reqCtx) throws IOException;
-}
-```
+See: <a href="https://github.com/bridje/bridje-framework/wiki/Bridje-HTTP" target="_blank">Bridje Http</a>
 
 Kasije serves a variety of components and content. Among the current available functionalities are to serve sites, static resources, themes and templates.
 

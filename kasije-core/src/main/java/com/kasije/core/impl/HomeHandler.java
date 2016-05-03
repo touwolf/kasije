@@ -16,9 +16,13 @@
 
 package com.kasije.core.impl;
 
-import com.kasije.core.*;
+import com.kasije.core.WebPageRef;
+import com.kasije.core.WebSite;
+import com.kasije.core.WebSiteRouter;
 import java.io.IOException;
-import javax.servlet.http.HttpServletRequest;
+import org.bridje.http.HttpServerContext;
+import org.bridje.http.HttpServerHandler;
+import org.bridje.http.HttpServerRequest;
 import org.bridje.ioc.Component;
 import org.bridje.ioc.Inject;
 import org.bridje.ioc.InjectNext;
@@ -29,29 +33,28 @@ import org.bridje.ioc.Priority;
  */
 @Component
 @Priority(Integer.MIN_VALUE + 150)
-class HomeHandler implements RequestHandler
+class HomeHandler implements HttpServerHandler
 {
     @InjectNext
-    private RequestHandler handler;
+    private HttpServerHandler handler;
 
     @Inject
     private WebSiteRouter router;
 
     @Override
-    public boolean handle(RequestContext reqCtx) throws IOException
+    public boolean handle(HttpServerContext reqCtx) throws IOException
     {
         WebPageRef ref = reqCtx.get(WebPageRef.class);
         if(ref == null)
         {
-            String pathInfo = reqCtx.get(HttpServletRequest.class).getPathInfo();
             WebSite site = reqCtx.get(WebSite.class);
-            pathInfo = router.findPathInfo(site, pathInfo);
+            String path = router.findPathInfo(site, reqCtx.get(HttpServerRequest.class).getPath());
 
-            if (pathInfo.equalsIgnoreCase("/") || pathInfo.isEmpty())
+            if (path.equalsIgnoreCase("/") || path.isEmpty())
             {
                 ref = new WebPageRef();
                 ref.setPage("/index");
-                reqCtx.put(WebPageRef.class, ref);
+                reqCtx.set(WebPageRef.class, ref);
             }
         }
 

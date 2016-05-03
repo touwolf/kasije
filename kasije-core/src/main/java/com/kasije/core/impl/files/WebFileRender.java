@@ -16,12 +16,14 @@
 
 package com.kasije.core.impl.files;
 
-import com.kasije.core.*;
+import com.kasije.core.WebFile;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.io.IOUtils;
+import org.bridje.http.HttpServerContext;
+import org.bridje.http.HttpServerHandler;
+import org.bridje.http.HttpServerResponse;
 import org.bridje.ioc.Component;
 import org.bridje.ioc.InjectNext;
 import org.bridje.ioc.Priority;
@@ -31,18 +33,18 @@ import org.bridje.ioc.Priority;
  */
 @Component
 @Priority(Integer.MIN_VALUE + 900)
-class WebFileRender implements RequestHandler
+class WebFileRender implements HttpServerHandler
 {
     @InjectNext
-    private RequestHandler handler;
+    private HttpServerHandler handler;
 
     @Override
-    public boolean handle(RequestContext reqCtx) throws IOException
+    public boolean handle(HttpServerContext reqCtx) throws IOException
     {
         WebFile webFile = reqCtx.get(WebFile.class);
         if (webFile != null)
         {
-            HttpServletResponse resp = reqCtx.get(HttpServletResponse.class);
+            HttpServerResponse resp = reqCtx.get(HttpServerResponse.class);
             IOUtils.copy(new FileInputStream(new File(webFile.getSite().getFile().getAbsolutePath() + "/" + webFile.getRelativePath())), resp.getOutputStream());
             return true;
         }

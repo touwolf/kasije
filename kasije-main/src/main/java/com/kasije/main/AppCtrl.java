@@ -19,6 +19,7 @@ package com.kasije.main;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.management.NotificationBroadcasterSupport;
+import org.bridje.http.HttpServer;
 import org.bridje.ioc.Component;
 import org.bridje.ioc.Inject;
 
@@ -28,7 +29,7 @@ public class AppCtrl extends NotificationBroadcasterSupport implements AppCtrlMB
     private static final Logger LOG = Logger.getLogger(AppCtrl.class.getName());
 
     @Inject
-    private KasijeServer server;
+    private HttpServer server;
 
     @Override
     public void shutdown()

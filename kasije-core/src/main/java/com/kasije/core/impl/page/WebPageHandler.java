@@ -16,9 +16,13 @@
 
 package com.kasije.core.impl.page;
 
-import com.kasije.core.*;
+import com.kasije.core.WebPage;
+import com.kasije.core.WebPageRef;
+import com.kasije.core.WebSite;
 import java.io.IOException;
-import javax.servlet.http.HttpServletRequest;
+import org.bridje.http.HttpServerContext;
+import org.bridje.http.HttpServerHandler;
+import org.bridje.http.HttpServerRequest;
 import org.bridje.ioc.Component;
 import org.bridje.ioc.InjectNext;
 import org.bridje.ioc.Priority;
@@ -28,13 +32,13 @@ import org.bridje.ioc.Priority;
  */
 @Component
 @Priority(Integer.MIN_VALUE + 200)
-class WebPageHandler implements RequestHandler
+class WebPageHandler implements HttpServerHandler
 {
     @InjectNext
-    private RequestHandler handler;
+    private HttpServerHandler handler;
 
     @Override
-    public boolean handle(RequestContext reqCtx) throws IOException
+    public boolean handle(HttpServerContext reqCtx) throws IOException
     {
         if(null == handler)
         {
@@ -53,7 +57,7 @@ class WebPageHandler implements RequestHandler
                 webPage = site.findPage(pageName);
                 if (null != webPage)
                 {
-                    reqCtx.put(WebPage.class, webPage);
+                    reqCtx.set(WebPage.class, webPage);
                 }
             }
         }
@@ -61,7 +65,7 @@ class WebPageHandler implements RequestHandler
         return handler.handle(reqCtx);
     }
 
-    private String findPageName(RequestContext reqCtx)
+    private String findPageName(HttpServerContext reqCtx)
     {
         WebPageRef ref = reqCtx.get(WebPageRef.class);
         if(ref != null)
@@ -70,8 +74,8 @@ class WebPageHandler implements RequestHandler
         }
         else
         {
-            HttpServletRequest req = reqCtx.get(HttpServletRequest.class);
-            return req.getPathInfo();
+            HttpServerRequest req = reqCtx.get(HttpServerRequest.class);
+            return req.getPath();
         }
     }
 }

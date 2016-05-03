@@ -16,11 +16,13 @@
 
 package com.kasije.core.impl.site;
 
-import com.kasije.core.*;
-
+import com.kasije.core.WebSite;
+import com.kasije.core.WebSiteRef;
+import com.kasije.core.WebSiteRepository;
 import java.io.IOException;
-import javax.servlet.http.HttpServletRequest;
-
+import org.bridje.http.HttpServerContext;
+import org.bridje.http.HttpServerHandler;
+import org.bridje.http.HttpServerRequest;
 import org.bridje.ioc.Component;
 import org.bridje.ioc.Inject;
 import org.bridje.ioc.InjectNext;
@@ -31,16 +33,16 @@ import org.bridje.ioc.Priority;
  */
 @Component
 @Priority(Integer.MIN_VALUE + 100)
-class WebSiteHandler implements RequestHandler
+class WebSiteHandler implements HttpServerHandler
 {
     @InjectNext
-    private RequestHandler handler;
+    private HttpServerHandler handler;
 
     @Inject
     private WebSiteRepository siteRepo;
 
     @Override
-    public boolean handle(RequestContext reqCtx) throws IOException
+    public boolean handle(HttpServerContext reqCtx) throws IOException
     {
         if(handler == null)
         {
@@ -55,14 +57,14 @@ class WebSiteHandler implements RequestHandler
             webSite = siteRepo.find(reqCtx, siteName, true);
             if(webSite != null)
             {
-                reqCtx.put(WebSite.class, webSite);
+                reqCtx.set(WebSite.class, webSite);
             }
         }
 
         return handler.handle(reqCtx);
     }
 
-    private String findSiteName(RequestContext reqCtx)
+    private String findSiteName(HttpServerContext reqCtx)
     {
         WebSiteRef ref = reqCtx.get(WebSiteRef.class);
         if(ref != null)
@@ -71,9 +73,10 @@ class WebSiteHandler implements RequestHandler
         }
         else
         {
-            HttpServletRequest req = reqCtx.get(HttpServletRequest.class);
+            HttpServerRequest req = reqCtx.get(HttpServerRequest.class);
 
-            return req.getServerName();
+            //return req.getServerName();
+            return "FIXME";
         }
     }
 }

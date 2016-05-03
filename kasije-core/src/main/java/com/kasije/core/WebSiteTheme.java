@@ -18,6 +18,7 @@ package com.kasije.core;
 
 import java.io.File;
 import java.io.IOException;
+import org.bridje.http.HttpServerContext;
 
 /**
  *
@@ -28,5 +29,5 @@ public interface WebSiteTheme
 
     String getName();
 
-    boolean render(RequestContext reqCtx) throws IOException;
+    boolean render(HttpServerContext reqCtx) throws IOException;
 }

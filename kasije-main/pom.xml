@@ -84,6 +84,10 @@
         </dependency>
         <dependency>
             <groupId>org.bridje</groupId>
+            <artifactId>bridje-http</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.bridje</groupId>
             <artifactId>bridje-cfg</artifactId>
         </dependency>
         <dependency>
@@ -100,20 +104,6 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>kasije-admin</artifactId>
             <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-server</artifactId>
-            <version>9.3.7.v20160115</version>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-servlet</artifactId>
-            <version>9.3.7.v20160115</version>
-        </dependency>
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
         </dependency>
     </dependencies>
 
@@ -149,7 +139,7 @@
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>rpm-maven-plugin</artifactId>
-                        <version>2.1.4</version>
+                        <version>2.1.5</version>
                         <executions>
                             <execution>
                                 <id>rpm-properties</id>

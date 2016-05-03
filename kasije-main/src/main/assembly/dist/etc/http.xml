@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ks:http
+        xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+        xmlns:ks='http://www.bridje.org/schemas/http-server'
+        xsi:schemaLocation='http://www.bridje.org/schemas/http-server https://repo1.maven.org/maven2/org/bridje/bridje-http/0.2.0/bridje-http-0.2.0-config.xsd'>
+    <ks:port>8080</ks:port>
+    <ks:name>Kasije Server</ks:name>
+    <ks:ssl>false</ks:ssl>
+</ks:http>
