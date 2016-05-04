@@ -40,7 +40,7 @@ public class Main
      */
     public static void main(String[] args) throws Exception
     {
-        if(args.length < 1)
+        if (args.length < 1)
         {
             printUsage();
             return ;
@@ -49,15 +49,22 @@ public class Main
         if ("start".equalsIgnoreCase(args[0]))
         {
             start();
-            return;
         }
-        else if ("stop".equalsIgnoreCase(args[0]) && args.length >= 2)
+        else if ("stop".equalsIgnoreCase(args[0]))
         {
-            stop(args[1]);
-            return;
+            if (args.length >= 2)
+            {
+                stop(args[1]);
+            }
+            else
+            {
+                System.out.println("Error: Must specify running port to stop!");
+            }
         }
-
-        printUsage();
+        else
+        {
+            printUsage();
+        }
     }
 
     private static void printUsage()
