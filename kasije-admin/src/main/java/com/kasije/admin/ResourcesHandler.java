@@ -35,6 +35,7 @@ import org.bridje.http.HttpServerContext;
 import org.bridje.http.HttpServerHandler;
 import org.bridje.http.HttpServerRequest;
 import org.bridje.http.HttpServerResponse;
+import org.bridje.http.UploadedFile;
 import org.bridje.ioc.Component;
 import org.bridje.ioc.Inject;
 import org.bridje.ioc.InjectNext;
@@ -44,7 +45,7 @@ import org.bridje.ioc.Priority;
  *
  */
 @Component
-@Priority(Integer.MIN_VALUE + 275)
+@Priority(275)
 public class ResourcesHandler implements HttpServerHandler
 {
     private static final Gson GSON = new GsonBuilder().create();
@@ -88,7 +89,7 @@ public class ResourcesHandler implements HttpServerHandler
     private boolean doHandle(HttpServerContext reqCtx, String realPath) throws IOException
     {
         HttpServerRequest req = reqCtx.get(HttpServerRequest.class);
-        WebSite adminSite = siteRepo.find(reqCtx, "FIXME"/*req.getServerName()*/, false);
+        WebSite adminSite = siteRepo.find(reqCtx, req.getHost(), false);
         if (adminSite == null || adminSite.isAdmin())
         {
             return false;
@@ -222,27 +223,25 @@ public class ResourcesHandler implements HttpServerHandler
         return false;
     }
 
-    private boolean uploadFile(HttpServerContext reqCtx, File file)
+    private boolean uploadFile(HttpServerContext reqCtx, File file) throws IOException
     {
-        /*
-        TODO
-        try
+        HttpServerRequest req = reqCtx.get(HttpServerRequest.class);
+        if (req == null)
         {
-            HttpServerRequest req = reqCtx.get(HttpServerRequest.class);
-            Collection<Part> parts = req.getParts();
-            if (parts != null && !parts.isEmpty())
-            {
-                Resource resource = ResourcesHelper.uploadImage(file, parts);
-                if (resource != null)
-                {
-                    return doHandleResponse(reqCtx, Collections.singletonList(resource));
-                }
-            }
+            return false;
         }
-        catch (Exception e)
+
+        UploadedFile[] files = req.getUploadedFiles();
+        if (files == null || files.length == 0)
         {
+            return false;
         }
-         */
+
+        Resource resource = ResourcesHelper.uploadImage(file, files[0]);
+        if (resource != null)
+        {
+            return doHandleResponse(reqCtx, Collections.singletonList(resource));
+        }
 
         return false;
     }

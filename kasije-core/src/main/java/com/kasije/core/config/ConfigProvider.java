@@ -16,16 +16,24 @@
 
 package com.kasije.core.config;
 
+import com.kasije.core.config.server.RouterConfig;
+import com.kasije.core.config.sites.SiteConfig;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import com.kasije.core.config.server.RouterConfig;
-import com.kasije.core.config.sites.SiteConfig;
-import org.bridje.cfg.ConfigRepositoryContext;
-import org.bridje.cfg.ConfigService;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
 import org.bridje.ioc.Component;
 import org.bridje.ioc.Inject;
+import org.bridje.vfs.FileVfsSource;
+import org.bridje.vfs.Path;
+import org.bridje.vfs.VfsService;
+import org.bridje.vfs.VirtualFile;
 
 /**
  *
@@ -36,7 +44,7 @@ public class ConfigProvider
     private static final Logger LOG = Logger.getLogger(ConfigProvider.class.getName());
 
     @Inject
-    private ConfigService configService;
+    private VfsService vfsServ;
 
     private RouterConfig routerConfig;
 
@@ -50,8 +58,8 @@ public class ConfigProvider
         {
             if (null == routerConfig)
             {
-                ConfigRepositoryContext configContext = configService.createRepoContext("server");
-                routerConfig = configContext.findConfig(RouterConfig.class);
+                VirtualFile confFile = vfsServ.findFile("/etc/routerConfig.xml");//TODO: rename
+                routerConfig = readConfig(RouterConfig.class, confFile);
             }
         }
         catch (Exception ex)
@@ -62,16 +70,19 @@ public class ConfigProvider
         return routerConfig;
     }
 
-    public SiteConfig getSiteConfig(String absolutePath)
+    public SiteConfig getSiteConfig(String siteName, String absolutePath)
     {
-        SiteConfig siteConfig = siteConfigs.get(absolutePath);
+        SiteConfig siteConfig = siteConfigs.get(siteName);
         try
         {
             if(null == siteConfig)
             {
-                ConfigRepositoryContext configContext = configService.createRepoContext(absolutePath + "/etc/");
-                siteConfig = configContext.findConfig(SiteConfig.class);
-                siteConfigs.put(absolutePath, siteConfig);
+                vfsServ.mount(new Path(absolutePath + "/etc"), new FileVfsSource(new File(absolutePath + "/etc")));
+
+                VirtualFile confFile = vfsServ.findFile("/etc/siteConfig.xml");//TODO: rename
+                siteConfig = readConfig(SiteConfig.class, confFile);
+
+                siteConfigs.put(siteName, siteConfig);
             }
         }
         catch (Exception ex)
@@ -94,10 +105,13 @@ public class ConfigProvider
 
         try
         {
-            if(null == config)
+            if (null == config)
             {
-                ConfigRepositoryContext configContext = configService.createRepoContext(path);
-                config = configContext.findConfig(classConfig);
+                vfsServ.mount(new Path(path), new FileVfsSource(new File(path)));
+
+                VirtualFile confFile = vfsServ.findFile(path);//TODO: rename
+                config = readConfig(classConfig, confFile);
+
                 configs.put(key, config);
             }
         }
@@ -107,5 +121,27 @@ public class ConfigProvider
         }
 
         return config;
+    }
+
+    private <T> T readConfig(Class<T> cls, VirtualFile vFile)
+    {
+        if (vFile == null)
+        {
+            return null;
+        }
+
+        try (InputStream is = vFile.open())
+        {
+            JAXBContext ctx = JAXBContext.newInstance(cls);
+            Unmarshaller unm = ctx.createUnmarshaller();
+
+            return (T) unm.unmarshal(is);
+        }
+        catch(IOException | JAXBException ex)
+        {
+            LOG.log(Level.SEVERE, ex.getMessage(), ex);
+        }
+
+        return null;
     }
 }

@@ -16,16 +16,12 @@
 
 package com.kasije.core.config.server;
 
+import com.kasije.core.config.server.model.Router;
+import com.kasije.core.config.server.model.Virtual;
 import java.util.LinkedList;
 import java.util.List;
 import javax.xml.bind.annotation.*;
 
-import com.kasije.core.config.server.model.Router;
-import com.kasije.core.config.server.model.Virtual;
-import org.bridje.cfg.Configuration;
-import org.bridje.cfg.adapter.XmlConfigAdapter;
-
-@Configuration(XmlConfigAdapter.class)
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "routerConfig")
 public class RouterConfig

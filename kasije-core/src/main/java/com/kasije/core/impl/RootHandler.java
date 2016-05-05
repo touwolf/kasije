@@ -29,7 +29,7 @@ import org.bridje.ioc.Priority;
  *
  */
 @Component
-@Priority(Integer.MIN_VALUE)
+@Priority(1)
 class RootHandler implements HttpServerHandler
 {
     @InjectNext
@@ -38,7 +38,7 @@ class RootHandler implements HttpServerHandler
     @Override
     public boolean handle(HttpServerContext reqCtx) throws IOException
     {
-        if(!handler.handle(reqCtx))
+        if (!handler.handle(reqCtx))
         {
             HttpServerResponse resp = reqCtx.get(HttpServerResponse.class);
             resp.setStatusCode(404);

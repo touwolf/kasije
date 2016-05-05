@@ -28,6 +28,9 @@ import javax.management.remote.JMXServiceURL;
 import org.bridje.http.HttpServer;
 import org.bridje.ioc.Ioc;
 import org.bridje.ioc.IocContext;
+import org.bridje.vfs.FileVfsSource;
+import org.bridje.vfs.Path;
+import org.bridje.vfs.VfsService;
 
 /**
  *
@@ -74,14 +77,16 @@ public class Main
 
     private static void start() throws Exception
     {
-        System.out.println("Starting Kasije, path context: " + new File(".").getAbsoluteFile().getPath() + "...");
+        File fileContext = new File(".").getAbsoluteFile();
+        System.out.println("Starting Kasije, path context: " + fileContext.getAbsolutePath() + "...");
+
+        VfsService vfsService = Ioc.context().find(VfsService.class);
+        vfsService.mount(new Path("/etc"), new FileVfsSource(new File(fileContext, "etc")));
 
         HttpServer server = Ioc.context().find(HttpServer.class);
 
         initMBeans(Ioc.context());
         server.start();
-        System.out.println("Server started!");
-        //server.join();TODO
     }
 
     private static void initMBeans(IocContext context) throws Exception

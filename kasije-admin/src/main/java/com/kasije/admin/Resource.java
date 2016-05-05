@@ -21,7 +21,7 @@ import java.util.List;
 /**
  *
  */
-class Resource
+public class Resource
 {
     private final String path;
 

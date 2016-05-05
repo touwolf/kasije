@@ -12,7 +12,7 @@ import org.bridje.ioc.InjectNext;
 import org.bridje.ioc.Priority;
 
 @Component
-@Priority(Integer.MIN_VALUE + 190)
+@Priority(190)
 public class WebAliasHandler implements HttpServerHandler
 {
     @InjectNext

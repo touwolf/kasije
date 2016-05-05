@@ -32,7 +32,7 @@ import org.bridje.ioc.Priority;
  *
  */
 @Component
-@Priority(Integer.MIN_VALUE + 150)
+@Priority(150)
 class HomeHandler implements HttpServerHandler
 {
     @InjectNext

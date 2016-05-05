@@ -84,11 +84,11 @@
         </dependency>
         <dependency>
             <groupId>org.bridje</groupId>
-            <artifactId>bridje-http</artifactId>
+            <artifactId>bridje-vfs</artifactId>
         </dependency>
         <dependency>
             <groupId>org.bridje</groupId>
-            <artifactId>bridje-cfg</artifactId>
+            <artifactId>bridje-http</artifactId>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>

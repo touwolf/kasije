@@ -32,7 +32,7 @@ import org.bridje.ioc.Priority;
  *
  */
 @Component
-@Priority(Integer.MIN_VALUE + 100)
+@Priority(100)
 class WebSiteHandler implements HttpServerHandler
 {
     @InjectNext
@@ -75,8 +75,7 @@ class WebSiteHandler implements HttpServerHandler
         {
             HttpServerRequest req = reqCtx.get(HttpServerRequest.class);
 
-            //return req.getServerName();
-            return "FIXME";
+            return req.getHost();
         }
     }
 }

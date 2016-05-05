@@ -30,7 +30,7 @@ import org.bridje.ioc.Priority;
  *
  */
 @Component
-@Priority(Integer.MIN_VALUE + 250)
+@Priority(250)
 class WebFileHandler implements HttpServerHandler
 {
     @InjectNext

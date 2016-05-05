@@ -36,7 +36,7 @@ import org.bridje.ioc.Priority;
  *
  */
 @Component
-@Priority(Integer.MIN_VALUE + 175)
+@Priority(175)
 public class ResourcesHandler implements HttpServerHandler
 {
     @Inject

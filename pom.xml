@@ -173,13 +173,13 @@
             </dependency>
             <dependency>
                 <groupId>org.bridje</groupId>
-                <artifactId>bridje-http</artifactId>
+                <artifactId>bridje-vfs</artifactId>
                 <version>0.2.0</version>
             </dependency>
             <dependency>
                 <groupId>org.bridje</groupId>
-                <artifactId>bridje-cfg</artifactId>
-                <version>0.1.5-1</version>
+                <artifactId>bridje-http</artifactId>
+                <version>0.2.0</version>
             </dependency>
             <dependency>
                 <groupId>commons-io</groupId>

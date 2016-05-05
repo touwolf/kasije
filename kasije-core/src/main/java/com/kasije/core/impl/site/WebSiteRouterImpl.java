@@ -60,7 +60,7 @@ public class WebSiteRouterImpl implements WebSiteRouter
 
         String path = relativePath + "/" + serverName;
 
-        SiteConfig siteConfig = config.getSiteConfig(path);
+        SiteConfig siteConfig = config.getSiteConfig(serverName, path);
 
         return new WebSiteImpl(path, siteConfig);
     }

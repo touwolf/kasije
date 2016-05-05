@@ -1,15 +1,11 @@
 package com.kasije.core.config.sites;
 
+import com.kasije.core.config.sites.model.Alias;
+import com.kasije.core.config.sites.model.Theme;
 import java.util.LinkedList;
 import java.util.List;
 import javax.xml.bind.annotation.*;
 
-import com.kasije.core.config.sites.model.Alias;
-import com.kasije.core.config.sites.model.Theme;
-import org.bridje.cfg.Configuration;
-import org.bridje.cfg.adapter.XmlConfigAdapter;
-
-@Configuration(XmlConfigAdapter.class)
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "siteConfig")
 public class SiteConfig

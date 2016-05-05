@@ -29,10 +29,6 @@
             <artifactId>bridje-http</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.bridje</groupId>
-            <artifactId>bridje-cfg</artifactId>
-        </dependency>
-        <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
         </dependency>

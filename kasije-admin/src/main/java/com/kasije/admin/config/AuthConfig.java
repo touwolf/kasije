@@ -18,13 +18,10 @@ package com.kasije.admin.config;
 
 import java.util.List;
 import javax.xml.bind.annotation.*;
-import org.bridje.cfg.Configuration;
-import org.bridje.cfg.adapter.XmlConfigAdapter;
 
 /**
  *
  */
-@Configuration(XmlConfigAdapter.class)
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "authConfig")
 public class AuthConfig

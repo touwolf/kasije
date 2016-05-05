@@ -31,7 +31,7 @@ import org.bridje.ioc.Priority;
  *
  */
 @Component
-@Priority(Integer.MIN_VALUE + 120)
+@Priority(120)
 class ThemesHandler implements HttpServerHandler
 {
     @InjectNext

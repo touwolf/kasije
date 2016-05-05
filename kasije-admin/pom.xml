@@ -26,10 +26,6 @@
             <artifactId>bridje-http</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.bridje</groupId>
-            <artifactId>bridje-cfg</artifactId>
-        </dependency>
-        <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>kasije-core</artifactId>
             <version>${project.version}</version>

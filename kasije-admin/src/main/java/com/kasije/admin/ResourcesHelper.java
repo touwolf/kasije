@@ -27,6 +27,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.imageio.ImageIO;
 import org.apache.commons.io.IOUtils;
+import org.bridje.http.UploadedFile;
 
 /**
  *
@@ -301,44 +302,11 @@ public class ResourcesHelper
         return new Resource(path, name, type, text);
     }
 
-    /*
-    TODO
-    public static Resource uploadImage(File parent, Collection<Part> parts) throws Exception
+    public static Resource uploadImage(File parent, UploadedFile uploaded) throws IOException
     {
-        String name ="";
-        String path = "";
-        Part imagePart = null;
-        for (Part part : parts)
-        {
-            if ("imagePath".equals(part.getName()))
-            {
-                InputStreamReader reader = new InputStreamReader(part.getInputStream(), "UTF-8");
-                List<String> lines = IOUtils.readLines(reader);
-                path = String.join("", lines);
-            }
-
-            if ("imageFile".equals(part.getName()))
-            {
-                imagePart = part;
-                String contentDisp = part.getHeader("content-disposition");
-                String[] items = contentDisp.split(";");
-                for (String s : items)
-                {
-                    if (s.trim().startsWith("filename"))
-                    {
-                        name = s.substring(s.indexOf("=") + 2, s.length()-1);
-                    }
-                }
-            }
-        }
-
-        if (path.isEmpty() || name.isEmpty() || imagePart == null)
-        {
-            return null;
-        }
-
+        String path = "";//TODO
         File parentResource = getResourceParent(parent, path);
-        File file = new File(parentResource, name);
+        File file = new File(parentResource, uploaded.getFilename());
         if (file.exists())
         {
             file.delete();
@@ -346,14 +314,13 @@ public class ResourcesHelper
 
         file.createNewFile();
 
-        byte[] buffer = new byte[imagePart.getInputStream().available()];
-        IOUtils.readFully(imagePart.getInputStream(), buffer);
+        byte[] buffer = new byte[uploaded.getInputStream().available()];
+        IOUtils.readFully(uploaded.getInputStream(), buffer);
         FileOutputStream outputStream = new FileOutputStream(file);
         IOUtils.write(buffer, outputStream);
 
         return buildImage(parent, file);
     }
-    */
 
     private static String findExtension(String type)
     {
@@ -370,7 +337,7 @@ public class ResourcesHelper
         return type;
     }
 
-    private static File getResourceParent(File parent, String path) throws Exception
+    private static File getResourceParent(File parent, String path) throws IOException
     {
         File parentResource = parent;
         if (!path.isEmpty())
